@@ -21,9 +21,12 @@
 #include "Heart.hpp"
 #include "Slime.hpp"
 #include "Humanoid.hpp"
+#include "Util.hpp"
 
 static float const FPS = 60.0;						// Constant for fixed time - step loop. We'll lock it at 60fps.
 static float const MS_PER_STEP = 1.0f / FPS;		// Roughly (0.017) @ 60fps.
+static int const MAX_ITEM_SPAWN_COUNT = 50;         // max items to spawn in the level
+static int const MAX_ENEMY_SPAWN_COUNT = 20;         // max items to spawn in the level
 
 class Game
 {
@@ -70,7 +73,17 @@ private:
 	 * Populates the current game room with items and enemies.
 	 */
 	void PopulateLevel();
-
+    
+    /**
+     * Spawns a given item in the level.
+     */
+    void SpawnItem(ITEM itemType, sf::Vector2f position = {-1.f,-1.f});
+    
+    /**
+     * Spawns a given enemy in the level.
+     */
+    void SpawnEnemy(ENEMY enemyType, sf::Vector2f position = {-1.f,-1.f});
+    
 	/**
 	 * Loads all sprites needed for the UI.
 	 */

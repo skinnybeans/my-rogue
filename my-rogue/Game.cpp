@@ -3,6 +3,7 @@
 #include "ResourcePath.hpp"
 
 #include <cmath>
+#include <iostream>
 
 // Default constructor.
 Game::Game(sf::RenderWindow* window) :
@@ -226,34 +227,114 @@ void Game::LoadUI()
 // Populate the level with items.
 void Game::PopulateLevel()
 {
-    // Generate a random number of items
-    int iterations = std::rand() % 10 + 1;
     
-    for(int i=0; i<iterations; i++)
+    // Create items
+    for(int i=0; i<MAX_ITEM_SPAWN_COUNT; i++)
     {
         // randomise which items spawn on level load
-        bool canSpawn = 0;
-        canSpawn = std::rand() % 2;
-        if(canSpawn)
+        if(std::rand() % 2)
         {
             // Choose random item to spawn
-            int itemIndex = std::rand() % 2;
-            
-            std::unique_ptr<Item> item;
-            switch (itemIndex){
-                case 0:
-                    item = std::make_unique<Gold>();
-                    break;
-                    
-                case 1:
-                    item = std::make_unique<Gem>();
-                    break;
-            }
-            
-            item->SetPosition(sf::Vector2f(m_screenCenter.x, m_screenCenter.y));
-            m_items.push_back(std::move(item));
+            ITEM itemType = static_cast<ITEM>(std::rand() % static_cast<int>(ITEM::COUNT));
+            SpawnItem(itemType);
         }
     }
+    
+    // Create enemies
+    for(int i=0; i<MAX_ENEMY_SPAWN_COUNT; i++)
+    {
+        if(std::rand() %2)
+        {
+            // randomly choose an enemy type to generate
+            ENEMY enemyType = static_cast<ENEMY>(std::rand() % static_cast<int>(ENEMY::COUNT));
+            SpawnEnemy(enemyType);
+        }
+    }
+}
+
+void Game::SpawnItem(ITEM itemType, sf::Vector2f position)
+{
+    // Spawn location of the item
+    sf::Vector2f spawnLocation;
+    
+    if(position.x >= 0 && position.y >= 0)
+    {
+        spawnLocation = position;
+    }
+    else
+    {
+        spawnLocation = m_level.GetRandomSpawnLocation();
+    }
+    
+    // Create the item object
+    std::unique_ptr<Item> item = nullptr;
+    
+    switch(itemType)
+    {
+        case ITEM::GEM:
+            item = std::make_unique<Gem>();
+            break;
+        case ITEM::GOLD:
+            item = std::make_unique<Gold>();
+            break;
+        case ITEM::HEART:
+            item = std::make_unique<Heart>();
+            break;
+        case ITEM::POTION:
+            item = std::make_unique<Potion>();
+            break;
+        case ITEM::KEY:
+            item = std::make_unique<Key>();
+            break;
+        case ITEM::COUNT:
+            // shouldn't be doing this...
+            break;
+            
+    }
+    
+    if(item != nullptr)
+    {
+        item->SetPosition(spawnLocation);
+        m_items.push_back(std::move(item));
+    }
+}
+
+void Game::SpawnEnemy(ENEMY enemyType, sf::Vector2f position)
+{
+    // Spawn location of enemy
+    sf::Vector2f spawnLocation;
+    
+    if(position.x >= 0 && position.y >= 0)
+    {
+        spawnLocation = position;
+    }
+    else
+    {
+        spawnLocation = m_level.GetRandomSpawnLocation();
+    }
+    
+    // Create the enemy object
+    std::unique_ptr<Enemy> enemy = nullptr;
+    switch (enemyType)
+    {
+        case ENEMY::SLIME:
+            enemy = std::make_unique<Slime>();
+            break;
+        case ENEMY::HUMANOID:
+            enemy = std::make_unique<Humanoid>();
+            break;
+        case ENEMY::COUNT:
+            // error..
+            break;
+    }
+    
+    // make sure an enemy was actually created
+    if(enemy != nullptr)
+    {
+        enemy->SetPosition(spawnLocation);
+        m_enemies.push_back(std::move(enemy));
+    }
+    
 }
 
 // Returns the running state of the game.

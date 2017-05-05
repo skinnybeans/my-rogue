@@ -63,6 +63,21 @@ public:
 	 * @param index The new index of the tile.
 	 */
 	void SetTile(int columnIndex, int rowIndex, TILE tileType);
+    
+    /**
+     * Gets the world coordinates of a tile.
+     * @param columnIndex The tile's column index
+     * @param rowIndex The tile's row index
+     * @return The coordinates of the tile
+     */
+    sf::Vector2f GetActualTileLocation(int columnIndex, int rowIndex);
+    
+    
+    /**
+     * Gets a valid tile to spawn an item/enemy
+     * @return The coorindates to spawn the item
+     */
+    sf::Vector2f GetRandomSpawnLocation();
 
 	/**
 	 * Draws the level grid to the provided render window.

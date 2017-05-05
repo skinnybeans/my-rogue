@@ -131,6 +131,39 @@ void Level::SetTile(int columnIndex, int rowIndex, TILE tileType)
 	m_grid[columnIndex][rowIndex].sprite.setTexture(TextureManager::GetTexture(m_textureIDs[static_cast<int>(tileType)]));
 }
 
+// Returns world coordinates of a tile
+sf::Vector2f Level::GetActualTileLocation(int columnIndex, int rowIndex)
+{
+    sf::Vector2f location;
+    
+    location.x = m_origin.x + (columnIndex * TILE_SIZE) + (TILE_SIZE / 2);
+    location.y = m_origin.y + (rowIndex * TILE_SIZE) + (TILE_SIZE / 2);
+    
+    return location;
+}
+
+// Returns a valid spawn location
+sf::Vector2f Level::GetRandomSpawnLocation()
+{
+    int rowIndex(0);
+    int columnIndex(0);
+    
+    // Loop until a location is found
+    while (!IsFloor(columnIndex, rowIndex))
+    {
+        columnIndex = rand() % GRID_WIDTH;
+        rowIndex = rand() % GRID_HEIGHT;
+    }
+    
+    sf::Vector2f tileLocation = GetActualTileLocation(columnIndex, rowIndex);
+    
+    // add some random offset on the tile
+    tileLocation.x += std::rand() % 21 - 10;
+    tileLocation.y += std::rand() % 21 - 10;
+    
+    return tileLocation;
+}
+
 // Gets the current floor number.
 int Level::GetFloorNumber() const
 {
