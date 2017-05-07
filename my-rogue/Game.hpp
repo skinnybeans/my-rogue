@@ -84,6 +84,11 @@ private:
      */
     void SpawnEnemy(ENEMY enemyType, sf::Vector2f position = {-1.f,-1.f});
     
+    /**
+     * Spawns a given number of a certain tile at random locations in the level.
+     */
+    void SpawnRandomTiles(TILE tileType, int count);
+
 	/**
 	 * Loads all sprites needed for the UI.
 	 */

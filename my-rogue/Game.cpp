@@ -66,11 +66,13 @@ void Game::Initialize()
     
     m_player.SetPosition(startLocations[std::rand() % startLocations.size()]);
 	
-    
     // m_player.SetPosition(sf::Vector2f(m_screenCenter.x + 197.f, m_screenCenter.y + 410.f));
 
 	// Populate level.
 	PopulateLevel();
+    
+    // change some tiles to a random tile type
+    SpawnRandomTiles(TILE::FLOOR_ALT, 50);
 }
 
 // Constructs the grid of sprites that are used to draw the game light system.
@@ -333,6 +335,23 @@ void Game::SpawnEnemy(ENEMY enemyType, sf::Vector2f position)
     {
         enemy->SetPosition(spawnLocation);
         m_enemies.push_back(std::move(enemy));
+    }
+}
+
+// Spawn tiles in random spots
+void Game::SpawnRandomTiles(TILE tileType, int count)
+{
+    for(int i=0; i<count; i++)
+    {
+        int rowIndex(0);
+        int columnIndex(0);
+        
+        while(!m_level.IsFloor(columnIndex, rowIndex))
+        {
+            columnIndex = std::rand() % GRID_WIDTH;
+            rowIndex = std::rand() & GRID_HEIGHT;
+        }
+        m_level.SetTile(columnIndex, rowIndex, tileType);
     }
     
 }
