@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C555B451EC0442300399F54 /* PoisonHeart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C555B421EBFDE4D00399F54 /* PoisonHeart.cpp */; };
 		9C8A95CF1EB8106400E2927B /* Enemy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C8A95A51EB8106400E2927B /* Enemy.cpp */; };
 		9C8A95D01EB8106400E2927B /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C8A95A71EB8106400E2927B /* Entity.cpp */; };
 		9C8A95D11EB8106400E2927B /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C8A95A91EB8106400E2927B /* Game.cpp */; };
@@ -35,6 +36,8 @@
 /* Begin PBXFileReference section */
 		9C06DF721EB7F680004A7F3D /* my-rogue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "my-rogue.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C06DF761EB7F680004A7F3D /* my-rogue-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "my-rogue-Info.plist"; sourceTree = "<group>"; };
+		9C555B421EBFDE4D00399F54 /* PoisonHeart.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PoisonHeart.cpp; sourceTree = "<group>"; };
+		9C555B431EBFDE4D00399F54 /* PoisonHeart.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PoisonHeart.hpp; sourceTree = "<group>"; };
 		9C8A95A51EB8106400E2927B /* Enemy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Enemy.cpp; sourceTree = "<group>"; };
 		9C8A95A61EB8106400E2927B /* Enemy.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Enemy.hpp; sourceTree = "<group>"; };
 		9C8A95A71EB8106400E2927B /* Entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cpp; sourceTree = "<group>"; };
@@ -142,6 +145,8 @@
 				9C8A95BF1EB8106400E2927B /* PCH.hpp */,
 				9C8A95C01EB8106400E2927B /* Player.cpp */,
 				9C8A95C11EB8106400E2927B /* Player.hpp */,
+				9C555B421EBFDE4D00399F54 /* PoisonHeart.cpp */,
+				9C555B431EBFDE4D00399F54 /* PoisonHeart.hpp */,
 				9C8A95C21EB8106400E2927B /* Potion.cpp */,
 				9C8A95C31EB8106400E2927B /* Potion.hpp */,
 				9C8A95C41EB8106400E2927B /* Projectile.cpp */,
@@ -275,6 +280,7 @@
 				9C8A95D81EB8106400E2927B /* Key.cpp in Sources */,
 				9C8A95CF1EB8106400E2927B /* Enemy.cpp in Sources */,
 				9C8A95D31EB8106400E2927B /* Gold.cpp in Sources */,
+				9C555B451EC0442300399F54 /* PoisonHeart.cpp in Sources */,
 				9C8A95DD1EB8106400E2927B /* Player.cpp in Sources */,
 				9C8A95E21EB8106400E2927B /* TextureManager.cpp in Sources */,
 			);

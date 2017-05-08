@@ -19,6 +19,7 @@
 #include "Gem.hpp"
 #include "Potion.hpp"
 #include "Heart.hpp"
+#include "PoisonHeart.hpp"
 #include "Slime.hpp"
 #include "Humanoid.hpp"
 #include "Util.hpp"

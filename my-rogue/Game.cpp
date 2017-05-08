@@ -288,6 +288,9 @@ void Game::SpawnItem(ITEM itemType, sf::Vector2f position)
         case ITEM::KEY:
             item = std::make_unique<Key>();
             break;
+        case ITEM::POISON_HEART:
+            item = std::make_unique<PoisonHeart>();
+            break;
         case ITEM::COUNT:
             // shouldn't be doing this...
             break;
@@ -578,6 +581,14 @@ void Game::UpdateItems(sf::Vector2f playerPosition)
                     Heart& heart = dynamic_cast<Heart&>(item);
 
                     m_player.SetHealth(m_player.GetHealth() + heart.GetHealth());
+                }
+                break;
+                case ITEM::POISON_HEART:
+                {
+                    // Cast to heart and get health.
+                    PoisonHeart& poisonHeart = dynamic_cast<PoisonHeart&>(item);
+                    
+                    m_player.SetHealth(m_player.GetHealth() + poisonHeart.GetHealth());
                 }
                 break;
                     

@@ -25,6 +25,7 @@ enum class ITEM {
 	HEART,
 	POTION,
 	KEY,
+    POISON_HEART,
 	COUNT
 };
 
