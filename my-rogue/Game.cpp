@@ -72,7 +72,7 @@ void Game::Initialize()
 	PopulateLevel();
     
     // change some tiles to a random tile type
-    SpawnRandomTiles(TILE::FLOOR_ALT, 50);
+    SpawnRandomTiles(TILE::FLOOR_ALT, std::rand() % MAX_TILE_SPAWN_COUNT);
 }
 
 // Constructs the grid of sprites that are used to draw the game light system.

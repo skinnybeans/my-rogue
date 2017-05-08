@@ -28,6 +28,7 @@ static float const FPS = 60.0;						// Constant for fixed time - step loop. We'l
 static float const MS_PER_STEP = 1.0f / FPS;		// Roughly (0.017) @ 60fps.
 static int const MAX_ITEM_SPAWN_COUNT = 50;         // max items to spawn in the level
 static int const MAX_ENEMY_SPAWN_COUNT = 20;         // max items to spawn in the level
+static int const MAX_TILE_SPAWN_COUNT = 30;
 
 class Game
 {
