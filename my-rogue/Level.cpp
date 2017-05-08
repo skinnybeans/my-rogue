@@ -2,6 +2,8 @@
 #include "Level.hpp"
 #include "ResourcePath.hpp"
 
+#include <iostream>
+
 // Default constructor.
 Level::Level()
 {
@@ -17,6 +19,7 @@ m_doorTileIndices({ 0, 0 })
 	// Load all tiles.
 	AddTile(resourcePath() + "/resources/tiles/spr_tile_floor.png", TILE::FLOOR);
     AddTile(resourcePath() + "/resources/tiles/spr_tile_floor_alt.png", TILE::FLOOR_ALT);
+    AddTile(resourcePath() + "/resources/tiles/spr_tile_floor_spikes.png", TILE::FLOOR_SPIKES);
 
 	AddTile(resourcePath() + "/resources/tiles/spr_tile_wall_top.png", TILE::WALL_TOP);
 	AddTile(resourcePath() + "/resources/tiles/spr_tile_wall_top_left.png", TILE::WALL_TOP_LEFT);
@@ -254,6 +257,7 @@ bool Level::LoadLevelFromFile(std::string fileName)
 
 				// Set type, sprite and position.
 				cell.type = static_cast<TILE>(tileID);
+                
 				cell.sprite.setTexture(TextureManager::GetTexture(m_textureIDs[tileID]));
 				cell.sprite.setPosition(m_origin.x + (TILE_SIZE * i), m_origin.y + (TILE_SIZE * j));
 
@@ -324,13 +328,15 @@ bool Level::IsFloor(int columnIndex, int rowIndex)
 {
 	Tile* tile = &m_grid[columnIndex][rowIndex];
 
+    // Spikey floor is not considered 'floor' so items don't spawn on it and it
+    // doesn't get spatted by 'alt floor' tiles.
 	return ((tile->type == TILE::FLOOR) || (tile->type == TILE::FLOOR_ALT));
 }
 
 // Return true if the given tile is a floor tile.
 bool Level::IsFloor(const Tile& tile)
 {
-	return ((tile.type == TILE::FLOOR) || (tile.type == TILE::FLOOR_ALT));
+	return ((tile.type == TILE::FLOOR) || (tile.type == TILE::FLOOR_ALT) || (tile.type == TILE::FLOOR_SPIKES));
 }
 
 // Gets the size of the tiles in the level.

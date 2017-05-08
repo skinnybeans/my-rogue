@@ -72,6 +72,7 @@ enum class TILE {
 	WALL_ENTRANCE,
 	FLOOR,
 	FLOOR_ALT,
+    FLOOR_SPIKES,
 	EMPTY,
 	COUNT
 };
