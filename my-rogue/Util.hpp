@@ -27,6 +27,16 @@ enum class PLAYER_CLASS {
     COUNT
 };
 
+// Player traits.
+enum class PLAYER_TRAIT {
+    ATTACK,
+    DEFENSE,
+    STRENGTH,
+    DEXTERITY,
+    STAMINA,
+    COUNT
+};
+
 // Spawnable items.
 enum class ITEM {
 	GEM,

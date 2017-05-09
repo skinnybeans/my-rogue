@@ -16,6 +16,11 @@
 #include "Level.hpp"
 #include "Projectile.hpp"
 
+/**
+ * Number of traits a player can have.
+ */
+static const int PLAYER_TRAIT_COUNT = 2;
+
 class Player : public Entity
 {
 public:
@@ -49,6 +54,13 @@ public:
 	* @return The player's max mana.
 	*/
 	int GetMaxMana() const;
+    
+    /**
+     * Gets the players traits.
+     * @return Pointer to player traits vector
+     */
+    
+    std::vector<PLAYER_TRAIT>* GetPlayerTraits();
 
 	/**
 	 * Set the player's health.
@@ -61,6 +73,11 @@ public:
 	 * @param mana The new mana value.
 	 */
 	void SetMana(int manaValue);
+    
+    /**
+     * Set random traits for the player.
+     */
+    void SetRandomTraits();
 
 	/**
 	 * Gets the player's aim sprite.
@@ -137,5 +154,10 @@ private:
      * Player's class
      */
     PLAYER_CLASS m_class;
+    
+    /**
+     * An array containing the character's traits.
+     */
+    std::vector<PLAYER_TRAIT> m_traits;
 };
 #endif

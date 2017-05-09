@@ -14,10 +14,8 @@ m_canTakeDamage(true)
 {
     // Choose a random class
     m_class = static_cast<PLAYER_CLASS>(rand() % static_cast<int>(PLAYER_CLASS::COUNT));
-    
-    // Store string representation of class for texture loading
+    // Get class name to assist with loadingvplayer textures
     std::string m_className;
-    
     switch(m_class)
     {
         case PLAYER_CLASS::WARRIOR:
@@ -83,6 +81,29 @@ m_canTakeDamage(true)
 	m_strength = m_statPoints * (strengthBias/total);
 	m_dexterity = m_statPoints * (dexterityBias/total);
 	m_stamina = m_statPoints * (staminaBias/total);
+    
+    // Modify stats based on class
+    switch(m_class)
+    {
+        case PLAYER_CLASS::WARRIOR:
+            m_strength += std::rand() %6 + 5;
+            break;
+        case PLAYER_CLASS::THIEF:
+            m_stamina += std::rand() %6 + 5;
+            break;
+        case PLAYER_CLASS::MAGE:
+            m_defense += std::rand() %6 + 5;
+            break;
+        case PLAYER_CLASS::ARCHER:
+            m_dexterity += std::rand() %6 + 5;
+            break;
+        case PLAYER_CLASS::COUNT:
+            // errors...
+            break;
+    }
+    
+    // Modify stats based on traits
+    SetRandomTraits();
 
 }
 
@@ -241,6 +262,12 @@ sf::Sprite& Player::GetAimSprite()
 	return m_aimSprite;
 }
 
+// Return player traits
+std::vector<PLAYER_TRAIT>* Player::GetPlayerTraits()
+{
+    return &m_traits;
+}
+
 // Checks if the player is attacking.
 bool Player::IsAttacking()
 {
@@ -335,4 +362,40 @@ void Player::SetHealth(int healthValue)
 	{
 		m_health = m_maxHealth;
 	}
+}
+
+// Set random traits for the player
+void Player::SetRandomTraits()
+{
+    m_traits.clear();
+    // Generate random traits
+    for (int i = 0; i < PLAYER_TRAIT_COUNT; i++) {
+        m_traits.push_back(static_cast<PLAYER_TRAIT>(std::rand() % static_cast<int>(PLAYER_TRAIT::COUNT)));
+    }
+    
+    // Apply the traits to the player
+    for(PLAYER_TRAIT trait : m_traits)
+    {
+        switch (trait)
+        {
+            case PLAYER_TRAIT::ATTACK:
+                m_attack += rand() % 6 + 5;
+                break;
+            case PLAYER_TRAIT::DEFENSE:
+                m_defense += std::rand() % 6 + 5;
+                break;
+            case PLAYER_TRAIT::STRENGTH:
+                m_strength += std::rand() % 6 + 5;
+                break;
+            case PLAYER_TRAIT::DEXTERITY:
+                m_dexterity += std::rand() % 6 + 5;
+                break;
+            case PLAYER_TRAIT::STAMINA:
+                m_stamina += std::rand() % 6 + 5;
+                break;
+            case PLAYER_TRAIT::COUNT:
+                // error!
+                break;
+        }
+    }
 }
