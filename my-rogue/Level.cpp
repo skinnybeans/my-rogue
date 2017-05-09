@@ -284,21 +284,21 @@ bool Level::LoadLevelFromFile(std::string fileName)
 		file.close(); //closing the file
 
 		// Create torches at specific locations.
-		sf::Vector2i locations[5];
+        std::vector<sf::Vector2f> torchLocations;
 
-		locations[0] = { m_origin.x + (3 * TILE_SIZE) + (TILE_SIZE / 2), m_origin.y + (9 * TILE_SIZE) + (TILE_SIZE / 2) };
-		locations[1] = { m_origin.x + (7 * TILE_SIZE) + (TILE_SIZE / 2), m_origin.y + (7 * TILE_SIZE) + (TILE_SIZE / 2) };
-		locations[2] = { m_origin.x + (11 * TILE_SIZE) + (TILE_SIZE / 2), m_origin.y + (11 * TILE_SIZE) + (TILE_SIZE / 2) };
-		locations[3] = { m_origin.x + (13 * TILE_SIZE) + (TILE_SIZE / 2), m_origin.y + (15 * TILE_SIZE) + (TILE_SIZE / 2) };
-		locations[4] = { m_origin.x + (15 * TILE_SIZE) + (TILE_SIZE / 2), m_origin.y + (3 * TILE_SIZE) + (TILE_SIZE / 2) };
-
-		// Spawn torches.
-		for (int i = 0; i < 5; ++i)
-		{
-			std::shared_ptr<Torch> torch = std::make_shared<Torch>();
-			torch->SetPosition(sf::Vector2f(static_cast<float>(locations[i].x), static_cast<float>(locations[i].y)));
-			m_torches.push_back(torch);
-		}
+        torchLocations.push_back(GetActualTileLocation(3, 9));
+        torchLocations.push_back(GetActualTileLocation(7, 7));
+        torchLocations.push_back(GetActualTileLocation(11,11));
+        torchLocations.push_back(GetActualTileLocation(13, 15));
+        torchLocations.push_back(GetActualTileLocation(15, 3));
+        
+        // Spawn torches
+        for(auto location : torchLocations)
+        {
+            std::shared_ptr<Torch> torch = std::make_shared<Torch>();
+            torch->SetPosition(sf::Vector2f(location.x, location.y));
+            m_torches.push_back(torch);
+        }
 	}
 	else
 	{

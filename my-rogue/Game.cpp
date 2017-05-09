@@ -654,39 +654,32 @@ void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
 					{
 						position.x += std::rand() % 31 - 15;
 						position.y += std::rand() % 31 - 15;
-						std::unique_ptr<Item> item;
 
 						switch (std::rand() % 2)
 						{
 						case 0: // Spawn gold.
-							item = std::make_unique<Gold>();
+                            SpawnItem(ITEM::GOLD, position);
 							break;
 
 						case 1: // Spawn gem.
-							item = std::make_unique<Gem>();
+							SpawnItem(ITEM::GEM, position);
 							break;
 						}
 
-						item->SetPosition(position);
-						m_items.push_back(std::move(item));
 					}
 
 					if ((std::rand() % 5) == 0)			// 1 in 5 change of spawning health.
 					{
 						position.x += std::rand() % 31 - 15;
 						position.y += std::rand() % 31 - 15;
-						std::unique_ptr<Item> heart = std::make_unique<Heart>();
-						heart->SetPosition(position);
-						m_items.push_back(std::move(heart));
+                        SpawnItem(ITEM::HEART, position);
 					}
 					// 1 in 5 change of spawning potion.
 					else if ((std::rand() % 5) == 1)
 					{
 						position.x += std::rand() % 31 - 15;
 						position.y += std::rand() % 31 - 15;
-						std::unique_ptr<Item> potion = std::make_unique<Potion>();
-						potion->SetPosition(position);
-						m_items.push_back(std::move(potion));
+                        SpawnItem(ITEM::POTION, position);
 					}
 
 					// Delete enemy.
