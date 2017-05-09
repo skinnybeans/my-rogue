@@ -31,6 +31,12 @@ public:
 	 * @param level A reference to the level object.
 	 */
 	void Update(float timeDelta, Level& level);
+    
+    /**
+     * Returns the player class.
+     * @return the players class
+     */
+    PLAYER_CLASS GetPlayerClass() const;
 
 	/**
 	* Gets the player's mana.
@@ -122,7 +128,14 @@ private:
 	 */
 	bool m_canTakeDamage;
     
-    // how many stat points the player has to distribute
+    /**
+     * How many stat points the player has to distribute
+     */
     int m_statPoints;
+    
+    /**
+     * Player's class
+     */
+    PLAYER_CLASS m_class;
 };
 #endif

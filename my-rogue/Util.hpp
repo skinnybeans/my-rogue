@@ -18,6 +18,15 @@ enum class GAME_STATE {
 	GAME_OVER
 };
 
+// Player classes.
+enum class PLAYER_CLASS {
+    WARRIOR,
+    MAGE,
+    ARCHER,
+    THIEF,
+    COUNT
+};
+
 // Spawnable items.
 enum class ITEM {
 	GEM,
