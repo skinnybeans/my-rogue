@@ -40,8 +40,27 @@ void Game::Initialize()
 	// Get the screen size.
 	m_screenSize = m_window.getSize();
 
-	// Load the correct projectile texture.
-	m_projectileTextureID = TextureManager::AddTexture(resourcePath() + "/resources/projectiles/spr_sword.png");
+	// Load the correct projectile texture based on player class
+    std::string spriteName("");
+    switch (m_player.GetPlayerClass()) {
+        case PLAYER_CLASS::WARRIOR:
+            spriteName = "sword";
+            break;
+        case PLAYER_CLASS::THIEF:
+            spriteName = "dagger";
+            break;
+        case PLAYER_CLASS::MAGE:
+            spriteName = "magic_ball";
+            break;
+        case PLAYER_CLASS::ARCHER:
+            spriteName = "arrow";
+            break;
+        case PLAYER_CLASS::COUNT:
+            // error!
+            break;
+    }
+    
+	m_projectileTextureID = TextureManager::AddTexture(resourcePath() + "/resources/projectiles/spr_" + spriteName + ".png");
 
 	// Initialize the UI.
 	LoadUI();
@@ -122,8 +141,28 @@ void Game::ConstructLightGrid()
 void Game::LoadUI()
 {
 	// Initialize the player ui texture and sprite.
+    std::string className;
+    switch(m_player.GetPlayerClass())
+    {
+        case PLAYER_CLASS::WARRIOR:
+            className = "warrior";
+            break;
+        case PLAYER_CLASS::THIEF:
+            className = "thief";
+            break;
+        case PLAYER_CLASS::MAGE:
+            className = "mage";
+            break;
+        case PLAYER_CLASS::ARCHER:
+            className = "archer";
+            break;
+        case PLAYER_CLASS::COUNT:
+            // errors...
+            break;
+    }
+    
 	m_playerUiSprite = std::make_shared<sf::Sprite>();
-	m_playerUiSprite->setTexture(TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_warrior_ui.png")));
+	m_playerUiSprite->setTexture(TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_" + className + "_ui.png")));
 	m_playerUiSprite->setPosition(sf::Vector2f(45.f, 45.f));
 	m_playerUiSprite->setOrigin(sf::Vector2f(30.f, 30.f));
 	m_uiSprites.push_back(m_playerUiSprite);
