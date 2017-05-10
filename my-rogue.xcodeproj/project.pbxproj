@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9C555B451EC0442300399F54 /* PoisonHeart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C555B421EBFDE4D00399F54 /* PoisonHeart.cpp */; };
+		9C555B471EC2EB7000399F54 /* include in Resources */ = {isa = PBXBuildFile; fileRef = 9C555B461EC2EB7000399F54 /* include */; };
 		9C8A95CF1EB8106400E2927B /* Enemy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C8A95A51EB8106400E2927B /* Enemy.cpp */; };
 		9C8A95D01EB8106400E2927B /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C8A95A71EB8106400E2927B /* Entity.cpp */; };
 		9C8A95D11EB8106400E2927B /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C8A95A91EB8106400E2927B /* Game.cpp */; };
@@ -38,6 +39,7 @@
 		9C06DF761EB7F680004A7F3D /* my-rogue-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "my-rogue-Info.plist"; sourceTree = "<group>"; };
 		9C555B421EBFDE4D00399F54 /* PoisonHeart.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PoisonHeart.cpp; sourceTree = "<group>"; };
 		9C555B431EBFDE4D00399F54 /* PoisonHeart.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PoisonHeart.hpp; sourceTree = "<group>"; };
+		9C555B461EC2EB7000399F54 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
 		9C8A95A51EB8106400E2927B /* Enemy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Enemy.cpp; sourceTree = "<group>"; };
 		9C8A95A61EB8106400E2927B /* Enemy.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Enemy.hpp; sourceTree = "<group>"; };
 		9C8A95A71EB8106400E2927B /* Entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cpp; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 		9C06DF681EB7F680004A7F3D = {
 			isa = PBXGroup;
 			children = (
+				9C555B461EC2EB7000399F54 /* include */,
 				9C8A95E41EB8164C00E2927B /* resources */,
 				9C06DF741EB7F680004A7F3D /* my-rogue */,
 				9C06DF731EB7F680004A7F3D /* Products */,
@@ -234,6 +237,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C8A95E51EB8164C00E2927B /* resources in Resources */,
+				9C555B471EC2EB7000399F54 /* include in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,6 +385,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include/,
+					$PROJECT_DIR/include/,
+				);
 				INFOPLIST_FILE = "my-rogue/my-rogue-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -392,6 +400,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include/,
+					"$(inherited)",
+					$PROJECT_DIR/include/,
+				);
 				INFOPLIST_FILE = "my-rogue/my-rogue-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
