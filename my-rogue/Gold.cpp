@@ -2,15 +2,32 @@
 #include "Gold.hpp"
 #include "ResourcePath.hpp"
 
+
+static const int GOLD_SMALL = 9;
+static const int GOLD_LARGE = 15;
+
 // Default constructor.
 Gold::Gold()
 {
 	// Set gold value.
-	this->goldValue = 15;
-
+    this->m_goldValue = std::rand() % 21 + 5;
+    
+    
 	// Set the sprite.
 	int textureID;
-	textureID = TextureManager::AddTexture(resourcePath() + "/resources/loot/gold/spr_pickup_gold_medium.png");
+    
+    if(this->m_goldValue <= GOLD_SMALL)
+    {
+        textureID = TextureManager::AddTexture(resourcePath() + "/resources/loot/gold/spr_pickup_gold_small.png");
+    }
+    else if(this->m_goldValue < GOLD_LARGE)
+    {
+        textureID = TextureManager::AddTexture(resourcePath() + "/resources/loot/gold/spr_pickup_gold_medium.png");
+    }
+    else
+    {
+        textureID = TextureManager::AddTexture(resourcePath() + "/resources/loot/gold/spr_pickup_gold_large.png");
+    }
 
 	this->SetSprite(TextureManager::GetTexture(textureID), false, 8, 12);
 
@@ -21,5 +38,5 @@ Gold::Gold()
 //  Returns the amount of gold this pickup has.
 int Gold::GetGoldValue() const
 {
-	return this->goldValue;
+	return m_goldValue;
 }

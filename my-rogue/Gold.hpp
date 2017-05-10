@@ -31,6 +31,6 @@ private:
 	/**
 	 * The value of this gold pickup.
 	 */
-	int goldValue;
+	int m_goldValue;
 };
 #endif
