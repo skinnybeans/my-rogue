@@ -20,6 +20,12 @@ public:
 	* Default constructor.
 	*/
 	Potion();
+    
+    /**
+     * Get the type of potion
+     * @return the potion type
+     */
+    POTION GetPotionType() const;
 
 	/**
 	 * Gets the attack value of the potion.
@@ -77,5 +83,10 @@ private:
 	 * The stamina value of the potion.
 	 */
 	int m_stamina;
+    
+    /**
+     * The type of potion
+     */
+     POTION m_potionType;
 };
 #endif

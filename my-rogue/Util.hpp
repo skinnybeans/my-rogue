@@ -48,6 +48,16 @@ enum class ITEM {
 	COUNT
 };
 
+// Potions.
+enum class POTION {
+    ATTACK,
+    DEFENSE,
+    STRENGTH,
+    DEXTERITY,
+    STAMINA,
+    COUNT
+};
+
 // Enemy types.
 enum class ENEMY {
 	SLIME,

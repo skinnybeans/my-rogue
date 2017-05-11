@@ -2,6 +2,8 @@
 #include "Player.hpp"
 #include "ResourcePath.hpp"
 
+#include <algorithm>
+#include <random>
 #include <iostream>
 
 // Constructor.
@@ -368,9 +370,20 @@ void Player::SetHealth(int healthValue)
 void Player::SetRandomTraits()
 {
     m_traits.clear();
+    
+    // Vector to shuffle traits
+    std::vector<int> traits;
+    traits.resize(static_cast<int>(PLAYER_TRAIT::COUNT));
+    
+    for(int i=0; i< static_cast<int>(PLAYER_TRAIT::COUNT); i++){
+        traits.at(i) = i;
+    }
+    
+    std::shuffle(traits.begin(), traits.end(), std::default_random_engine(static_cast<unsigned int>(time(nullptr))));
+    
     // Generate random traits
-    for (int i = 0; i < PLAYER_TRAIT_COUNT; i++) {
-        m_traits.push_back(static_cast<PLAYER_TRAIT>(std::rand() % static_cast<int>(PLAYER_TRAIT::COUNT)));
+    for (int i = 0; i < PLAYER_TRAIT_COUNT && i < static_cast<int>(PLAYER_TRAIT::COUNT); i++) {
+        m_traits.push_back(static_cast<PLAYER_TRAIT>(traits.at(i)));
     }
     
     // Apply the traits to the player
