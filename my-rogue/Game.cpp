@@ -751,8 +751,12 @@ void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
 				// Delete the projectile.
 				projectilesIterator = m_playerProjectiles.erase(projectilesIterator);
 
-				// Damage the enemy.
-				enemy.Damage(25);
+                // calculate how much damage to deal
+                int damage = 10;
+                damage += m_player.GetStrength() + m_player.GetAttack() - enemy.GetDefense();
+				
+                // Damage the enemy.
+                enemy.Damage(damage);
 
 				// If the enemy is dead remove it.
 				if (enemy.IsDead())
@@ -820,7 +824,8 @@ void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
 		{
 			if (m_player.CanTakeDamage())
 			{
-				m_player.Damage(10);
+                int damage = 5 + enemy.GetAttack() + enemy.GetStrength() - m_player.GetDefense();
+                m_player.Damage(std::max(damage, 2));
 			}
 		}
 	}

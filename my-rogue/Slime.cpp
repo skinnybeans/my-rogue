@@ -17,4 +17,42 @@ Slime::Slime()
 
 	// Set initial sprite.
 	SetSprite(TextureManager::GetTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)]), false, 8, 12);
+    
+    // Use predefined color
+    COLOR color = static_cast<COLOR>(rand() % static_cast<int>(COLOR::COUNT));
+    sf::Color spriteColor = sf::Color::Black;
+    switch (color) {
+        case COLOR::BLACK:
+            spriteColor = sf::Color::Black;
+            break;
+        case COLOR::BLUE:
+            spriteColor = sf::Color::Blue;
+            break;
+        case COLOR::RED:
+            spriteColor = sf::Color::Red;
+            break;
+        case COLOR::GREEN:
+            spriteColor = sf::Color::Green;
+            break;
+        case COLOR::WHITE:
+            spriteColor = sf::Color::White;
+            break;
+        case COLOR::YELLOW:
+            spriteColor = sf::Color::Yellow;
+            break;
+        case COLOR::MAGENTA:
+            spriteColor = sf::Color::Magenta;
+            break;
+        case COLOR::CYAN:
+            spriteColor = sf::Color::Cyan;
+            break;
+        case COLOR::TRANSPARENT:
+            // random color!
+            spriteColor = sf::Color(std::rand()%256,std::rand()%256,std::rand()%256,std::rand()%156+100);
+        case COLOR::COUNT:
+            // TODO error...
+            break;
+    }
+    
+    m_sprite.setColor(spriteColor);
 }

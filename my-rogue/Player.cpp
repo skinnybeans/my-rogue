@@ -75,10 +75,6 @@ m_canTakeDamage(true)
                     dexterityBias +
                     staminaBias +
                     accuracyBias;
-    
-	m_health = m_maxHealth = 100;
-	m_mana = m_maxMana = 50;
-	m_speed = 200;
 
 	m_attack = m_statPoints * (attackBias/total);
 	m_defense = m_statPoints * (defenseBias/total);
@@ -109,6 +105,11 @@ m_canTakeDamage(true)
     
     // Modify stats based on traits
     SetRandomTraits();
+    
+    // Set derived stats
+    m_health = m_maxHealth = 100 + m_stamina;
+    m_mana = m_maxMana = 50;
+    m_speed = 200 + m_dexterity;
 
 }
 
@@ -297,7 +298,7 @@ bool Player::CanTakeDamage()
 // Apply the given amount of damage to the player.
 void Player::Damage(int damage)
 {
-	m_health -= damage;
+    m_health -= damage;
 
 	if (m_health < 0)
 	{

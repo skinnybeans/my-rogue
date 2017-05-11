@@ -74,6 +74,20 @@ enum class ENEMY_HUMANOIDS {
     COUNT
 };
 
+// Colours predefined in SFML
+enum class COLOR {
+    BLACK,
+    WHITE,
+    RED,
+    GREEN,
+    BLUE,
+    YELLOW,
+    MAGENTA,
+    CYAN,
+    TRANSPARENT,
+    COUNT
+};
+
 // Animation states.
 enum class ANIMATION_STATE {
 	WALK_UP,
