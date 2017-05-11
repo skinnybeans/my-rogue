@@ -56,6 +56,12 @@ public:
 	 * @return The stamina value the potion gives.
 	 */
 	int GetStamina() const;
+    
+    /**
+     * Gets the accuracy value of the potion.
+     * @return The stamina value the potion gives.
+     */
+    int GetAccuracy() const;
 
 private:
 
@@ -83,6 +89,11 @@ private:
 	 * The stamina value of the potion.
 	 */
 	int m_stamina;
+    
+    /**
+     * The accuracy value of the potion.
+     */
+    int m_accuracy;
     
     /**
      * The type of potion

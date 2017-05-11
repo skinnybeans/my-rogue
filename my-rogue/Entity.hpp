@@ -69,6 +69,12 @@ public:
 	 * @return The entities stamina.
 	 */
 	int GetStamina() const;
+    
+    /**
+     * Gets the entities accuracy.
+     * @return The entities accuracy.
+     */
+    int GetAccuracy() const;
 
 	/**
 	 * Sets the entities attack stat.
@@ -99,6 +105,12 @@ public:
 	 * @param staminaValue The player's new stamina stat value.
 	 */
 	void SetStamina(int staminaValue);
+    
+    /**
+     * Sets the entities accuracy stat.
+     * @param accuracyValue The player's new accuracy value.
+     */
+    void SetAccuracy(int accuracyValue);
 
 protected:
 	/**
@@ -155,6 +167,11 @@ protected:
 	 * The entities stamina. Effects health.
 	 */
 	int m_stamina;
+    
+    /**
+     * The entities accuracy. Effects criticals.
+     */
+    int m_accuracy;
 
 	/**
 	 * The entities movement speed.

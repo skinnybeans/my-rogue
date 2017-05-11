@@ -219,6 +219,15 @@ void Game::LoadUI()
 	m_uiSprites.push_back(m_keyUiSprite);
 
 	// Load stats.
+    m_accuracyStatTextureIDs[0] = TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_accuracy_ui.png");
+    m_accuracyStatTextureIDs[1] = TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_accuracy_ui_alt.png");
+    
+    m_accuracyStatSprite = std::make_shared<sf::Sprite>();
+    m_accuracyStatSprite->setTexture(TextureManager::GetTexture(m_accuracyStatTextureIDs[0]));
+    m_accuracyStatSprite->setOrigin(sf::Vector2f(16.f, 16.f));
+    m_accuracyStatSprite->setPosition(sf::Vector2f(m_screenCenter.x - 390.f, m_screenSize.y - 30.f));
+    m_uiSprites.push_back(m_accuracyStatSprite);
+    
 	m_attackStatTextureIDs[0] = TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_attack_ui.png");
 	m_attackStatTextureIDs[1] = TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_attack_ui_alt.png");
 
@@ -289,6 +298,10 @@ void Game::LoadUI()
             case PLAYER_TRAIT::STAMINA:
                 m_staminaStatSprite->setTexture(TextureManager::GetTexture(m_staminaStatTextureIDs[1]));
                 m_staminaStatSprite->setScale(sf::Vector2f(1.2f, 1.2f));
+                break;
+            case PLAYER_TRAIT::ACCURACY:
+                m_accuracyStatSprite->setTexture(TextureManager::GetTexture(m_accuracyStatTextureIDs[1]));
+                m_accuracyStatSprite->setScale(sf::Vector2f(1.2f, 1.2f));
                 break;
             case PLAYER_TRAIT::COUNT:
                 // errors!
@@ -662,6 +675,9 @@ void Game::UpdateItems(sf::Vector2f playerPosition)
                         case POTION::STRENGTH:
                             m_player.SetStrength(m_player.GetStrength() + potion.GetStrength());
                             break;
+                        case POTION::ACCURACY:
+                            m_player.SetAccuracy(m_player.GetAccuracy() + potion.GetAccuracy());
+                            break;
                         case POTION::COUNT:
                             // error!
                             break;
@@ -915,7 +931,8 @@ void Game::Draw(float timeDelta)
 		m_window.draw(m_player.GetAimSprite());
 
 		// Draw player stats.
-		DrawString(std::to_string(m_player.GetAttack()), sf::Vector2f(m_screenCenter.x - 210.f, m_screenSize.y - 30.f), 25);
+		DrawString(std::to_string(m_player.GetAccuracy()), sf::Vector2f(m_screenCenter.x - 330.f, m_screenSize.y - 30.f), 25);
+        DrawString(std::to_string(m_player.GetAttack()), sf::Vector2f(m_screenCenter.x - 210.f, m_screenSize.y - 30.f), 25);
 		DrawString(std::to_string(m_player.GetDefense()), sf::Vector2f(m_screenCenter.x - 90.f, m_screenSize.y - 30.f), 25);
 		DrawString(std::to_string(m_player.GetStrength()), sf::Vector2f(m_screenCenter.x + 30.f, m_screenSize.y - 30.f), 25);
 		DrawString(std::to_string(m_player.GetDexterity()), sf::Vector2f(m_screenCenter.x + 150.f, m_screenSize.y - 30.f), 25);

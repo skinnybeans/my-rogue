@@ -8,13 +8,14 @@ m_attack(0),
 m_defense(0),
 m_strength(0),
 m_dexterity(0),
-m_stamina(0)
+m_stamina(0),
+m_accuracy(0)
 {
     // texture file path
     std::string textureName;
     
     // set the potion type
-    m_potionType = static_cast<POTION>(rand() % static_cast<int>(POTION::COUNT));
+    m_potionType = static_cast<POTION>(rand() % static_cast<int>(POTION::COUNT));;
     int potionBoost = std::rand() % 11 + 5;
     
     // set potion texture and stat boost
@@ -39,6 +40,10 @@ m_stamina(0)
         case POTION::STAMINA:
             m_stamina = potionBoost;
             textureName = "spr_potion_stamina.png";
+            break;
+        case POTION::ACCURACY:
+            m_accuracy = potionBoost;
+            textureName = "spr_potion_accuracy.png";
             break;
         case POTION::COUNT:
             // error!
@@ -87,4 +92,10 @@ int Potion::GetDexterity() const
 int Potion::GetStamina() const
 {
 	return m_stamina;
+}
+
+// Gets the accuracy value of the potion.
+int Potion::GetAccuracy() const
+{
+    return m_accuracy;
 }

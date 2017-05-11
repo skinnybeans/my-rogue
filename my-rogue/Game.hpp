@@ -302,6 +302,16 @@ private:
 	* The texture IDs for the stamina stat textures.
 	*/
 	int m_staminaStatTextureIDs[2];
+    
+    /**
+     * The sprite for the players accuracy stat.
+     */
+    std::shared_ptr<sf::Sprite> m_accuracyStatSprite;
+    
+    /**
+     * The texture IDs for the accuracy stat textures.
+     */
+    int m_accuracyStatTextureIDs[2];
 
 	/**
 	 * A vector of all the player's projectiles.

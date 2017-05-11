@@ -16,6 +16,7 @@ m_strength(0),
 m_dexterity(0),
 m_stamina(0),
 m_speed(0),
+m_accuracy(0),
 m_velocity({0.f, 0.f})
 {
 }
@@ -128,6 +129,12 @@ int Entity::GetStamina() const
 	return m_stamina;
 }
 
+// Gets the entities accuracy.
+int Entity::GetAccuracy() const
+{
+    return m_accuracy;
+}
+
 // Sets the entities attack stat.
 void Entity::SetAttack(int attackValue)
 {
@@ -156,4 +163,10 @@ void Entity::SetDexterity(int dexterityValue)
 void Entity::SetStamina(int staminaValue)
 {
 	m_stamina = staminaValue;
+}
+
+// Sets the entities accuracy
+void Entity::SetAccuracy(int accuracyValue)
+{
+    m_accuracy = accuracyValue;
 }

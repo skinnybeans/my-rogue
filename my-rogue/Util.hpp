@@ -34,6 +34,7 @@ enum class PLAYER_TRAIT {
     STRENGTH,
     DEXTERITY,
     STAMINA,
+    ACCURACY,
     COUNT
 };
 
@@ -55,6 +56,7 @@ enum class POTION {
     STRENGTH,
     DEXTERITY,
     STAMINA,
+    ACCURACY,
     COUNT
 };
 

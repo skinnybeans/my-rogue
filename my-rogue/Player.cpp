@@ -59,7 +59,7 @@ m_canTakeDamage(true)
 	m_aimSprite.setScale(2.f, 2.f);
 
 	// Set stats.
-    m_statPoints = 50;
+    m_statPoints = 60;
     
     // determine stat distribution
     float attackBias = std::rand() % 101;
@@ -67,12 +67,14 @@ m_canTakeDamage(true)
     float strengthBias = std::rand() % 101;
     float dexterityBias = std::rand() % 101;
     float staminaBias = std::rand() % 101;
+    float accuracyBias = std::rand() % 101;
     
     float total =   attackBias +
                     defenseBias +
                     strengthBias +
                     dexterityBias +
-                    staminaBias;
+                    staminaBias +
+                    accuracyBias;
     
 	m_health = m_maxHealth = 100;
 	m_mana = m_maxMana = 50;
@@ -83,6 +85,7 @@ m_canTakeDamage(true)
 	m_strength = m_statPoints * (strengthBias/total);
 	m_dexterity = m_statPoints * (dexterityBias/total);
 	m_stamina = m_statPoints * (staminaBias/total);
+    m_accuracy = m_statPoints * (accuracyBias/total);
     
     // Modify stats based on class
     switch(m_class)
@@ -91,7 +94,7 @@ m_canTakeDamage(true)
             m_strength += std::rand() %6 + 5;
             break;
         case PLAYER_CLASS::THIEF:
-            m_stamina += std::rand() %6 + 5;
+            m_accuracy += std::rand() %6 + 5;
             break;
         case PLAYER_CLASS::MAGE:
             m_defense += std::rand() %6 + 5;
@@ -405,6 +408,9 @@ void Player::SetRandomTraits()
                 break;
             case PLAYER_TRAIT::STAMINA:
                 m_stamina += std::rand() % 6 + 5;
+                break;
+            case PLAYER_TRAIT::ACCURACY:
+                m_accuracy += std::rand() % 6 + 5;
                 break;
             case PLAYER_TRAIT::COUNT:
                 // error!
