@@ -18,7 +18,7 @@ Slime::Slime()
 	// Set initial sprite.
 	SetSprite(TextureManager::GetTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)]), false, 8, 12);
     
-    // Use predefined color
+    // Randomise the colour used for the slime
     COLOR color = static_cast<COLOR>(rand() % static_cast<int>(COLOR::COUNT));
     sf::Color spriteColor = sf::Color::Black;
     switch (color) {
@@ -55,4 +55,8 @@ Slime::Slime()
     }
     
     m_sprite.setColor(spriteColor);
+    
+    // Randomise the size of the slime
+    float scale = (std::rand() % 15) / 10.f;
+    m_sprite.setScale(sf::Vector2f(scale, scale));
 }

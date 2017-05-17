@@ -70,7 +70,7 @@ void Game::Initialize()
 
 	// Define the game views.
 	m_views[static_cast<int>(VIEW::MAIN)] = m_window.getDefaultView();
-	m_views[static_cast<int>(VIEW::MAIN)].zoom(0.5f);
+	m_views[static_cast<int>(VIEW::MAIN)].zoom(0.75f);
 	m_views[static_cast<int>(VIEW::UI)] = m_window.getDefaultView();
 
 	// Load the level.

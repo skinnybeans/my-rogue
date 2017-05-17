@@ -21,5 +21,23 @@ public:
 	 * Default constructor
 	 */
 	Humanoid();
+    
+    /**
+     * Override the default enemy update
+     * @param timeDelta time since last update
+     */
+    void Update(float timeDelta) override;
+    
+private:
+    /**
+     * Generate random armor for this enemy
+     */
+    void GenerateArmor();
+    
+private:
+    /**
+     * An array of modified textures.
+     */
+    sf::Texture m_textures[static_cast<int>(ANIMATION_STATE::COUNT)];
 };
 #endif
