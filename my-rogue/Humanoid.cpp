@@ -224,6 +224,7 @@ void Humanoid::GenerateArmor()
         finalTextures[i].draw(armorSprite);
         
         // Flip the texture vertically
+        // Don't need to call display here, as it implicitly does it as part of generating the image
         sf::Image img = finalTextures[i].getTexture().copyToImage();
         img.flipVertically();
         

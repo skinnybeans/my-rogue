@@ -64,6 +64,18 @@ m_doorTileIndices({ 0, 0 })
 	}
 }
 
+// Sets overlay color of level tiles
+void Level::SetColor(sf::Color tileColor)
+{
+    for(int i=0; i<GRID_WIDTH; i++)
+    {
+        for(int j=0; j<GRID_HEIGHT; j++)
+        {
+            m_grid[i][j].sprite.setColor(tileColor);
+        }
+    }
+}
+
 // Create and adds a tile sprite to the list of those available.
 int Level::AddTile(std::string fileName, TILE tileType)
 {

@@ -75,6 +75,9 @@ void Game::Initialize()
 
 	// Load the level.
 	m_level.LoadLevelFromFile(resourcePath() + "/resources/data/level_data.txt");
+    
+    // Set the level color
+    m_level.SetColor(sf::Color::Green);
 
 	// Set the position of the player
     // Randomise the starting location
@@ -187,14 +190,17 @@ void Game::LoadUI()
 	sf::Texture& healthBarTexture = TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_health_bar.png"));
 	sf::Vector2f barTextureOrigin = { healthBarTexture.getSize().x / 2.f, healthBarTexture.getSize().y / 2.f };
 
+    // When scaling the UI, need to move the health bar texture position to the right location
+    // So it lines up with the bar outline
+    float barOffset = ((205.f - (205.f * UI_SCALE)) / 2.f) + 1.f;
 	m_healthBarSprite = std::make_shared<sf::Sprite>();
 	m_healthBarSprite->setTexture(healthBarTexture);
-	m_healthBarSprite->setPosition(sf::Vector2f(205.f, 35.f));
+	m_healthBarSprite->setPosition(sf::Vector2f(205.f + barOffset, 35.f));
 	m_healthBarSprite->setOrigin(sf::Vector2f(barTextureOrigin.x, barTextureOrigin.y));
 
 	m_manaBarSprite = std::make_shared<sf::Sprite>();
 	m_manaBarSprite->setTexture(TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_mana_bar.png")));
-	m_manaBarSprite->setPosition(sf::Vector2f(205.f, 55.f));
+	m_manaBarSprite->setPosition(sf::Vector2f(205.f + barOffset, 55.f));
 	m_manaBarSprite->setOrigin(sf::Vector2f(barTextureOrigin.x, barTextureOrigin.y));
 
 	// Initialize the coin and gem ui sprites.
@@ -307,6 +313,11 @@ void Game::LoadUI()
                 // errors!
                 break;
         }
+    }
+    // Scale UI sprites according to the UI_SCALE factor
+    for(auto sprite : m_uiSprites)
+    {
+        sprite->setScale(UI_SCALE, UI_SCALE);
     }
 }
 
@@ -544,7 +555,7 @@ void Game::Update(float timeDelta)
 			// Update all projectiles.
 			UpdateProjectiles(timeDelta);
 
-			// Venter the view.
+			// Center the view.
 			m_views[static_cast<int>(VIEW::MAIN)].setCenter(playerPosition);
 		}
 	}
@@ -872,10 +883,13 @@ void Game::DrawString(std::string text, sf::Vector2f position, unsigned int size
 
 	m_stringStream << text;
 	m_string = m_stringStream.str();
+    
+    // Scale the text according to the UI scale
+    int scaledSize = size * UI_SCALE;
 
 	m_text.setString(m_string);
 	m_text.setFont(m_font);
-	m_text.setCharacterSize(size);
+	m_text.setCharacterSize(scaledSize);
 	m_text.setPosition(position.x - (m_text.getLocalBounds().width / 2.f), position.y - (m_text.getLocalBounds().height / 2.f));
 
 	m_window.draw(m_text);
@@ -1014,10 +1028,10 @@ void Game::Draw(float timeDelta)
 		DrawString("Room " + std::to_string(m_level.GetRoomNumber()), sf::Vector2f(70.f, m_screenSize.y - 30.f), 25);
 
 		// Draw health and mana bars.
-		m_healthBarSprite->setTextureRect(sf::IntRect(0, 0, (213.f / m_player.GetMaxHealth()) * m_player.GetHealth(), 8));
+		m_healthBarSprite->setTextureRect(sf::IntRect(0, 0, ((213.f / m_player.GetMaxHealth()) * m_player.GetHealth()) * UI_SCALE, 8));
 		m_window.draw(*m_healthBarSprite);
 
-		m_manaBarSprite->setTextureRect(sf::IntRect(0, 0, (213.f / m_player.GetMaxMana()) * m_player.GetMana(), 8));
+		m_manaBarSprite->setTextureRect(sf::IntRect(0, 0, ((213.f / m_player.GetMaxMana()) * m_player.GetMana()) * UI_SCALE, 8));
 		m_window.draw(*m_manaBarSprite);
 	}
 	break;

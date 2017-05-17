@@ -47,6 +47,12 @@ public:
 	 */
 	Level(sf::RenderWindow& window);
 
+    /**
+     * Sets the overlay color of the level tiles.
+     * @param tileColor The new tile overlay color
+     */
+    void SetColor(sf::Color tileColor);
+    
 	/**
 	 * Returns true if the given tile index is solid.
 	 * @param columnIndex The tile's column index.
