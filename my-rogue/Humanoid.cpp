@@ -35,7 +35,6 @@ Humanoid::Humanoid()
 	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_DOWN)] = TextureManager::AddTexture(resourcePath() + "/resources/enemies/" + enemyName + "/spr_" + enemyName + "_idle_down.png");
 	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_RIGHT)] = TextureManager::AddTexture(resourcePath() + "/resources/enemies/" + enemyName + "/spr_" + enemyName + "_idle_right.png");
 	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_LEFT)] = TextureManager::AddTexture(resourcePath() + "/resources/enemies/" + enemyName + "/spr_" + enemyName + "_idle_left.png");
-
     
     // Copy textures ID
     // These are the default textures for a humanoid
@@ -43,6 +42,46 @@ Humanoid::Humanoid()
     for (int i = 0; i < static_cast<int>(ANIMATION_STATE::COUNT); ++i)
     {
         m_textures[i] = TextureManager::GetTexture(m_textureIDs[i]);
+    }
+    
+    // Use a randomised color and size for gobbos
+    // scale between 0.5 and 1.5
+    if(humanoidType == ENEMY_HUMANOIDS::GOBLIN)
+    {
+        float scale = ((std::rand() % 6)/10.f) + 0.7f;
+        m_sprite.setScale(scale, scale);
+        
+        // base goblin color
+        sf::Color color(54,133,52,255);
+        
+        // randomise color elements
+        // doesnt work as it splats the armor color as well...
+        int r = (std::rand() % 100) - 50;
+        int g = (std::rand() % 100) - 50;
+        int b = (std::rand() % 100) - 50;
+        
+        sf::Color newColor(color.r + r, color.g + g, color.b + b, 255);
+        
+        // Color each of the goblin base textures
+        // Can't just set the sprite color as the armor will be effected too
+        for(int i=0; i<static_cast<int>(ANIMATION_STATE::COUNT); i++)
+        {
+            sf::RenderTexture target;
+            sf::Sprite tempSprite;
+            
+            // Change the sprite color
+            tempSprite.setTexture(m_textures[i]);
+            tempSprite.setColor(newColor);
+            
+            // Save it out to a rendertexture
+            target.create(m_textures[i].getSize().x, m_textures[i].getSize().y);
+            target.draw(tempSprite);
+            target.display();
+            
+            // Replace the original texture with the recolored one
+            m_textures[i] = target.getTexture();
+            
+        }
     }
     
     GenerateArmor();
