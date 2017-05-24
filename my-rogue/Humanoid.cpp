@@ -106,7 +106,6 @@ void Humanoid::GenerateArmor()
     // Create arrays of textures
     const int textureCount = static_cast<int>(ANIMATION_STATE::COUNT);
     sf::RenderTexture armorTextures[textureCount]; // Each layer of armor gets rendered here first
-    sf::RenderTexture finalTextures[textureCount]; // Final texture of armor + enemy gets rendered here
     sf::Image renderImage;
     
     for(int i=0; i<textureCount; i++)
@@ -114,8 +113,11 @@ void Humanoid::GenerateArmor()
         sf::Vector2u textureSize = m_textures[i].getSize();
         armorTextures[i].create(textureSize.x, textureSize.y);
         armorTextures[i].clear(sf::Color(255,255,255,0));
-        finalTextures[i].create(textureSize.x, textureSize.y);
-        finalTextures[i].clear(sf::Color(255,255,255,0));
+        
+        // copy the monster texture into the armor texture
+        sf::Sprite tempSprite;
+        tempSprite.setTexture(m_textures[i]);
+        armorTextures[i].draw(tempSprite);
     }
     
     int hasHelmet = std::rand() % 5;
@@ -248,28 +250,17 @@ void Humanoid::GenerateArmor()
 
     // Create the final textures
     for (int i=0 ; i<static_cast<int>(ANIMATION_STATE::COUNT); i++) {
-        sf::Sprite baseSprite;
-        sf::Sprite armorSprite;
         
-        // Draw the default texture
-        baseSprite.setTexture(m_textures[i]);
-        finalTextures[i].draw(baseSprite);
-        
-        // Process the render target
+        // process all the data sent to the rendertexture
         armorTextures[i].display();
         
-        // Get the texture from the render target and draw on top of the enemy
-        armorSprite.setTexture(armorTextures[i].getTexture());
-        finalTextures[i].draw(armorSprite);
+        // save it to an image
+        sf::Image img = armorTextures[i].getTexture().copyToImage();
         
-        // Flip the texture vertically
-        // Don't need to call display here, as it implicitly does it as part of generating the image
-        sf::Image img = finalTextures[i].getTexture().copyToImage();
-        img.flipVertically();
-        
+        // then load into the texture array
         m_textures[i].loadFromImage(img);
         
-        // Save the texture to disk.
+        // Debug code: save the texture to disk.
         /*if ((hasHelmet == 0) || (hasTorso == 0) || (hasLegs == 0))
         {
             std::stringstream stream;

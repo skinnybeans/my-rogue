@@ -33,5 +33,46 @@ public:
 	 * @return True if the enemy is dead.
 	 */
 	bool IsDead();
+    
+    /**
+     * Recalculates the target position of the enemy
+     * @param level Reference to the level the enemy and target are in
+     * @param playerPosition target location for the enemy
+     */
+    void UpdatePathfinding(Level & level, sf::Vector2f playerPosition);
+    
+    /**
+     * Updates the enemy ai
+     * @param timeDelta time since last update
+     */
+    void Update(float timeDela) override;
+    
+    /**
+     * Override default draw function
+     */
+    void Draw(sf::RenderWindow& renderWindow, float timeDelta) override;
+    
+private:
+    
+    /**
+     * Current enemy path
+     */
+    std::vector<sf::Vector2f> m_path;
+    
+    /**
+     * Debug sprite for path
+     */
+    sf::Sprite m_pathSprite;
+    
+    /**
+     * Debug font for path
+     */
+    sf::Font m_pathFont;
+    
+    /**
+     * Debug text for path
+     */
+    sf::Text m_pathText;
+    
 };
 #endif

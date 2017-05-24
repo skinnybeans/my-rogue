@@ -357,6 +357,19 @@ int Level::GetTileSize() const
 	return TILE_SIZE;
 }
 
+void Level::ResetNodes()
+{
+    for (int i=0; i<GRID_WIDTH; i++) {
+        for(int j=0; j<GRID_HEIGHT; j++)
+        {
+            m_grid[i][j].parentNode = nullptr;
+            m_grid[i][j].H = 0;
+            m_grid[i][j].G = 0;
+            m_grid[i][j].F = 0;
+        }
+    }
+}
+
 // Gets a vector of all torches in the level.
 std::vector<std::shared_ptr<Torch>>* Level::GetTorches()
 {

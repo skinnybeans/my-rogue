@@ -193,6 +193,11 @@ private:
 	 * The main player object. Only one instance of this object should be created at any one time.
 	 */
 	Player m_player;
+    
+    /**
+     * Location of the player on the previous update tick.
+     */
+    Tile* m_playerPreviousTile;
 
 	/**
 	 * String stream used by the DrawText() function.

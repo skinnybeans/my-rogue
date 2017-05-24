@@ -200,6 +200,11 @@ public:
 	* @return The index of the tile. This is used when building levels.
 	*/
 	int AddTile(std::string fileName, TILE tileType);
+    
+    /**
+     * Resets the A* data of all level tiles.
+     */
+    void ResetNodes();
 
 private:
 

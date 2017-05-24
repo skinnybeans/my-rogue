@@ -515,9 +515,10 @@ void Game::Update(float timeDelta)
 	case GAME_STATE::PLAYING:
 	{
 		// First check if the player is at the exit. If so there's no need to update anything.
-		Tile& playerTile = *m_level.GetTile(m_player.GetPosition());
+		Tile* playerCurrentTile = m_level.GetTile(m_player.GetPosition());
+        
 
-		if (playerTile.type == TILE::WALL_DOOR_UNLOCKED)
+		if (playerCurrentTile->type == TILE::WALL_DOOR_UNLOCKED)
 		{
 			// ...
 		}
@@ -525,6 +526,24 @@ void Game::Update(float timeDelta)
 		{
 			// Update the player.
 			m_player.Update(timeDelta, m_level);
+            
+            // Check if player has moved tiles
+            if(playerCurrentTile != m_playerPreviousTile)
+            {
+                // Store new location
+                m_playerPreviousTile = playerCurrentTile;
+                
+                std::cout << "Player position x: " << playerCurrentTile->columnIndex << " y: " << playerCurrentTile->rowIndex << std::endl;
+                
+                // Update the pathing of all enemies in range of player
+                for(const auto& enemy : m_enemies)
+                {
+                    if(DistanceBetweenPoints(m_player.GetPosition(), enemy->GetPosition()) < 300.f)
+                    {
+                        enemy->UpdatePathfinding(m_level, m_player.GetPosition());
+                    }
+                }
+            }
 
 			// Store the player position as it's used many times.
 			sf::Vector2f playerPosition = m_player.GetPosition();
