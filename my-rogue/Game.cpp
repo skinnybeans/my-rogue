@@ -533,8 +533,6 @@ void Game::Update(float timeDelta)
                 // Store new location
                 m_playerPreviousTile = playerCurrentTile;
                 
-                std::cout << "Player position x: " << playerCurrentTile->columnIndex << " y: " << playerCurrentTile->rowIndex << std::endl;
-                
                 // Update the pathing of all enemies in range of player
                 for(const auto& enemy : m_enemies)
                 {

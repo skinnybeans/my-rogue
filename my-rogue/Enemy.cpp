@@ -6,7 +6,8 @@
 
 #include <iostream>
 #include <cmath>
-// Default constructor.
+// Default constructor
+
 Enemy::Enemy()
 {
 	// Set stats.
@@ -93,7 +94,7 @@ void Enemy::Update(float timeDelta)
         else // We have moving to do
         {
             // First normalise the movement vector
-            float length = std::pow(m_velocity.x, 2) + std::pow(m_velocity.y, 2);
+            float length = std::sqrt(std::pow(m_velocity.x, 2) + std::pow(m_velocity.y, 2));
             m_velocity.x = m_velocity.x / length;
             m_velocity.y = m_velocity.y / length;
             
@@ -124,11 +125,17 @@ void Enemy::UpdatePathfinding(Level & level, sf::Vector2f playerPosition)
     Tile* goalNode = level.GetTile(playerPosition);
     
     // create a logger for debug pathing output
-    //auto pathLogger = spdlog::stdout_logger_mt("enemy_path");
+    auto pathLogger = spdlog::get("pathLogger");
+    if(pathLogger == nullptr)
+    {
+        pathLogger = spdlog::stdout_logger_mt("pathLogger");
+        pathLogger->set_pattern("%v");
+    }
     
-    std::cout << "-----Starting path calc-----" << std::endl;
-    std::cout << "Goal x: " << goalNode->columnIndex << " y: " << goalNode->rowIndex << std::endl;
-    std::cout << "Start x: " << startNode->columnIndex << " y: " << startNode->rowIndex << std::endl << std::endl;
+    pathLogger->set_level(spdlog::level::info);
+    pathLogger->info("-----Starting path calc-----");
+    pathLogger->info("Goal x: {} y: {}", goalNode->columnIndex, goalNode->rowIndex);
+    pathLogger->info("Start x: {} y: {} \n", startNode->columnIndex, startNode->rowIndex);
     
     
     // Is enemy at same tile as player
@@ -166,18 +173,20 @@ void Enemy::UpdatePathfinding(Level & level, sf::Vector2f playerPosition)
         // Then make it the current node
         int lowestF = INT_MAX;
         
-        std::cout << "*choosing next node*" << std::endl;
+        pathLogger->info("* Choosing next node *");
+        
         for(Tile* tile : openList)
         {
-            std::cout << "checking F: " << tile->F << std::endl;
+            pathLogger->info("node x: {} y: {} F: {}", tile->columnIndex, tile->rowIndex, tile->F);
+            
             if(tile->F < lowestF)
             {
                 lowestF = tile->F;
                 currentNode = tile;
             }
         }
-        std::cout << "selected F: " << currentNode->F << std::endl;
-        std::cout << "selected location x: " << currentNode->columnIndex << " y: " << currentNode->rowIndex << std::endl << std::endl;
+        
+        pathLogger->info("Selected node x: {} y: {} F: {} \n", currentNode->columnIndex, currentNode->rowIndex, currentNode->F);
         
         // Remove lowest cost node from the open list
         // Add it to close list
@@ -227,14 +236,15 @@ void Enemy::UpdatePathfinding(Level & level, sf::Vector2f playerPosition)
         }
         
         // Now process the adjacent valid nodes
-        std::cout << "*processing adjacent nodes*" << std::endl;
+        pathLogger->info("* Processing adjacent nodes *");
         for(Tile* nextNode: adjacentNodes)
         {
-            std::cout << std::endl << "checking node x: " << nextNode->columnIndex << " y: " << nextNode->rowIndex << std::endl;
+            pathLogger->info("checking node x: {} y: {}", nextNode->columnIndex, nextNode->rowIndex);
             // Found the goal
             if(nextNode == goalNode)
             {
-                std::cout << "found goal x: " << nextNode->columnIndex << " y: " << nextNode->rowIndex << std::endl;
+                pathLogger->info("found goal x: {} y: {}", nextNode->columnIndex, nextNode->rowIndex);
+                
                 // Now construct the path to the goal
                 nextNode->parentNode = currentNode;
                 
@@ -251,18 +261,19 @@ void Enemy::UpdatePathfinding(Level & level, sf::Vector2f playerPosition)
             }
             else // didn't find goal node
             {
-                std::cout << "didn't find goal..." << std::endl;
+                pathLogger->info("didn't find goal...");
+                
                 // If the node is not in the closed list
                 position = std::find(closedList.begin(), closedList.end(), nextNode);
                 if(position == closedList.end())
                 {
-                    std::cout << "Have not processed this node before" << std::endl;
+                    pathLogger->info("Have not processed this node before");
                     
                     // If the node is not in the open list
                     position = std::find(openList.begin(), openList.end(), nextNode);
                     if(position == openList.end())
                     {
-                        std::cout << "Have not touched this node before" << std::endl;
+                        pathLogger->info("Have not touched this node before");
                         // Add the node to the open list
                         openList.push_back(nextNode);
                         
@@ -284,13 +295,14 @@ void Enemy::UpdatePathfinding(Level & level, sf::Vector2f playerPosition)
                         
                         if(tempG < nextNode->G)
                         {
-                            std::cout << "Node gives shorter path" << std::endl;
+                            pathLogger->info("Node gives shorter path");
                             nextNode->parentNode = currentNode;
                         }
                     }
                 }
                 // else node was in closed list and ignore it
             }
+            pathLogger->info("\n");
         }
         
     } // End path loop
@@ -299,17 +311,17 @@ void Enemy::UpdatePathfinding(Level & level, sf::Vector2f playerPosition)
     m_path.clear();
     
     // Add the positions of the tiles on the path to the empty path
-    std::cout << std::endl << "*final path*" << std::endl;
+    pathLogger->info("*final path*");
     for(Tile* tile : pathList)
     {
         m_path.push_back(level.GetActualTileLocation(tile->columnIndex, tile->rowIndex));
-        std::cout << "x: " << tile->columnIndex << " y: " << tile->rowIndex << std::endl;
+        pathLogger->info("x: {} y: {}",tile->columnIndex, tile->rowIndex);
     }
     
     // Path is ordered from goal -> enemy tso need to reverse it so it's enemy -> goal
     std::reverse(m_path.begin(),m_path.end());
 
     
-    std::cout << "-----Finished path calc-----" << std::endl << std::endl << std::endl;
+    pathLogger->info("-----Finished path calc-----\n");
     
 }
