@@ -15,11 +15,6 @@ class TextureManager
 {
 public:
 	/**
-	 * Default constructor.
-	 */
-	TextureManager();
-
-	/**
 	 * Adds a texture to the manager and returns its id in the map.
 	 * @param The path to the image to load.
 	 * @return The id to the texture created, or the id in the map if it already exists.
@@ -40,6 +35,11 @@ public:
 	static sf::Texture& GetTexture(int textureId);
 
 private:
+    /**
+     * Default constructor.
+     */
+    TextureManager();
+    
 	/**
 	 * A map of each texture name with its ID.
 	 */
