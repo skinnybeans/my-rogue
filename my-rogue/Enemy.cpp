@@ -47,6 +47,7 @@ void Enemy::Draw(sf::RenderWindow& window, float timeDelta)
     Object::Draw(window, timeDelta);
     
     // DEBUG Draw the current path
+/*
     for (int i = 0; i < m_path.size(); i++)
     {
         // draw the path sprite
@@ -60,6 +61,7 @@ void Enemy::Draw(sf::RenderWindow& window, float timeDelta)
         m_pathText.setPosition(m_path[i]);
         window.draw(m_pathText);
     }
+*/
 }
 
 // Applies the given amount of damage to the enemy.
@@ -99,8 +101,8 @@ void Enemy::Update(float timeDelta)
             m_velocity.y = m_velocity.y / length;
             
             // Now use the normalised vector, enemy speed and time step to move
-            m_position.x = m_velocity.x * (m_speed * timeDelta);
-            m_position.y = m_velocity.y * (m_speed * timeDelta);
+            m_position.x += m_velocity.x * (m_speed * timeDelta);
+            m_position.y += m_velocity.y * (m_speed * timeDelta);
             
             m_sprite.setPosition(m_position);
         }
@@ -132,7 +134,7 @@ void Enemy::UpdatePathfinding(Level & level, sf::Vector2f playerPosition)
         pathLogger->set_pattern("%v");
     }
     
-    pathLogger->set_level(spdlog::level::info);
+    pathLogger->set_level(spdlog::level::off);
     pathLogger->info("-----Starting path calc-----");
     pathLogger->info("Goal x: {} y: {}", goalNode->columnIndex, goalNode->rowIndex);
     pathLogger->info("Start x: {} y: {} \n", startNode->columnIndex, startNode->rowIndex);
