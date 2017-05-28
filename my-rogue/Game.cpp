@@ -399,6 +399,42 @@ void Game::SpawnItem(ITEM itemType, sf::Vector2f position)
     }
 }
 
+void Game::GenerateLevelGoal()
+{
+    std::ostringstream ss;
+    
+    // Reset goal variables
+    m_killGoal = 0;
+    m_gemGoal = 0;
+    m_goldGoal = 0;
+    
+    int goalType = std::rand() % 3;
+    
+    switch(goalType)
+    {
+        case 0:  // Enemies
+            m_killGoal = std::rand() % 6 + 5;
+            ss << "Current goal: Kill " << m_killGoal << " enemies!" << std::endl;
+            break;
+            
+        case 1:  // Gold
+            m_goldGoal = std::rand() % 51 + 50;
+            ss << "Current goal: Collect " << m_goldGoal << " gold!" << std::endl;
+            break;
+            
+        case 2:  // Gems
+            m_gemGoal = std::rand() % 6 + 5;
+            ss << "Current goal: Collect " << m_gemGoal << " gems!" << std::endl;
+            break;
+            
+        default:
+            // error!
+            break;
+    }
+    
+    m_goalString = ss.str();
+}
+
 void Game::SpawnEnemy(ENEMY enemyType, sf::Vector2f position)
 {
     // Spawn location of enemy

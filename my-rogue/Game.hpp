@@ -78,6 +78,11 @@ private:
 	void PopulateLevel();
     
     /**
+     * Generates a level goal
+     */
+    void GenerateLevelGoal();
+    
+    /**
      * Spawns a given item in the level.
      */
     void SpawnItem(ITEM itemType, sf::Vector2f position = {-1.f,-1.f});
@@ -358,5 +363,30 @@ private:
 	 * A vector of all ui sprites.
 	 */
 	std::vector<std::shared_ptr<sf::Sprite>> m_uiSprites;
+    
+    /**
+     * Amount of gold remaining for current goal
+     */
+    int m_goldGoal;
+    
+    /** 
+     * Amount of enemies remainint to kill for current goal
+     */
+    int m_killGoal;
+    
+    /**
+     * Amount of gems remaining for current goal.
+     */
+    int m_gemGoal;
+    
+    /**
+     * Description of current level goal
+     */
+    sf::String m_goalString;
+    
+    /**
+     * Is the current goal active
+     */
+    bool m_hasActiveGoal;
 };
 #endif
