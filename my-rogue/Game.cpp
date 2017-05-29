@@ -16,7 +16,8 @@ m_screenCenter({ 0, 0 }),
 m_scoreTotal(0),
 m_goldTotal(0),
 m_projectileTextureID(0),
-m_levelWasGenerated(false)
+m_levelWasGenerated(false),
+m_hasActiveGoal(false)
 {
 	// Enable VSync.
 	m_window.setVerticalSyncEnabled(true);
@@ -32,6 +33,9 @@ m_levelWasGenerated(false)
 
 	// Create the game font.
 	m_font.loadFromFile(resourcePath() + "/resources/fonts/ADDSBP__.TTF");
+    
+    // DEBUG
+    GenerateLevelGoal();
 }
 
 // Initializes the game.
@@ -432,6 +436,7 @@ void Game::GenerateLevelGoal()
             break;
     }
     
+    m_hasActiveGoal = true;
     m_goalString = ss.str();
 }
 
@@ -611,6 +616,29 @@ void Game::Update(float timeDelta)
 			// Center the view.
 			m_views[static_cast<int>(VIEW::MAIN)].setCenter(playerPosition);
 		}
+        
+        if(m_hasActiveGoal)
+        {
+            if(m_gemGoal <= 0 && m_goldGoal <= 0 && m_killGoal <= 0)
+            {
+                m_scoreTotal += std::rand() % 1001 + 1000;
+                m_hasActiveGoal = false;
+            }
+            else{
+                std::ostringstream ss;
+                
+                if (m_goldGoal > 0)
+                    ss << "Current Goal: Collect " << m_goldGoal << "gold" << "!" << std::endl;
+                
+                else if (m_gemGoal > 0)
+                    ss << "Current Goal: Collect " << m_gemGoal << " gem" << "!" << std::endl;
+                
+                else if (m_killGoal > 0)
+                    ss << "Current Goal: Kill " << m_killGoal << " enemies" << "!" << std::endl;
+
+                m_goalString = ss.str();
+            }
+        }
 	}
 	break;
 
@@ -694,6 +722,12 @@ void Game::UpdateItems(sf::Vector2f playerPosition)
 
                     // Add to the gold total.
                     m_goldTotal += goldValue;
+                    
+                    // Check if active level goal
+                    if(m_hasActiveGoal)
+                    {
+                        m_goldGoal -= goldValue;
+                    }
                 }
                 break;
 
@@ -704,6 +738,12 @@ void Game::UpdateItems(sf::Vector2f playerPosition)
 
                     // Add to the score total
                     m_scoreTotal += scoreValue;
+                    
+                    // Check if active level goal
+                    if(m_hasActiveGoal)
+                    {
+                        m_gemGoal -= 1;
+                    }
                 }
                 break;
 
@@ -867,6 +907,12 @@ void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
 
 					// Since the enemy is dead we no longer need to check projectiles.
 					projectilesIterator = m_playerProjectiles.end();
+                    
+                    // After the enemy has died check level goal
+                    if(m_hasActiveGoal)
+                    {
+                        m_killGoal -= 1;
+                    }
 				}
 			}
 			else
@@ -1070,7 +1116,13 @@ void Game::Draw(float timeDelta)
 
 		DrawString(goldString, sf::Vector2f(m_screenCenter.x + 220.f, 40.f), 40);
 
-		// Draw rest of the UI.
+        // Draw current goal
+        if(m_hasActiveGoal)
+        {
+            DrawString(m_goalString, sf::Vector2f(m_window.getSize().x /2, m_window.getSize().y - (75 * UI_SCALE)), 30);
+        }
+        
+        // Draw rest of the UI.
 		for (const auto& sprite : m_uiSprites)
 		{
 			m_window.draw(*sprite);
