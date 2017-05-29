@@ -9,6 +9,7 @@
 // Default constructor
 
 Enemy::Enemy()
+: m_visionRadius(100)
 {
 	// Set stats.
 	m_health = std::rand() % 41 + 80;
@@ -38,6 +39,9 @@ Enemy::Enemy()
     // Set the text.
     m_pathText.setFont(m_pathFont);
     m_pathText.setCharacterSize(12);
+    
+    // Randomise the enemy vision radius
+    m_visionRadius = std::rand() % 51 + 150;
 }
 
 // Override the default draw function.
@@ -138,6 +142,16 @@ void Enemy::UpdatePathfinding(Level & level, sf::Vector2f playerPosition)
     pathLogger->info("-----Starting path calc-----");
     pathLogger->info("Goal x: {} y: {}", goalNode->columnIndex, goalNode->rowIndex);
     pathLogger->info("Start x: {} y: {} \n", startNode->columnIndex, startNode->rowIndex);
+    
+    
+    // Check if the player is in range of the enemy
+    // If not clear the enemy path and return
+    float playerDistance = std::sqrt(std::pow(m_position.x - playerPosition.x, 2) + std::pow(m_position.y - playerPosition.y,2));
+    if(playerDistance > m_visionRadius)
+    {
+        m_path.clear();
+        return;
+    }
     
     
     // Is enemy at same tile as player

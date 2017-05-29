@@ -74,5 +74,10 @@ private:
      */
     sf::Text m_pathText;
     
+    /**
+     * How close the enemy must be to chase the player
+     */
+    float m_visionRadius;
+    
 };
 #endif
