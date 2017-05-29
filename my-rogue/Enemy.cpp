@@ -237,6 +237,35 @@ void Enemy::UpdatePathfinding(Level & level, sf::Vector2f playerPosition)
             adjacentNodes.push_back(potentialNode);
         }
         
+        // Check top left
+        potentialNode = level.GetTile(currentNode->columnIndex - 1, currentNode->rowIndex - 1);
+        if((potentialNode != nullptr) && (level.IsFloor(*potentialNode)))
+        {
+            adjacentNodes.push_back(potentialNode);
+        }
+        
+        // Check top right
+        potentialNode = level.GetTile(currentNode->columnIndex + 1, currentNode->rowIndex - 1);
+        if((potentialNode != nullptr) && (level.IsFloor(*potentialNode)))
+        {
+            adjacentNodes.push_back(potentialNode);
+        }
+        
+        // Check bottom left
+        potentialNode = level.GetTile(currentNode->columnIndex - 1, currentNode->rowIndex + 1);
+        if((potentialNode != nullptr) && (level.IsFloor(*potentialNode)))
+        {
+            adjacentNodes.push_back(potentialNode);
+        }
+        
+        // Check botton right
+        potentialNode = level.GetTile(currentNode->columnIndex + 1, currentNode->rowIndex + 1);
+        if((potentialNode != nullptr) && (level.IsFloor(*potentialNode)))
+        {
+            adjacentNodes.push_back(potentialNode);
+        }
+        
+        
         // Now process the adjacent valid nodes
         pathLogger->info("* Processing adjacent nodes *");
         for(Tile* nextNode: adjacentNodes)
@@ -265,11 +294,20 @@ void Enemy::UpdatePathfinding(Level & level, sf::Vector2f playerPosition)
             {
                 pathLogger->info("didn't find goal...");
                 
+                
                 // If the node is not in the closed list
                 position = std::find(closedList.begin(), closedList.end(), nextNode);
                 if(position == closedList.end())
                 {
                     pathLogger->info("Have not processed this node before");
+                    
+                    // Need to check if this is a straight or diagonal move
+                    // and set the appropriate cost
+                    int gCost = 0;
+                    if(std::abs(currentNode->columnIndex - nextNode->columnIndex) + std::abs(currentNode->rowIndex - nextNode->rowIndex) > 1)
+                        gCost = 14;
+                    else
+                        gCost = 10;
                     
                     // If the node is not in the open list
                     position = std::find(openList.begin(), openList.end(), nextNode);
@@ -284,7 +322,7 @@ void Enemy::UpdatePathfinding(Level & level, sf::Vector2f playerPosition)
                         
                         // Calculate total cost of path to current node
                         // Each node costs 10 to navigate
-                        nextNode->G = currentNode->G + 10;
+                        nextNode->G = currentNode->G + gCost;
                         
                         // Calculate F cost
                         // total movement cost + heuristic cost
@@ -293,7 +331,7 @@ void Enemy::UpdatePathfinding(Level & level, sf::Vector2f playerPosition)
                     else // Node exists in the open list
                     {
                         // Check if this path is quicker than the other
-                        int tempG = currentNode->G + 10;
+                        int tempG = currentNode->G + gCost;
                         
                         if(tempG < nextNode->G)
                         {
