@@ -255,28 +255,56 @@ void Enemy::UpdatePathfinding(Level & level, sf::Vector2f playerPosition)
         potentialNode = level.GetTile(currentNode->columnIndex - 1, currentNode->rowIndex - 1);
         if((potentialNode != nullptr) && (level.IsFloor(*potentialNode)))
         {
-            adjacentNodes.push_back(potentialNode);
+            // Prevent cutting corners through walls
+            Tile* topNode = level.GetTile(currentNode->columnIndex, currentNode->rowIndex - 1);
+            Tile* leftNode = level.GetTile(currentNode->columnIndex - 1, currentNode->rowIndex);
+            
+            if((topNode != nullptr) && level.IsFloor(*topNode) && (leftNode != nullptr) && level.IsFloor(*leftNode))
+            {
+                adjacentNodes.push_back(potentialNode);
+            }
         }
         
         // Check top right
         potentialNode = level.GetTile(currentNode->columnIndex + 1, currentNode->rowIndex - 1);
         if((potentialNode != nullptr) && (level.IsFloor(*potentialNode)))
         {
-            adjacentNodes.push_back(potentialNode);
+            // Prevent cutting corners through walls
+            Tile* topNode = level.GetTile(currentNode->columnIndex, currentNode->rowIndex - 1);
+            Tile* rightNode = level.GetTile(currentNode->columnIndex + 1, currentNode->rowIndex);
+            
+            if((topNode != nullptr) && level.IsFloor(*topNode) && (rightNode != nullptr) && level.IsFloor(*rightNode))
+            {
+                adjacentNodes.push_back(potentialNode);
+            }
         }
         
         // Check bottom left
         potentialNode = level.GetTile(currentNode->columnIndex - 1, currentNode->rowIndex + 1);
         if((potentialNode != nullptr) && (level.IsFloor(*potentialNode)))
         {
-            adjacentNodes.push_back(potentialNode);
+            // Prevent cutting corners through walls
+            Tile* bottomNode = level.GetTile(currentNode->columnIndex, currentNode->rowIndex + 1);
+            Tile* leftNode = level.GetTile(currentNode->columnIndex - 1, currentNode->rowIndex);
+            
+            if((bottomNode != nullptr) && level.IsFloor(*bottomNode) && (leftNode != nullptr) && level.IsFloor(*leftNode))
+            {
+                adjacentNodes.push_back(potentialNode);
+            }
         }
         
         // Check botton right
         potentialNode = level.GetTile(currentNode->columnIndex + 1, currentNode->rowIndex + 1);
         if((potentialNode != nullptr) && (level.IsFloor(*potentialNode)))
         {
-            adjacentNodes.push_back(potentialNode);
+            // Prevent cutting corners through walls
+            Tile* bottomNode = level.GetTile(currentNode->columnIndex, currentNode->rowIndex + 1);
+            Tile* rightNode = level.GetTile(currentNode->columnIndex + 1, currentNode->rowIndex);
+            
+            if((bottomNode != nullptr) && level.IsFloor(*bottomNode) && (rightNode != nullptr) && level.IsFloor(*rightNode))
+            {
+                adjacentNodes.push_back(potentialNode);
+            }
         }
         
         
