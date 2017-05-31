@@ -27,14 +27,14 @@ Humanoid::Humanoid()
     }
     
 	// Load textures.
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)] = TextureManager::AddTexture(resourcePath() + "/resources/enemies/" + enemyName + "/spr_" + enemyName + "_walk_up.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)] = TextureManager::AddTexture(resourcePath() + "/resources/enemies/" + enemyName + "/spr_" + enemyName + "_walk_down.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_RIGHT)] = TextureManager::AddTexture(resourcePath() + "/resources/enemies/" + enemyName + "/spr_" + enemyName + "_walk_right.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_LEFT)] = TextureManager::AddTexture(resourcePath() + "/resources/enemies/" + enemyName + "/spr_" + enemyName + "_walk_left.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)] = TextureManager::AddTexture(resourcePath() + "/resources/enemies/" + enemyName + "/spr_" + enemyName + "_idle_up.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_DOWN)] = TextureManager::AddTexture(resourcePath() + "/resources/enemies/" + enemyName + "/spr_" + enemyName + "_idle_down.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_RIGHT)] = TextureManager::AddTexture(resourcePath() + "/resources/enemies/" + enemyName + "/spr_" + enemyName + "_idle_right.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_LEFT)] = TextureManager::AddTexture(resourcePath() + "/resources/enemies/" + enemyName + "/spr_" + enemyName + "_idle_left.png");
+	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)] = TextureManager::AddTexture(resourcePath() + "resources/enemies/" + enemyName + "/spr_" + enemyName + "_walk_up.png");
+	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)] = TextureManager::AddTexture(resourcePath() + "resources/enemies/" + enemyName + "/spr_" + enemyName + "_walk_down.png");
+	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_RIGHT)] = TextureManager::AddTexture(resourcePath() + "resources/enemies/" + enemyName + "/spr_" + enemyName + "_walk_right.png");
+	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_LEFT)] = TextureManager::AddTexture(resourcePath() + "resources/enemies/" + enemyName + "/spr_" + enemyName + "_walk_left.png");
+	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)] = TextureManager::AddTexture(resourcePath() + "resources/enemies/" + enemyName + "/spr_" + enemyName + "_idle_up.png");
+	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_DOWN)] = TextureManager::AddTexture(resourcePath() + "resources/enemies/" + enemyName + "/spr_" + enemyName + "_idle_down.png");
+	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_RIGHT)] = TextureManager::AddTexture(resourcePath() + "resources/enemies/" + enemyName + "/spr_" + enemyName + "_idle_right.png");
+	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_LEFT)] = TextureManager::AddTexture(resourcePath() + "resources/enemies/" + enemyName + "/spr_" + enemyName + "_idle_left.png");
     
     // Copy textures ID
     // These are the default textures for a humanoid
@@ -75,6 +75,7 @@ Humanoid::Humanoid()
             
             // Save it out to a rendertexture
             target.create(m_textures[i].getSize().x, m_textures[i].getSize().y);
+            target.clear(sf::Color(255,255,255,0));
             target.draw(tempSprite);
             target.display();
             
@@ -106,7 +107,6 @@ void Humanoid::GenerateArmor()
     // Create arrays of textures
     const int textureCount = static_cast<int>(ANIMATION_STATE::COUNT);
     sf::RenderTexture armorTextures[textureCount]; // Each layer of armor gets rendered here first
-    sf::Image renderImage;
     
     for(int i=0; i<textureCount; i++)
     {
@@ -116,7 +116,7 @@ void Humanoid::GenerateArmor()
         
         // copy the monster texture into the armor texture
         sf::Sprite tempSprite;
-        tempSprite.setTexture(m_textures[i]);
+        tempSprite.setTexture(m_textures[i], true);
         armorTextures[i].draw(tempSprite);
     }
     
