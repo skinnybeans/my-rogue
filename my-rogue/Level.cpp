@@ -238,6 +238,81 @@ Tile* Level::GetTile(int columnIndex, int rowIndex)
 	}
 }
 
+// Generate a random level
+bool Level::GenerateLevel()
+{
+    // Generate the initial grid pattern
+    for(int i=0; i<GRID_WIDTH; i++)
+    {
+        for(int j=0; j<GRID_HEIGHT; j++)
+        {
+            // Remember arrays are 0 based so every second tile will have an odd index
+            if((i%2 != 0) && (j%2 != 0))
+            {
+                // Odd tiles are empty.
+                m_grid[i][j].type = TILE::EMPTY;
+            }
+            else
+            {
+                // Even tiles become wall
+                m_grid[i][j].type = TILE::WALL_TOP;
+                m_grid[i][j].sprite.setTexture(TextureManager::GetTexture(m_textureIDs[static_cast<int>(TILE::WALL_TOP)]));
+            }
+            m_grid[i][j].sprite.setPosition(m_origin.x + (TILE_SIZE * i), m_origin.y + (TILE_SIZE * j));
+        }
+    }
+    
+    CreatePath(1,1);
+    
+    return true;
+}
+
+void Level::CreatePath(int columnIndex, int  rowIndex)
+{
+    // Store the current tile
+    Tile* currentTile = &m_grid[columnIndex][rowIndex];
+    
+    // Create a list of possible directions
+    sf::Vector2i directions[] = {{0,-2},{2,0},{0,2},{-2,0}};
+    
+    // Shuffle the directions so we pick a random one first
+    std::random_shuffle(std::begin(directions), std::end(directions));
+    
+    // Check all the tiles
+    for(int i=0; i<4; i++)
+    {
+        int dx = currentTile->columnIndex + directions[i].x;
+        int dy = currentTile->rowIndex + directions[i].y;
+        
+        // Check the grid position is valid
+        if(TileIsValid(dx, dy))
+        {
+            
+            Tile* nextTile = &m_grid[dx][dy];
+            
+            // Check if tile has been visited before
+            if(nextTile->type == TILE::EMPTY)
+            {
+                // Set the tile to floor
+                nextTile->type = TILE::FLOOR;
+                nextTile->sprite.setTexture(TextureManager::GetTexture(m_textureIDs[static_cast<int>(TILE::FLOOR)]));
+                
+                // Smash wall between the two grid spaces
+                int ddx = currentTile->columnIndex + (directions[i].x/2);
+                int ddy = currentTile->rowIndex + (directions[i].y/2);
+                
+                Tile* wall = &m_grid[ddx][ddy];
+                
+                wall->type = TILE::FLOOR;
+                wall->sprite.setTexture(TextureManager::GetTexture(m_textureIDs[static_cast<int>(TILE::FLOOR)]));
+                
+                // Move to next tile
+                CreatePath(dx, dy);
+            }
+        }
+    }
+}
+
 // Loads a level from a .txt file.
 bool Level::LoadLevelFromFile(std::string fileName)
 {

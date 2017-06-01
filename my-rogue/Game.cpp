@@ -33,9 +33,6 @@ m_hasActiveGoal(false)
 
 	// Create the game font.
 	m_font.loadFromFile(resourcePath() + "/resources/fonts/ADDSBP__.TTF");
-    
-    // DEBUG
-    GenerateLevelGoal();
 }
 
 // Initializes the game.
@@ -74,31 +71,28 @@ void Game::Initialize()
 
 	// Define the game views.
 	m_views[static_cast<int>(VIEW::MAIN)] = m_window.getDefaultView();
-	m_views[static_cast<int>(VIEW::MAIN)].zoom(0.75f);
+	//m_views[static_cast<int>(VIEW::MAIN)].zoom(0.75f);
+    m_views[static_cast<int>(VIEW::MAIN)].zoom(1.250f);
 	m_views[static_cast<int>(VIEW::UI)] = m_window.getDefaultView();
 
-	// Load the level.
-	m_level.LoadLevelFromFile(resourcePath() + "/resources/data/level_data.txt");
+    //LoadLevel();
     
-    // Set the level color
-    m_level.SetColor(sf::Color::Green);
-
-	// Set the position of the player
-    // Randomise the starting location
-    std::vector<sf::Vector2f> startLocations;
-    startLocations.push_back(sf::Vector2f(552,593));
-    startLocations.push_back(sf::Vector2f(1043,750));
-    startLocations.push_back(sf::Vector2f(328,766));
+    GenerateLevel();
     
-    m_player.SetPosition(startLocations[std::rand() % startLocations.size()]);
-	
-    // m_player.SetPosition(sf::Vector2f(m_screenCenter.x + 197.f, m_screenCenter.y + 410.f));
-
-	// Populate level.
-	PopulateLevel();
-    
-    // change some tiles to a random tile type
-    SpawnRandomTiles(TILE::FLOOR_ALT, std::rand() % MAX_TILE_SPAWN_COUNT);
+    // Put the player somewhere..
+    bool isPlaced = false;
+    for (int i=0; i<GRID_WIDTH; i++) {
+        for (int j=0; j<GRID_HEIGHT; j++) {
+            if( m_level.IsFloor(i, j)) {
+                m_player.SetPosition(m_level.GetActualTileLocation(i, j));
+                isPlaced = true;
+                break;
+            }
+            
+        }
+        if(isPlaced)
+            break;
+    }
 }
 
 // Constructs the grid of sprites that are used to draw the game light system.
@@ -322,6 +316,50 @@ void Game::LoadUI()
     for(auto sprite : m_uiSprites)
     {
         sprite->setScale(UI_SCALE, UI_SCALE);
+    }
+}
+
+// Load a level from file
+void Game::LoadLevel()
+{
+    // Load the level.
+    m_level.LoadLevelFromFile(resourcePath() + "/resources/data/level_data.txt");
+    
+    // Set the level color
+    m_level.SetColor(sf::Color::Green);
+    
+    // Set the position of the player
+    // Randomise the starting location
+    std::vector<sf::Vector2f> startLocations;
+    startLocations.push_back(sf::Vector2f(552,593));
+    startLocations.push_back(sf::Vector2f(1043,750));
+    startLocations.push_back(sf::Vector2f(328,766));
+    
+    m_player.SetPosition(startLocations[std::rand() % startLocations.size()]);
+    
+    // Populate level.
+    PopulateLevel();
+    
+    // change some tiles to a random tile type
+    SpawnRandomTiles(TILE::FLOOR_ALT, std::rand() % MAX_TILE_SPAWN_COUNT);
+}
+
+// Generates a random level
+void Game::GenerateLevel()
+{
+    // Crete new level
+    m_level.GenerateLevel();
+    
+    // Place key randomly in level
+    //SpawnItem(ITEM::KEY);
+    
+    // Throw some items in the level
+    //PopulateLevel();
+    
+    // Randomise the generation of a level goal
+    if((std::rand() % 3) == 0 && !m_hasActiveGoal)
+    {
+        GenerateLevelGoal();
     }
 }
 
@@ -561,7 +599,17 @@ void Game::Update(float timeDelta)
 
 		if (playerCurrentTile->type == TILE::WALL_DOOR_UNLOCKED)
 		{
-			// ...
+			// clear current items
+            m_items.clear();
+            
+            // clear enemies
+            m_enemies.clear();
+            
+            // create new level
+            GenerateLevel();
+            
+            // Set the key as not collected.
+            m_keyUiSprite->setColor(sf::Color(255, 255, 255, 60));
 		}
 		else
 		{
@@ -1037,10 +1085,10 @@ void Game::Draw(float timeDelta)
 		m_player.Draw(m_window, timeDelta);
 
 		// Draw level light.
-		for (const sf::Sprite& sprite : m_lightGrid)
-		{
-			m_window.draw(sprite);
-		}
+		//for (const sf::Sprite& sprite : m_lightGrid)
+		//{
+		//	m_window.draw(sprite);
+		//}
 
 		// Switch to UI view.
 		m_window.setView(m_views[static_cast<int>(VIEW::UI)]);

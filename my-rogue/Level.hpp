@@ -103,9 +103,15 @@ public:
 	/**
 	 * Loads a level from a text file.
 	 * @param fileName The path to the level file to load.
-	 * return true if the level loaded succesfully.
+	 * @return true if the level loaded succesfully.
 	 */
 	bool LoadLevelFromFile(std::string fileName);
+    
+    /**
+     * Generates a random level
+     * @return true if the level generated successfully.
+     */
+    bool GenerateLevel();
 
 	/**
 	 * Gets the tile at the given position.
@@ -215,6 +221,11 @@ private:
 	 * @return True if the given tile is a wall tile.
 	 */
 	bool IsWall(int columnIndex, int rowIndex);
+    
+    /**
+     * Creates a path between two nodes in the recursive backtracker algorithm.
+     */
+    void CreatePath(int columnIndex, int rowIndex);
 
 private:
 	/**

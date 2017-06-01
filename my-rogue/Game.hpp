@@ -83,6 +83,16 @@ private:
     void GenerateLevelGoal();
     
     /**
+     * Generate a random level.
+     */
+    void GenerateLevel();
+    
+    /**
+     * Load level from a file
+     */
+    void LoadLevel();
+    
+    /**
      * Spawns a given item in the level.
      */
     void SpawnItem(ITEM itemType, sf::Vector2f position = {-1.f,-1.f});
