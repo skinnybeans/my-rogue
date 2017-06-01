@@ -226,6 +226,11 @@ private:
      * Creates a path between two nodes in the recursive backtracker algorithm.
      */
     void CreatePath(int columnIndex, int rowIndex);
+    
+    /**
+     * Creates a set number of rooms in the level
+     */
+    void CreateRooms(int roomCount);
 
 private:
 	/**

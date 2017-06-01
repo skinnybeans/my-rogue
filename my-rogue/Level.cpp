@@ -264,6 +264,8 @@ bool Level::GenerateLevel()
     
     CreatePath(1,1);
     
+    CreateRooms(15);
+    
     return true;
 }
 
@@ -308,6 +310,44 @@ void Level::CreatePath(int columnIndex, int  rowIndex)
                 
                 // Move to next tile
                 CreatePath(dx, dy);
+            }
+        }
+    }
+}
+
+// Add rooms to the level
+void Level::CreateRooms(int roomCount)
+{
+    for(int i=0; i<roomCount; i++)
+    {
+        // Generate room size
+        int height = std::rand() % 3 + 1;
+        int width = std::rand() % 3 + 1;
+        
+        // Choose starting location
+        int startX = std::rand() % (GRID_WIDTH-2) + 2;
+        int startY = std::rand() % (GRID_HEIGHT-2) + 2;
+        
+        // Punch out the room
+        for(int j=0; j<width; j++)
+        {
+            for(int k=0; k<height; k++)
+            {
+                // Coords for the tile
+                int currentX = startX + j;
+                int currentY = startY + k;
+                
+                // Do we have a tile inside the bounds of the level
+                if(TileIsValid(currentX, currentY))
+                {
+                    // Don't put holes in the edges of the level. Monsters will escape...
+                    if(currentX != 0 && currentY != 0 && currentX != GRID_WIDTH-1 && currentY != GRID_HEIGHT-1)
+                    {
+                        Tile* tile = &m_grid[currentX][currentY];
+                        tile->type = TILE::FLOOR;
+                        tile->sprite.setTexture(TextureManager::GetTexture(m_textureIDs[static_cast<int>(TILE::FLOOR)]));
+                    }
+                }
             }
         }
     }
