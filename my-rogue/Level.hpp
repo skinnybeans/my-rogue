@@ -231,6 +231,11 @@ private:
      * Creates a set number of rooms in the level
      */
     void CreateRooms(int roomCount);
+    
+    /**
+     * Calculates the correct textures for each tile
+     */
+    void CalculateTextures();
 
 private:
 	/**

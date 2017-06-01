@@ -62,6 +62,13 @@ m_doorTileIndices({ 0, 0 })
 			cell->rowIndex = j;
 		}
 	}
+    
+    // Set initial floor color
+    sf::Uint8 red = std::rand() %101 + 100;
+    sf::Uint8 green = std::rand() %101 + 100;
+    sf::Uint8 blue = std::rand() %101 + 100;
+    
+    SetColor(sf::Color(red, green, blue, 255));
 }
 
 // Sets overlay color of level tiles
@@ -266,6 +273,26 @@ bool Level::GenerateLevel()
     
     CreateRooms(15);
     
+    CalculateTextures();
+    
+    // Set color of the level
+    // Change color every 5 rooms
+    m_roomNumber++;
+    
+    if(m_roomNumber >= 5)
+    {
+        m_roomNumber = 0;
+        m_floorNumber++;
+        
+        sf::Uint8 red = std::rand() %101 + 100;
+        sf::Uint8 green = std::rand() %101 + 100;
+        sf::Uint8 blue = std::rand() %101 + 100;
+        
+        SetColor(sf::Color(red, green, blue, 255));
+    }
+    
+    
+    
     return true;
 }
 
@@ -348,6 +375,42 @@ void Level::CreateRooms(int roomCount)
                         tile->sprite.setTexture(TextureManager::GetTexture(m_textureIDs[static_cast<int>(TILE::FLOOR)]));
                     }
                 }
+            }
+        }
+    }
+}
+
+void Level::CalculateTextures()
+{
+    for(int i=0; i<GRID_WIDTH; i++)
+    {
+        for(int j=0; j<GRID_HEIGHT; j++)
+        {
+            if(IsWall(i, j))
+            {
+                // Calculate bit mask
+                int value = 0;
+                
+                TILE type = m_grid[i][j].type;
+                
+                // Top
+                if(IsWall(i,j-1))
+                    value += 1;
+                
+                // Right
+                if(IsWall(i+1, j))
+                    value += 2;
+                
+                // Bottom
+                if(IsWall(i, j+1))
+                    value += 4;
+                
+                // Left
+                if(IsWall(i-1, j))
+                    value += 8;
+                
+                m_grid[i][j].type = static_cast<TILE>(value);
+                m_grid[i][j].sprite.setTexture(TextureManager::GetTexture(m_textureIDs[value]));
             }
         }
     }
