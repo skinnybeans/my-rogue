@@ -299,6 +299,8 @@ bool Level::GenerateLevel()
     
     GenerateEntryExit();
     
+    CreateTorches(8);
+    
     return true;
 }
 
@@ -390,7 +392,22 @@ void Level::CreateRooms(int roomCount)
 // Create torches for the level
 void Level::CreateTorches(int torchCount)
 {
-    
+    int spawnedCount = 0;
+    // simples way to start.. Just randomly pick tiles until a wall is selected
+    while(spawnedCount < torchCount)
+    {
+        int x = std::rand() % GRID_WIDTH;
+        int y = std::rand() % GRID_HEIGHT;
+        
+        if(IsWall(x, y))
+        {
+            std::shared_ptr<Torch> torch = std::make_shared<Torch>();
+            torch->SetPosition(GetActualTileLocation(x, y));
+            m_torches.push_back(torch);
+            
+            spawnedCount++;
+        }
+    }
 }
 
 
