@@ -133,6 +133,13 @@ public:
 	 * @return The position of the top-left of the level grid.
 	 */
 	sf::Vector2f GetPosition() const;
+    
+    /**
+     * Get the coordinates of the spawn location
+     * @return A vector containing cooreinates to the player spawn location
+     *
+     */
+    sf::Vector2f GetSpawnLocation();
 
 	/**
 	 * Gets a vector of all torches in the level.
@@ -228,14 +235,25 @@ private:
     void CreatePath(int columnIndex, int rowIndex);
     
     /**
-     * Creates a set number of rooms in the level
+     * Creates a set number of rooms in the level.
      */
     void CreateRooms(int roomCount);
+    
+    
+    /**
+     * Create torches to place around the level.
+     */
+    void CreateTorches(int torchCount);
     
     /**
      * Calculates the correct textures for each tile
      */
     void CalculateTextures();
+    
+    /**
+     * Creates entry and exit points for the level
+     */
+    void GenerateEntryExit();
 
 private:
 	/**
@@ -284,5 +302,10 @@ private:
 	 * A vector of all tiles in the level.
 	 */
 	std::vector<std::shared_ptr<Torch>> m_torches;
+    
+    /**
+     * Return the coordinates of the spawn location
+     */
+    sf::Vector2f m_spawnLocation;
 };
 #endif

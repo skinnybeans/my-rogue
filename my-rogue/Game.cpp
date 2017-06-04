@@ -72,27 +72,12 @@ void Game::Initialize()
 	// Define the game views.
 	m_views[static_cast<int>(VIEW::MAIN)] = m_window.getDefaultView();
 	//m_views[static_cast<int>(VIEW::MAIN)].zoom(0.75f);
-    m_views[static_cast<int>(VIEW::MAIN)].zoom(1.250f);
+    m_views[static_cast<int>(VIEW::MAIN)].zoom(1.0f);
 	m_views[static_cast<int>(VIEW::UI)] = m_window.getDefaultView();
 
     //LoadLevel();
     
     GenerateLevel();
-    
-    // Put the player somewhere..
-    bool isPlaced = false;
-    for (int i=0; i<GRID_WIDTH; i++) {
-        for (int j=0; j<GRID_HEIGHT; j++) {
-            if( m_level.IsFloor(i, j)) {
-                m_player.SetPosition(m_level.GetActualTileLocation(i, j));
-                isPlaced = true;
-                break;
-            }
-            
-        }
-        if(isPlaced)
-            break;
-    }
 }
 
 // Constructs the grid of sprites that are used to draw the game light system.
@@ -351,16 +336,18 @@ void Game::GenerateLevel()
     m_level.GenerateLevel();
     
     // Place key randomly in level
-    //SpawnItem(ITEM::KEY);
+    SpawnItem(ITEM::KEY);
     
     // Throw some items in the level
-    //PopulateLevel();
+    PopulateLevel();
     
     // Randomise the generation of a level goal
     if((std::rand() % 3) == 0 && !m_hasActiveGoal)
     {
         GenerateLevelGoal();
     }
+    
+    m_player.SetPosition(m_level.GetSpawnLocation());
 }
 
 // Populate the level with items.
@@ -1085,10 +1072,10 @@ void Game::Draw(float timeDelta)
 		m_player.Draw(m_window, timeDelta);
 
 		// Draw level light.
-		//for (const sf::Sprite& sprite : m_lightGrid)
-		//{
-		//	m_window.draw(sprite);
-		//}
+		for (const sf::Sprite& sprite : m_lightGrid)
+		{
+			m_window.draw(sprite);
+		}
 
 		// Switch to UI view.
 		m_window.setView(m_views[static_cast<int>(VIEW::UI)]);

@@ -210,6 +210,12 @@ bool Level::TileIsValid(int column, int row)
 	return (validColumn && validRow);
 }
 
+// Get the spawn location coords
+sf::Vector2f Level::GetSpawnLocation()
+{
+    return m_spawnLocation;
+}
+
 // Gets the size of the level in terms of tiles.
 sf::Vector2i Level::GetSize() const
 {
@@ -291,11 +297,12 @@ bool Level::GenerateLevel()
         SetColor(sf::Color(red, green, blue, 255));
     }
     
-    
+    GenerateEntryExit();
     
     return true;
 }
 
+// Generates random paths through the level
 void Level::CreatePath(int columnIndex, int  rowIndex)
 {
     // Store the current tile
@@ -380,6 +387,14 @@ void Level::CreateRooms(int roomCount)
     }
 }
 
+// Create torches for the level
+void Level::CreateTorches(int torchCount)
+{
+    
+}
+
+
+// Set the wall textures correctly
 void Level::CalculateTextures()
 {
     for(int i=0; i<GRID_WIDTH; i++)
@@ -414,6 +429,41 @@ void Level::CalculateTextures()
             }
         }
     }
+}
+
+// Creates the entry and exit to the level
+void Level::GenerateEntryExit()
+{
+    int startLocation = -1;
+    int endLocation = -1;
+    
+    while(startLocation == -1)
+    {
+        int index = std::rand() % GRID_WIDTH;
+        if(m_grid[index][GRID_HEIGHT - 2].type == TILE::FLOOR)
+        {
+            startLocation = index;
+        }
+    }
+    
+    while(endLocation == -1)
+    {
+        int index = std::rand() % GRID_WIDTH;
+        if(m_grid[index][1].type == TILE::FLOOR)
+        {
+            endLocation = index;
+        }
+    }
+    
+    // Set the tile textures for the entrance and exit tiles.
+    SetTile(startLocation, GRID_HEIGHT - 1, TILE::WALL_ENTRANCE);
+    SetTile(endLocation, 0, TILE::WALL_DOOR_LOCKED);
+    
+    // Save exit door location
+    m_doorTileIndices = sf::Vector2i(endLocation, 0);
+    
+    // Save spawn position coordinates
+    m_spawnLocation = GetActualTileLocation(startLocation, GRID_HEIGHT-2);
 }
 
 // Loads a level from a .txt file.
