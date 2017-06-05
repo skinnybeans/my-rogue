@@ -353,9 +353,15 @@ void Game::GenerateLevel()
 // Populate the level with items.
 void Game::PopulateLevel()
 {
+    // Spawn enemies and items based on the size of the level
+    sf::Vector2i levelSize = m_level.GetSize();
+    int levelArea = levelSize.x * levelSize.y;
+    
+    int itemSpawnCount = levelArea/7;
+    int enemySpawncount = levelArea/18;
     
     // Create items
-    for(int i=0; i<MAX_ITEM_SPAWN_COUNT; i++)
+    for(int i=0; i<itemSpawnCount; i++)
     {
         // randomise which items spawn on level load
         if(std::rand() % 2)
@@ -367,7 +373,7 @@ void Game::PopulateLevel()
     }
     
     // Create enemies
-    for(int i=0; i<MAX_ENEMY_SPAWN_COUNT; i++)
+    for(int i=0; i<enemySpawncount; i++)
     {
         if(std::rand() %2)
         {
@@ -476,7 +482,14 @@ void Game::SpawnEnemy(ENEMY enemyType, sf::Vector2f position)
     }
     else
     {
-        spawnLocation = m_level.GetRandomSpawnLocation();
+        // Don't spawn enemies ontop of the player
+        // This will possibly break the game on small maps...
+        while(true)
+        {
+            spawnLocation = m_level.GetRandomSpawnLocation();
+            if(DistanceBetweenPoints(spawnLocation, m_level.GetSpawnLocation()) > 200.f)
+                break;
+        }
     }
     
     // Create the enemy object
