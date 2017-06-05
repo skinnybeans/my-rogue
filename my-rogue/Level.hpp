@@ -13,10 +13,6 @@
 
 #include "Torch.hpp"
 
-// Constants for the game grid size.
-static int const GRID_WIDTH = 19;
-static int const GRID_HEIGHT = 19;
-
 // The width and height of each tile in pixels.
 static int const TILE_SIZE = 50;
 
@@ -165,7 +161,7 @@ public:
 	 * Gets the current room number.
 	 * @return The current room.
 	 */
-	int GetRoomNumber() const;
+	int GetLevelNumber() const;
 
 	/**
 	 * Gets the size of the level in terms of tiles.
@@ -254,13 +250,22 @@ private:
      * Creates entry and exit points for the level
      */
     void GenerateEntryExit();
+    
+    /**
+     * Clears and resets the level grid based on the currently set size
+     */
+    void ResetGrid();
 
 private:
+    
+    // The size of the currently generated level grid
+    sf::Vector2i m_gridSize;
+    
 	/**
 	 * A 2D array that describes the level data.
 	 * The type is Tile, which holds a sprite and an index.
 	 */
-	Tile m_grid[GRID_WIDTH][GRID_HEIGHT];
+    std::vector<std::vector<Tile>> m_grid;
 
 	/**
 	 * A vector off all the sprites in the level.
@@ -275,13 +280,14 @@ private:
 
 	/**
 	* The floor number that the player is currently on.
+    * Each floor consists of several levels
 	*/
 	int m_floorNumber;
 
 	/**
-	* The room number that the player is currently in.
+	* The level number that the player is currently in.
 	*/
-	int m_roomNumber;
+	int m_levelNumber;
 
 	/**
 	* A 2D array that contains the room layout for the current floor.

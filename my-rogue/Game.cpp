@@ -512,8 +512,8 @@ void Game::SpawnRandomTiles(TILE tileType, int count)
         
         while(!m_level.IsFloor(columnIndex, rowIndex))
         {
-            columnIndex = std::rand() % GRID_WIDTH;
-            rowIndex = std::rand() & GRID_HEIGHT;
+            columnIndex = std::rand() % m_level.GetSize().x;
+            rowIndex = std::rand() & m_level.GetSize().y;
         }
         m_level.SetTile(columnIndex, rowIndex, tileType);
     }
@@ -1165,7 +1165,7 @@ void Game::Draw(float timeDelta)
 
 		// Draw the current room and floor.
 		DrawString("Floor " + std::to_string(m_level.GetFloorNumber()), sf::Vector2f(70.f, m_screenSize.y - 65.f), 25);
-		DrawString("Room " + std::to_string(m_level.GetRoomNumber()), sf::Vector2f(70.f, m_screenSize.y - 30.f), 25);
+		DrawString("Level " + std::to_string(m_level.GetLevelNumber()), sf::Vector2f(70.f, m_screenSize.y - 30.f), 25);
 
 		// Draw health and mana bars.
 		m_healthBarSprite->setTextureRect(sf::IntRect(0, 0, ((213.f / m_player.GetMaxHealth()) * m_player.GetHealth()) * UI_SCALE, 8));
