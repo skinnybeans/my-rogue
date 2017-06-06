@@ -341,6 +341,10 @@ void Game::GenerateLevel()
     // Throw some items in the level
     PopulateLevel();
     
+    // change some tiles to an alt floor tile
+    int levelArea = m_level.GetSize().x * m_level.GetSize().y;
+    SpawnRandomTiles(TILE::FLOOR_ALT, std::rand() % (levelArea/25));
+    
     // Randomise the generation of a level goal
     if((std::rand() % 3) == 0 && !m_hasActiveGoal)
     {
@@ -597,7 +601,8 @@ void Game::Update(float timeDelta)
 		Tile* playerCurrentTile = m_level.GetTile(m_player.GetPosition());
         
 
-		if (playerCurrentTile->type == TILE::WALL_DOOR_UNLOCKED)
+		if (playerCurrentTile->type == TILE::WALL_DOOR_UNLOCKED ||
+            playerCurrentTile->type == TILE::WALL_DOOR_UNLOCKED_RIGHT)
 		{
 			// clear current items
             m_items.clear();

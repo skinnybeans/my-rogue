@@ -15,7 +15,7 @@ m_origin({ 0, 0 }),
 m_floorNumber(1),
 m_levelNumber(0),
 m_doorTileIndices({ 0, 0 }),
-m_gridSize(sf::Vector2i(19,19))
+m_gridSize(sf::Vector2i(21,19))
 {
 	// Load all tiles.
 	AddTile(resourcePath() + "/resources/tiles/spr_tile_floor.png", TILE::FLOOR);
@@ -45,6 +45,10 @@ m_gridSize(sf::Vector2i(19,19))
 	AddTile(resourcePath() + "/resources/tiles/spr_tile_wall_entrance.png", TILE::WALL_ENTRANCE);
 	AddTile(resourcePath() + "/resources/tiles/spr_tile_door_locked.png", TILE::WALL_DOOR_LOCKED);
 	AddTile(resourcePath() + "/resources/tiles/spr_tile_door_unlocked.png", TILE::WALL_DOOR_UNLOCKED);
+    
+    AddTile(resourcePath() + "/resources/tiles/spr_tile_wall_entrance_left.png", TILE::WALL_ENTRANCE_LEFT);
+    AddTile(resourcePath() + "/resources/tiles/spr_tile_door_locked_right.png", TILE::WALL_DOOR_LOCKED_RIGHT);
+    AddTile(resourcePath() + "/resources/tiles/spr_tile_door_unlocked_right.png", TILE::WALL_DOOR_UNLOCKED_RIGHT);
 
 	// Calculate the top left of the grid.
 	m_origin.x = (window.getSize().x - (m_gridSize.x * TILE_SIZE));
@@ -102,7 +106,10 @@ bool Level::IsSolid(int i, int j)
 	if (TileIsValid(i, j))
 	{
 		int tileIndex = static_cast<int>(m_grid[i][j].type);
-		return (((tileIndex != static_cast<int>(TILE::FLOOR)) && (tileIndex != static_cast<int>(TILE::FLOOR_ALT))) && (tileIndex != static_cast<int>(TILE::WALL_DOOR_UNLOCKED)));
+		return (((tileIndex != static_cast<int>(TILE::FLOOR)) &&
+                 (tileIndex != static_cast<int>(TILE::FLOOR_ALT))) &&
+                (tileIndex != static_cast<int>(TILE::WALL_DOOR_UNLOCKED)) &&
+                (tileIndex != static_cast<int>(TILE::WALL_DOOR_UNLOCKED_RIGHT)));
 	}
 	else
 		return false;
@@ -314,6 +321,7 @@ bool Level::GenerateLevel()
     GenerateEntryExit();
     
     // Generate torches based on level size
+    m_torches.clear();
     int torchCount = static_cast<int>((m_gridSize.x * m_gridSize.y) / 45);
     CreateTorches(torchCount);
     
@@ -470,33 +478,68 @@ void Level::GenerateEntryExit()
     int startLocation = -1;
     int endLocation = -1;
     
-    while(startLocation == -1)
+    // Set the entry/exit to top/bottom or left/right depending on level dimentions
+    if(m_gridSize.x > m_gridSize.y)
     {
-        int index = std::rand() % m_gridSize.x;
-        if(m_grid[index][m_gridSize.y - 2].type == TILE::FLOOR)
+        // Place entry/exit on left/right of level
+        while(startLocation == -1)
         {
-            startLocation = index;
+            int index = std::rand() % m_gridSize.x;
+            if(m_grid[1][index].type == TILE::FLOOR)
+            {
+                startLocation = index;
+            }
         }
+        
+        while(endLocation == -1)
+        {
+            int index = std::rand() % m_gridSize.x;
+            if(m_grid[m_gridSize.x-2][index].type == TILE::FLOOR)
+            {
+                endLocation = index;
+            }
+        }
+        
+        // Set the tile textures for the entrance and exit tiles.
+        SetTile(0, startLocation, TILE::WALL_ENTRANCE_LEFT);
+        SetTile(m_gridSize.x-1, endLocation, TILE::WALL_DOOR_LOCKED_RIGHT);
+        
+        // Save spawn position coordinates
+        m_spawnLocation = GetActualTileLocation(1, startLocation);
+        // Save exit door location
+        m_doorTileIndices = sf::Vector2i(m_gridSize.x-1, endLocation);
+       
     }
-    
-    while(endLocation == -1)
+    else
     {
-        int index = std::rand() % m_gridSize.x;
-        if(m_grid[index][1].type == TILE::FLOOR)
+        // Place entry/exit on top/bottom of level
+        while(startLocation == -1)
         {
-            endLocation = index;
+            int index = std::rand() % m_gridSize.x;
+            if(m_grid[index][m_gridSize.y - 2].type == TILE::FLOOR)
+            {
+                startLocation = index;
+            }
         }
+        
+        while(endLocation == -1)
+        {
+            int index = std::rand() % m_gridSize.x;
+            if(m_grid[index][1].type == TILE::FLOOR)
+            {
+                endLocation = index;
+            }
+        }
+        
+        // Set the tile textures for the entrance and exit tiles.
+        SetTile(startLocation, m_gridSize.y - 1, TILE::WALL_ENTRANCE);
+        SetTile(endLocation, 0, TILE::WALL_DOOR_LOCKED);
+        
+        // Save spawn position coordinates
+        m_spawnLocation = GetActualTileLocation(startLocation, m_gridSize.y-2);
+        // Save exit door location
+        m_doorTileIndices = sf::Vector2i(endLocation, 0);
     }
-    
-    // Set the tile textures for the entrance and exit tiles.
-    SetTile(startLocation, m_gridSize.y - 1, TILE::WALL_ENTRANCE);
-    SetTile(endLocation, 0, TILE::WALL_DOOR_LOCKED);
-    
-    // Save exit door location
-    m_doorTileIndices = sf::Vector2i(endLocation, 0);
-    
-    // Save spawn position coordinates
-    m_spawnLocation = GetActualTileLocation(startLocation, m_gridSize.y-2);
 }
 
 // Loads a level from a .txt file.
@@ -593,7 +636,14 @@ bool Level::IsWall(int i, int j)
 // Unlocks the door in the level.
 void Level::UnlockDoor()
 {
-	SetTile(m_doorTileIndices.x, m_doorTileIndices.y, TILE::WALL_DOOR_UNLOCKED);
+    TILE exitTile = GetTile(m_doorTileIndices.x, m_doorTileIndices.y)->type;
+    
+    if(exitTile == TILE::WALL_DOOR_LOCKED || exitTile == TILE::WALL_DOOR_LOCKED_RIGHT)
+    {
+        // The locked and unlocked doors are next to each other in the enum
+        // So adding 1 to the current tile will get the unlocked door
+        SetTile(m_doorTileIndices.x, m_doorTileIndices.y, static_cast<TILE>(static_cast<int>(exitTile)+1));
+    }
 }
 
 // Return true if the given tile is a floor tile.
