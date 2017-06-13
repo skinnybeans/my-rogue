@@ -68,12 +68,6 @@ sf::Sprite& Object::GetSprite()
 	return m_sprite;
 }
 
-// Sets the position of the object.
-//void Object::SetPosition(sf::Vector2f position)
-//{
-//    m_sprite.setPosition(position.x, position.y);
-//}
-
 // Gets the current animation state of the object.
 bool Object::IsAnimated()
 {
@@ -101,6 +95,7 @@ void Object::Draw(sf::RenderWindow &window, float timeDelta)
 {
     // Update the sprite position before drawing
     m_sprite.setPosition(GetComponent<TransformComponent>()->GetPosition());
+    m_sprite.setRotation(GetComponent<TransformComponent>()->GetRotationDegrees());
     
 	// check if the sprite is animated
 	if (m_isAnimated)

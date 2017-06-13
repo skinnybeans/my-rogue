@@ -1085,7 +1085,7 @@ void Game::Draw(float timeDelta)
 		// Draw all projectiles
 		for (const auto& proj : m_playerProjectiles)
 		{
-			m_window.draw(proj->GetSprite());
+            proj->Draw(m_window, timeDelta);
 		}
 
 		// Draw the player.

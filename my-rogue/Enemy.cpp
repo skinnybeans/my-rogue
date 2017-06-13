@@ -115,7 +115,6 @@ void Enemy::Update(float timeDelta)
             currentPosition.y += m_velocity.y * (m_speed * timeDelta);
             
             transformComponent->SetPosition(currentPosition);
-            //m_sprite.setPosition(newPosition);
         }
     }
     

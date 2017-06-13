@@ -181,9 +181,6 @@ void Player::Update(float timeDelta, Level& level)
     
     // Set player's position
     GetComponent<TransformComponent>()->SetPosition(nextPosition);
-
-	// update the sprite position
-	m_sprite.setPosition(nextPosition);
     
     // output player position for debugging..
     //std::cout << "x: " << GetComponent<TransformComponent>()->GetPosition().x << " y:" << GetComponent<TransformComponent>()->GetPosition().y << std::endl;

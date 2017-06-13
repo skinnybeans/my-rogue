@@ -2,6 +2,7 @@
 #include "Projectile.hpp"
 #include "TransformComponent.hpp"
 
+#include <iostream>
 #include <cmath>
 
 // Default constructor.
@@ -9,9 +10,6 @@ Projectile::Projectile(sf::Texture& texture, sf::Vector2f origin, sf::Vector2f s
 {
 	// Create the sprite.
 	SetSprite(texture, false);
-
-	// Set the sprite position.
-	m_sprite.setPosition(origin);
 
 	// Set the position.
     GetComponent<TransformComponent>()->SetPosition(origin);
@@ -34,14 +32,12 @@ void Projectile::Update(float timeDelta)
     float currentRotation = transformComponent->GetRotationDegrees();
     float newRoataion = currentRotation + (400.f * timeDelta);
     transformComponent->SetRotationDegrees(newRoataion);
-    
-	m_sprite.setRotation(m_sprite.getRotation() + (400.f * timeDelta));
 
 	// Update position.
     sf::Vector2f currentPosition = transformComponent->GetPosition();
     sf::Vector2f newPosition(currentPosition.x + (m_velocity.x * (500 * timeDelta)), currentPosition.y + (m_velocity.y * (500 * timeDelta)));
     
-    transformComponent->SetPosition(newPosition);
+    std::cout << "Projectile x: " << currentPosition.x << " y: " << currentPosition.y << std::endl;
     
-	m_sprite.setPosition(m_sprite.getPosition().x + (m_velocity.x * (500 * timeDelta)), m_sprite.getPosition().y + (m_velocity.y * (500 * timeDelta)));
+    transformComponent->SetPosition(newPosition);
 }

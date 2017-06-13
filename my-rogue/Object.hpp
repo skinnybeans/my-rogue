@@ -36,12 +36,6 @@ public:
 	virtual void Draw(sf::RenderWindow &window, float timeDelta);
 
 	/**
-	 * Sets the position of the object on screen. This is relative to the top-left of the game window.
-	 * @param position The new position of the player.
-	 */
-	//void SetPosition(sf::Vector2f position);
-
-	/**
 	 * Creates and sets the object sprite.
 	 * This function takes the location to a resource, and from that create a texture and sprite.
 	 * You can optionally specify animation properties. If set the frame dimensions will be calculated automatically.
