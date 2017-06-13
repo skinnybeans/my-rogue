@@ -1,9 +1,11 @@
 #include "PCH.hpp"
 #include "Object.hpp"
 
+#include "TransformComponent.hpp"
+#include "SpriteComponent.hpp"
+
 // Default constructor.
-Object::Object() : 
-m_position{ 0.f, 0.f },
+Object::Object() :
 m_animationSpeed(0),
 m_isAnimated(false),
 m_frameCount(0),
@@ -12,6 +14,14 @@ m_frameWidth(0),
 m_frameHeight(0),
 m_timeDelta(0)
 {
+    // Replace position with a transform component
+    AttachComponent<TransformComponent>();
+    
+    // Component for sprites
+    AttachComponent<SpriteComponent>();
+    
+    // Sprite needs access to position
+    GetComponent<SpriteComponent>()->SetTransformComponent(GetComponent<TransformComponent>());
 }
 
 // Gives the object the given sprite.
@@ -59,18 +69,10 @@ sf::Sprite& Object::GetSprite()
 }
 
 // Sets the position of the object.
-void Object::SetPosition(sf::Vector2f position)
-{
-	m_position.x = position.x;
-	m_position.y = position.y;
-	m_sprite.setPosition(position.x, position.y);
-}
-
-// Returns the position of the object.
-sf::Vector2f Object::GetPosition() const
-{
-	return m_position;
-}
+//void Object::SetPosition(sf::Vector2f position)
+//{
+//    m_sprite.setPosition(position.x, position.y);
+//}
 
 // Gets the current animation state of the object.
 bool Object::IsAnimated()
@@ -97,6 +99,9 @@ void Object::SetAnimated(bool isAnimated)
 // Draws the object to the given render window.
 void Object::Draw(sf::RenderWindow &window, float timeDelta)
 {
+    // Update the sprite position before drawing
+    m_sprite.setPosition(GetComponent<TransformComponent>()->GetPosition());
+    
 	// check if the sprite is animated
 	if (m_isAnimated)
 	{

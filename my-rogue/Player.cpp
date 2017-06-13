@@ -1,6 +1,7 @@
 #include "PCH.hpp"
 #include "Player.hpp"
 #include "ResourcePath.hpp"
+#include "TransformComponent.hpp"
 
 #include <algorithm>
 #include <random>
@@ -118,7 +119,8 @@ void Player::Update(float timeDelta, Level& level)
 {
 	// Calculate movement speed based on the timeDelta since the last update.
 	sf::Vector2f movementSpeed(0.f, 0.f);
-	sf::Vector2f previousPosition = m_position;
+	sf::Vector2f previousPosition = GetComponent<TransformComponent>()->GetPosition();
+    sf::Vector2f nextPosition = previousPosition;
 
 	// Calculate where the current movement will put us.
 	ANIMATION_STATE animState = static_cast<ANIMATION_STATE>(m_currentTextureIndex);
@@ -160,28 +162,31 @@ void Player::Update(float timeDelta, Level& level)
 	// Calculate horizontal movement.
 	if (CausesCollision(sf::Vector2f(movementSpeed.x, 0.0f), level))
 	{
-		m_position.x = previousPosition.x;
+		nextPosition.x = previousPosition.x;
 	}
 	else
 	{
-		m_position.x += movementSpeed.x;
+		nextPosition.x += movementSpeed.x;
 	}
 
 	// Calculate horizontal movement.
 	if (CausesCollision(sf::Vector2f(0.0f, movementSpeed.y), level))
 	{
-		m_position.y = previousPosition.y;
+		nextPosition.y = previousPosition.y;
 	}
 	else
 	{
-		m_position.y += movementSpeed.y;
+		nextPosition.y += movementSpeed.y;
 	}
+    
+    // Set player's position
+    GetComponent<TransformComponent>()->SetPosition(nextPosition);
 
 	// update the sprite position
-	m_sprite.setPosition(m_position);
+	m_sprite.setPosition(nextPosition);
     
     // output player position for debugging..
-    //std::cout << "x: " << m_position.x << " y:" << m_position.y << std::endl;
+    //std::cout << "x: " << GetComponent<TransformComponent>()->GetPosition().x << " y:" << GetComponent<TransformComponent>()->GetPosition().y << std::endl;
 
 	// Set the sprite.
 	if (m_currentTextureIndex != static_cast<int>(animState))
@@ -313,7 +318,7 @@ bool Player::CausesCollision(sf::Vector2f movement, Level& level)
 {
 	// Get the tiles that the four corners other player are overlapping with.
 	Tile* overlappingTiles[4];
-	sf::Vector2f newPosition = m_position + movement;
+	sf::Vector2f newPosition = GetComponent<TransformComponent>()->GetPosition() + movement;
 
 	// Top left.
 	overlappingTiles[0] = level.GetTile(sf::Vector2f(newPosition.x - 14.f, newPosition.y - 14.f));

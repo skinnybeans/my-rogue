@@ -1,6 +1,7 @@
 #include "PCH.hpp"
 #include "Level.hpp"
 #include "ResourcePath.hpp"
+#include "TransformComponent.hpp"
 
 #include <iostream>
 
@@ -15,7 +16,7 @@ m_origin({ 0, 0 }),
 m_floorNumber(1),
 m_levelNumber(0),
 m_doorTileIndices({ 0, 0 }),
-m_gridSize(sf::Vector2i(21,19))
+m_gridSize(sf::Vector2i(9,9))
 {
 	// Load all tiles.
 	AddTile(resourcePath() + "/resources/tiles/spr_tile_floor.png", TILE::FLOOR);
@@ -426,7 +427,7 @@ void Level::CreateTorches(int torchCount)
         if(IsWall(x, y))
         {
             std::shared_ptr<Torch> torch = std::make_shared<Torch>();
-            torch->SetPosition(GetActualTileLocation(x, y));
+            torch->GetComponent<TransformComponent>()->SetPosition(GetActualTileLocation(x, y));
             m_torches.push_back(torch);
             
             spawnedCount++;
@@ -612,7 +613,7 @@ bool Level::LoadLevelFromFile(std::string fileName)
         for(auto location : torchLocations)
         {
             std::shared_ptr<Torch> torch = std::make_shared<Torch>();
-            torch->SetPosition(sf::Vector2f(location.x, location.y));
+            torch->GetComponent<TransformComponent>()->SetPosition(sf::Vector2f(location.x, location.y));
             m_torches.push_back(torch);
         }
 	}

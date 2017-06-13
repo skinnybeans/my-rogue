@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C17913D1EEFCF2C004D086C /* SpriteComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C17913B1EEFCF2C004D086C /* SpriteComponent.cpp */; };
 		9C555B451EC0442300399F54 /* PoisonHeart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C555B421EBFDE4D00399F54 /* PoisonHeart.cpp */; };
 		9C555B471EC2EB7000399F54 /* include in Resources */ = {isa = PBXBuildFile; fileRef = 9C555B461EC2EB7000399F54 /* include */; };
+		9C7F64221EE93A3100E360EA /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F64201EE93A3100E360EA /* Component.cpp */; };
+		9C7F64251EE9403400E360EA /* TransformComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F64231EE9403400E360EA /* TransformComponent.cpp */; };
 		9C8A95CF1EB8106400E2927B /* Enemy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C8A95A51EB8106400E2927B /* Enemy.cpp */; };
 		9C8A95D01EB8106400E2927B /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C8A95A71EB8106400E2927B /* Entity.cpp */; };
 		9C8A95D11EB8106400E2927B /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C8A95A91EB8106400E2927B /* Game.cpp */; };
@@ -37,9 +40,15 @@
 /* Begin PBXFileReference section */
 		9C06DF721EB7F680004A7F3D /* my-rogue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "my-rogue.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C06DF761EB7F680004A7F3D /* my-rogue-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "my-rogue-Info.plist"; sourceTree = "<group>"; };
+		9C17913B1EEFCF2C004D086C /* SpriteComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteComponent.cpp; sourceTree = "<group>"; };
+		9C17913C1EEFCF2C004D086C /* SpriteComponent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SpriteComponent.hpp; sourceTree = "<group>"; };
 		9C555B421EBFDE4D00399F54 /* PoisonHeart.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PoisonHeart.cpp; sourceTree = "<group>"; };
 		9C555B431EBFDE4D00399F54 /* PoisonHeart.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PoisonHeart.hpp; sourceTree = "<group>"; };
 		9C555B461EC2EB7000399F54 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
+		9C7F64201EE93A3100E360EA /* Component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Component.cpp; sourceTree = "<group>"; };
+		9C7F64211EE93A3100E360EA /* Component.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Component.hpp; sourceTree = "<group>"; };
+		9C7F64231EE9403400E360EA /* TransformComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransformComponent.cpp; sourceTree = "<group>"; };
+		9C7F64241EE9403400E360EA /* TransformComponent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TransformComponent.hpp; sourceTree = "<group>"; };
 		9C8A95A51EB8106400E2927B /* Enemy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Enemy.cpp; sourceTree = "<group>"; };
 		9C8A95A61EB8106400E2927B /* Enemy.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Enemy.hpp; sourceTree = "<group>"; };
 		9C8A95A71EB8106400E2927B /* Entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cpp; sourceTree = "<group>"; };
@@ -119,6 +128,7 @@
 		9C06DF741EB7F680004A7F3D /* my-rogue */ = {
 			isa = PBXGroup;
 			children = (
+				9C7F641F1EE93A1000E360EA /* components */,
 				9C8A95A51EB8106400E2927B /* Enemy.cpp */,
 				9C8A95A61EB8106400E2927B /* Enemy.hpp */,
 				9C8A95A71EB8106400E2927B /* Entity.cpp */,
@@ -176,6 +186,19 @@
 				9C06DF761EB7F680004A7F3D /* my-rogue-Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9C7F641F1EE93A1000E360EA /* components */ = {
+			isa = PBXGroup;
+			children = (
+				9C7F64201EE93A3100E360EA /* Component.cpp */,
+				9C7F64211EE93A3100E360EA /* Component.hpp */,
+				9C7F64231EE9403400E360EA /* TransformComponent.cpp */,
+				9C7F64241EE9403400E360EA /* TransformComponent.hpp */,
+				9C17913B1EEFCF2C004D086C /* SpriteComponent.cpp */,
+				9C17913C1EEFCF2C004D086C /* SpriteComponent.hpp */,
+			);
+			name = components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -268,11 +291,13 @@
 				9C8A95DC1EB8106400E2927B /* PCH.cpp in Sources */,
 				9C8A95D41EB8106400E2927B /* Heart.cpp in Sources */,
 				9C8A95DA1EB8106400E2927B /* main.cpp in Sources */,
+				9C7F64251EE9403400E360EA /* TransformComponent.cpp in Sources */,
 				9C8A95DE1EB8106400E2927B /* Potion.cpp in Sources */,
 				9C8A95D11EB8106400E2927B /* Game.cpp in Sources */,
 				9C8A95DB1EB8106400E2927B /* Object.cpp in Sources */,
 				9C8A95D61EB8106400E2927B /* Input.cpp in Sources */,
 				9C8A95E11EB8106400E2927B /* SoundBufferManager.cpp in Sources */,
+				9C17913D1EEFCF2C004D086C /* SpriteComponent.cpp in Sources */,
 				9C8A95E01EB8106400E2927B /* Slime.cpp in Sources */,
 				9C8A95E71EB8281800E2927B /* ResourcePath.mm in Sources */,
 				9C8A95D21EB8106400E2927B /* Gem.cpp in Sources */,
@@ -281,6 +306,7 @@
 				9C8A95D91EB8106400E2927B /* Level.cpp in Sources */,
 				9C8A95D51EB8106400E2927B /* Humanoid.cpp in Sources */,
 				9C8A95DF1EB8106400E2927B /* Projectile.cpp in Sources */,
+				9C7F64221EE93A3100E360EA /* Component.cpp in Sources */,
 				9C8A95D81EB8106400E2927B /* Key.cpp in Sources */,
 				9C8A95CF1EB8106400E2927B /* Enemy.cpp in Sources */,
 				9C8A95D31EB8106400E2927B /* Gold.cpp in Sources */,

@@ -1,6 +1,7 @@
 #include "PCH.hpp"
 #include "Item.hpp"
 #include "ResourcePath.hpp"
+#include "TransformComponent.hpp"
 
 // Default constructor.
 Item::Item() :
@@ -46,10 +47,14 @@ ITEM Item::GetType() const
 // Draws the item and its name if it has one.
 void Item::Draw(sf::RenderWindow& window, float timeDelta)
 {
+    
+    // Get the items position out for setting text and sprite location
+    sf::Vector2f itemPosition = GetComponent<TransformComponent>()->GetPosition();
+    
 	// Draw the object.
 	Object::Draw(window, timeDelta);
 
 	// Draw the item name.
-	m_text.setPosition(m_position.x - m_textOffset.x, (m_position.y - 30.f) - m_textOffset.y);
+	m_text.setPosition(itemPosition.x - m_textOffset.x, (itemPosition.y - 30.f) - m_textOffset.y);
 	window.draw(m_text);
 }

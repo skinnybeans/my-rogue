@@ -1,6 +1,7 @@
 #include "PCH.hpp"
 #include "Game.hpp"
 #include "ResourcePath.hpp"
+#include "TransformComponent.hpp"
 
 #include <cmath>
 #include <iostream>
@@ -320,7 +321,7 @@ void Game::LoadLevel()
     startLocations.push_back(sf::Vector2f(1043,750));
     startLocations.push_back(sf::Vector2f(328,766));
     
-    m_player.SetPosition(startLocations[std::rand() % startLocations.size()]);
+    m_player.GetComponent<TransformComponent>()->SetPosition(startLocations[std::rand() % startLocations.size()]);
     
     // Populate level.
     PopulateLevel();
@@ -351,7 +352,7 @@ void Game::GenerateLevel()
         GenerateLevelGoal();
     }
     
-    m_player.SetPosition(m_level.GetSpawnLocation());
+    m_player.GetComponent<TransformComponent>()->SetPosition(m_level.GetSpawnLocation());
 }
 
 // Populate the level with items.
@@ -363,6 +364,7 @@ void Game::PopulateLevel()
     
     int itemSpawnCount = levelArea/7;
     int enemySpawncount = levelArea/18;
+    //int enemySpawncount = 1;
     
     // Create items
     for(int i=0; i<itemSpawnCount; i++)
@@ -433,7 +435,7 @@ void Game::SpawnItem(ITEM itemType, sf::Vector2f position)
     
     if(item != nullptr)
     {
-        item->SetPosition(spawnLocation);
+        item->GetComponent<TransformComponent>()->SetPosition(spawnLocation);
         m_items.push_back(std::move(item));
     }
 }
@@ -514,7 +516,7 @@ void Game::SpawnEnemy(ENEMY enemyType, sf::Vector2f position)
     // make sure an enemy was actually created
     if(enemy != nullptr)
     {
-        enemy->SetPosition(spawnLocation);
+        enemy->GetComponent<TransformComponent>()->SetPosition(spawnLocation);
         m_enemies.push_back(std::move(enemy));
     }
 }
@@ -598,7 +600,7 @@ void Game::Update(float timeDelta)
 	case GAME_STATE::PLAYING:
 	{
 		// First check if the player is at the exit. If so there's no need to update anything.
-		Tile* playerCurrentTile = m_level.GetTile(m_player.GetPosition());
+		Tile* playerCurrentTile = m_level.GetTile(m_player.GetComponent<TransformComponent>()->GetPosition());
         
 
 		if (playerCurrentTile->type == TILE::WALL_DOOR_UNLOCKED ||
@@ -630,15 +632,15 @@ void Game::Update(float timeDelta)
                 // Update the pathing of all enemies in range of player
                 for(const auto& enemy : m_enemies)
                 {
-                    if(DistanceBetweenPoints(m_player.GetPosition(), enemy->GetPosition()) < 300.f)
+                    if(DistanceBetweenPoints(m_player.GetComponent<TransformComponent>()->GetPosition(), enemy->GetComponent<TransformComponent>()->GetPosition()) < 300.f)
                     {
-                        enemy->UpdatePathfinding(m_level, m_player.GetPosition());
+                        enemy->UpdatePathfinding(m_level, m_player.GetComponent<TransformComponent>()->GetPosition());
                     }
                 }
             }
 
 			// Store the player position as it's used many times.
-			sf::Vector2f playerPosition = m_player.GetPosition();
+			sf::Vector2f playerPosition = m_player.GetComponent<TransformComponent>()->GetPosition();
 
 			// If the player is attacking create a projectile.
 			if (m_player.IsAttacking())
@@ -732,7 +734,7 @@ void Game::UpdateLight(sf::Vector2f playerPosition)
 			for (std::shared_ptr<Torch> torch : *torches)
 			{
 				// If the light tile is within range of the torch.
-				distance = DistanceBetweenPoints(sprite.getPosition(), torch->GetPosition());
+				distance = DistanceBetweenPoints(sprite.getPosition(), torch->GetComponent<TransformComponent>()->GetPosition());
 				if (distance < 100.f)
 				{
 					// Edit its alpha.
@@ -763,7 +765,7 @@ void Game::UpdateItems(sf::Vector2f playerPosition)
 		Item& item = **itemIterator;
 
 		// Check if the player is within pickup range of the item.
-		if (DistanceBetweenPoints(item.GetPosition(), playerPosition) < 40.f)
+		if (DistanceBetweenPoints(item.GetComponent<TransformComponent>()->GetPosition(), playerPosition) < 40.f)
 		{
 			// Check what type of object it was.
 			switch (item.GetType())
@@ -881,7 +883,7 @@ void Game::UpdateItems(sf::Vector2f playerPosition)
 void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
 {
 	// Store player tile.
-	Tile* playerTile = m_level.GetTile(m_player.GetPosition());
+	Tile* playerTile = m_level.GetTile(m_player.GetComponent<TransformComponent>()->GetPosition());
 
 	auto enemyIterator = m_enemies.begin();
 	while (enemyIterator != m_enemies.end())
@@ -893,7 +895,7 @@ void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
 		Enemy& enemy = **enemyIterator;
 
 		// Get the tile that the enemy is on.
-		Tile* enemyTile = m_level.GetTile(enemy.GetPosition());
+		Tile* enemyTile = m_level.GetTile(enemy.GetComponent<TransformComponent>()->GetPosition());
 
 		// Check for collisions with projectiles.
 		auto projectilesIterator = m_playerProjectiles.begin();
@@ -903,7 +905,7 @@ void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
 			Projectile& projectile = **projectilesIterator;
 
 			// If the enemy and projectile occupy the same tile they have collided.
-			if (enemyTile == m_level.GetTile(projectile.GetPosition()))
+			if (enemyTile == m_level.GetTile(projectile.GetComponent<TransformComponent>()->GetPosition()))
 			{
 				// Delete the projectile.
 				projectilesIterator = m_playerProjectiles.erase(projectilesIterator);
@@ -919,7 +921,7 @@ void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
 				if (enemy.IsDead())
 				{
 					// Get the enemy position.
-					sf::Vector2f position = enemy.GetPosition();
+					sf::Vector2f position = enemy.GetComponent<TransformComponent>()->GetPosition();
 
 					// Spawn loot.
 					for (int i = 0; i < 5; i++)
@@ -1004,7 +1006,7 @@ void Game::UpdateProjectiles(float timeDelta)
 		Projectile& projectile = **projectileIterator;
 
 		// Get the tile that the projectile is on.
-		TILE projectileTileType = m_level.GetTile(projectile.GetPosition())->type;
+		TILE projectileTileType = m_level.GetTile(projectile.GetComponent<TransformComponent>()->GetPosition())->type;
 
 		// If the tile the projectile is on is not floor, delete it.
 		if ((projectileTileType != TILE::FLOOR) && (projectileTileType != TILE::FLOOR_ALT))

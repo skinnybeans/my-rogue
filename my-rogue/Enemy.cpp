@@ -1,6 +1,7 @@
 #include "PCH.hpp"
 #include "Enemy.hpp"
 #include "ResourcePath.hpp"
+#include "TransformComponent.hpp"
 
 #include "spdlog/spdlog.h"
 
@@ -88,8 +89,13 @@ void Enemy::Update(float timeDelta)
     {
         sf::Vector2f targetLocation = m_path.front();
         
+        std::shared_ptr<TransformComponent> transformComponent = GetComponent<TransformComponent>();
+        sf::Vector2f currentPosition = transformComponent->GetPosition();
+        
+        std::cout << "current position x: " << currentPosition.x << " y: " << currentPosition.y << std::endl;
+        
         // Check how far away the enemy is from the target location
-        m_velocity = sf::Vector2f(targetLocation.x - m_position.x, targetLocation.y - m_position.y);
+        m_velocity = sf::Vector2f(targetLocation.x - currentPosition.x, targetLocation.y - currentPosition.y);
         
         // Enemy is less than 10 units from x and y target locations
         if(std::abs(m_velocity.x) < 10.f && std::abs(m_velocity.y) < 10.f)
@@ -105,10 +111,11 @@ void Enemy::Update(float timeDelta)
             m_velocity.y = m_velocity.y / length;
             
             // Now use the normalised vector, enemy speed and time step to move
-            m_position.x += m_velocity.x * (m_speed * timeDelta);
-            m_position.y += m_velocity.y * (m_speed * timeDelta);
+            currentPosition.x += m_velocity.x * (m_speed * timeDelta);
+            currentPosition.y += m_velocity.y * (m_speed * timeDelta);
             
-            m_sprite.setPosition(m_position);
+            transformComponent->SetPosition(currentPosition);
+            //m_sprite.setPosition(newPosition);
         }
     }
     
@@ -127,7 +134,9 @@ void Enemy::UpdatePathfinding(Level & level, sf::Vector2f playerPosition)
     
     level.ResetNodes();
     
-    Tile* startNode = level.GetTile(m_position);
+    sf::Vector2f currentPosition = GetComponent<TransformComponent>()->GetPosition();
+    
+    Tile* startNode = level.GetTile(currentPosition);
     Tile* goalNode = level.GetTile(playerPosition);
     
     // create a logger for debug pathing output
@@ -146,7 +155,7 @@ void Enemy::UpdatePathfinding(Level & level, sf::Vector2f playerPosition)
     
     // Check if the player is in range of the enemy
     // If not clear the enemy path and return
-    float playerDistance = std::sqrt(std::pow(m_position.x - playerPosition.x, 2) + std::pow(m_position.y - playerPosition.y,2));
+    float playerDistance = std::sqrt(std::pow(currentPosition.x - playerPosition.x, 2) + std::pow(currentPosition.y - playerPosition.y,2));
     if(playerDistance > m_visionRadius)
     {
         m_path.clear();
