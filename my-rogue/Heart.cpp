@@ -1,12 +1,13 @@
 #include "PCH.hpp"
 #include "Heart.hpp"
 #include "ResourcePath.hpp"
+#include "SpriteComponent.hpp"
 
 // Default constructor.
 Heart::Heart()
 {
 	// Set item sprite.
-	SetSprite(TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "/resources/loot/heart/spr_pickup_heart.png")), false, 8, 12);
+	GetComponent<SpriteComponent>()->SetSprite(TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "/resources/loot/heart/spr_pickup_heart.png")), false, 8, 12);
 
 	// Set health value.
     m_health = std::rand() % 11 + 10;

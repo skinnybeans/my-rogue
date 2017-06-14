@@ -45,6 +45,7 @@ ITEM Item::GetType() const
 }
 
 // Draws the item and its name if it has one.
+/*
 void Item::Draw(sf::RenderWindow& window, float timeDelta)
 {
     
@@ -58,3 +59,4 @@ void Item::Draw(sf::RenderWindow& window, float timeDelta)
 	m_text.setPosition(itemPosition.x - m_textOffset.x, (itemPosition.y - 30.f) - m_textOffset.y);
 	window.draw(m_text);
 }
+*/

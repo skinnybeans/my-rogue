@@ -1,6 +1,7 @@
 #include "PCH.hpp"
 #include "Projectile.hpp"
 #include "TransformComponent.hpp"
+#include "SpriteComponent.hpp"
 
 #include <iostream>
 #include <cmath>
@@ -9,7 +10,7 @@
 Projectile::Projectile(sf::Texture& texture, sf::Vector2f origin, sf::Vector2f screenCenter, sf::Vector2f target)
 {
 	// Create the sprite.
-	SetSprite(texture, false);
+	GetComponent<SpriteComponent>()->SetSprite(texture, false);
 
 	// Set the position.
     GetComponent<TransformComponent>()->SetPosition(origin);
@@ -36,8 +37,6 @@ void Projectile::Update(float timeDelta)
 	// Update position.
     sf::Vector2f currentPosition = transformComponent->GetPosition();
     sf::Vector2f newPosition(currentPosition.x + (m_velocity.x * (500 * timeDelta)), currentPosition.y + (m_velocity.y * (500 * timeDelta)));
-    
-    std::cout << "Projectile x: " << currentPosition.x << " y: " << currentPosition.y << std::endl;
     
     transformComponent->SetPosition(newPosition);
 }

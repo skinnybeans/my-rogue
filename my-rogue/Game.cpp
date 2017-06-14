@@ -1,7 +1,9 @@
 #include "PCH.hpp"
 #include "Game.hpp"
 #include "ResourcePath.hpp"
+
 #include "TransformComponent.hpp"
+#include "SpriteComponent.hpp"
 
 #include <cmath>
 #include <iostream>
@@ -1073,23 +1075,23 @@ void Game::Draw(float timeDelta)
 		// Draw all objects.
 		for (const auto& item : m_items)
 		{
-			item->Draw(m_window, timeDelta);
+			item->GetComponent<SpriteComponent>()->Draw(m_window, timeDelta);
 		}
 
 		// Draw all enemies.
 		for (const auto& enemy : m_enemies)
 		{
-			enemy->Draw(m_window, timeDelta);
+			enemy->GetComponent<SpriteComponent>()->Draw(m_window, timeDelta);
 		}
 
 		// Draw all projectiles
 		for (const auto& proj : m_playerProjectiles)
 		{
-            proj->Draw(m_window, timeDelta);
+            proj->GetComponent<SpriteComponent>()->Draw(m_window, timeDelta);
 		}
 
 		// Draw the player.
-		m_player.Draw(m_window, timeDelta);
+		m_player.GetComponent<SpriteComponent>()->Draw(m_window, timeDelta);
 
 		// Draw level light.
 		for (const sf::Sprite& sprite : m_lightGrid)

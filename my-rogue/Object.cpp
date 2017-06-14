@@ -5,14 +5,7 @@
 #include "SpriteComponent.hpp"
 
 // Default constructor.
-Object::Object() :
-m_animationSpeed(0),
-m_isAnimated(false),
-m_frameCount(0),
-m_currentFrame(0),
-m_frameWidth(0),
-m_frameHeight(0),
-m_timeDelta(0)
+Object::Object()
 {
     // Replace position with a transform component
     AttachComponent<TransformComponent>();
@@ -23,7 +16,7 @@ m_timeDelta(0)
     // Sprite needs access to position
     GetComponent<SpriteComponent>()->SetTransformComponent(GetComponent<TransformComponent>());
 }
-
+/*
 // Gives the object the given sprite.
 bool Object::SetSprite(sf::Texture& texture, bool isSmooth, int frames, int frameSpeed)
 {
@@ -132,3 +125,4 @@ int Object::GetFrameCount() const
 {
 	return m_frameCount;
 }
+ */

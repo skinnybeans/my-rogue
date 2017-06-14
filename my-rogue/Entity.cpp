@@ -1,5 +1,6 @@
 #include "PCH.hpp"
 #include "Entity.hpp"
+#include "SpriteComponent.hpp"
 
 #include <cmath>
 
@@ -53,29 +54,32 @@ void Entity::Update(float timeDelta)
 		}
 	}
 
-	// Set animation speed.
+	// Get the sprite component
+    std::shared_ptr<SpriteComponent> spriteComponent = GetComponent<SpriteComponent>();
+    
+    // Set animation speed.
 	if ((m_velocity.x == 0) && (m_velocity.y == 0))
 	{
 		// The character is still.
-		if (IsAnimated())
+		if (spriteComponent->IsAnimated())
 		{
 			// Update sprite to idle version.
 			m_currentTextureIndex += 4;
 
 			// Stop movement animations.
-			SetAnimated(false);
+			spriteComponent->SetAnimated(false);
 		}
 	}
 	else
 	{
 		// The character is moving.
-		if (!IsAnimated())
+		if (!spriteComponent->IsAnimated())
 		{
 			// Update sprite to walking version.
 			m_currentTextureIndex -= 4;
 
 			// Start movement animations.
-			SetAnimated(true);
+			spriteComponent->SetAnimated(true);
 		}
 	}
 
@@ -83,7 +87,7 @@ void Entity::Update(float timeDelta)
 	if (m_currentTextureIndex != static_cast<int>(animState))
 	{
 		m_currentTextureIndex = static_cast<int>(animState);
-		m_sprite.setTexture(TextureManager::GetTexture(m_textureIDs[m_currentTextureIndex]));
+		spriteComponent->GetSprite().setTexture(TextureManager::GetTexture(m_textureIDs[m_currentTextureIndex]));
 	}
 }
 

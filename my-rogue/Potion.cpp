@@ -1,6 +1,7 @@
 #include "PCH.hpp"
 #include "Potion.hpp"
 #include "ResourcePath.hpp"
+#include "SpriteComponent.hpp"
 
 // Default constructor.
 Potion::Potion() :
@@ -52,7 +53,7 @@ m_accuracy(0)
     
     
 	// Load and set sprite.
-	SetSprite(TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "/resources/loot/potions/" + textureName)), false, 8, 12);
+	GetComponent<SpriteComponent>()->SetSprite(TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "/resources/loot/potions/" + textureName)), false, 8, 12);
 
 	// Set the item type.
 	m_type = ITEM::POTION;

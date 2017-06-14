@@ -2,6 +2,7 @@
 #include "Player.hpp"
 #include "ResourcePath.hpp"
 #include "TransformComponent.hpp"
+#include "SpriteComponent.hpp"
 
 #include <algorithm>
 #include <random>
@@ -49,9 +50,9 @@ m_canTakeDamage(true)
 	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_LEFT)] = TextureManager::AddTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_idle_left.png");
     
 	// Set initial sprite.
-	SetSprite(TextureManager::GetTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)]), false, 8, 12);
+	GetComponent<SpriteComponent>()->SetSprite(TextureManager::GetTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)]), false, 8, 12);
 	m_currentTextureIndex = static_cast<int>(ANIMATION_STATE::WALK_UP);
-	m_sprite.setOrigin(sf::Vector2f(13.f, 18.f));
+	GetComponent<SpriteComponent>()->GetSprite().setOrigin(sf::Vector2f(13.f, 18.f));
 
 	// Create the player's aim sprite.
 	int textureID = TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_aim.png");
@@ -189,36 +190,39 @@ void Player::Update(float timeDelta, Level& level)
 	if (m_currentTextureIndex != static_cast<int>(animState))
 	{
 		m_currentTextureIndex = static_cast<int>(animState);
-		m_sprite.setTexture(TextureManager::GetTexture(m_textureIDs[m_currentTextureIndex]));
+		GetComponent<SpriteComponent>()->GetSprite().setTexture(TextureManager::GetTexture(m_textureIDs[m_currentTextureIndex]));
 	}
 
+    // get the sprite component
+    std::shared_ptr<SpriteComponent> spriteComponent = GetComponent<SpriteComponent>();
+    
 	// set animation speed
 	if ((movementSpeed.x == 0) && (movementSpeed.y == 0))
 	{
 		// the character is still
-		if (IsAnimated())
+		if (spriteComponent->IsAnimated())
 		{
 			// Update sprite to idle version.
 			// In our enum we have 4 walking sprites followed by 4 idle sprites.
 			// Given this, we can simply add 4 to a walking sprite to get its idle counterpart.
 			m_currentTextureIndex += 4;
-			m_sprite.setTexture(TextureManager::GetTexture(m_textureIDs[m_currentTextureIndex]));
+			spriteComponent->GetSprite().setTexture(TextureManager::GetTexture(m_textureIDs[m_currentTextureIndex]));
 
 			// Stop movement animations.
-			SetAnimated(false);
+			spriteComponent->SetAnimated(false);
 		}
 	}
 	else
 	{
 		// the character is moving
-		if (!IsAnimated())
+		if (!spriteComponent->IsAnimated())
 		{
 			// Update sprite to walking version.
 			m_currentTextureIndex -= 4;
-			m_sprite.setTexture(TextureManager::GetTexture(m_textureIDs[m_currentTextureIndex]));
+			spriteComponent->GetSprite().setTexture(TextureManager::GetTexture(m_textureIDs[m_currentTextureIndex]));
 
 			// Start movement animations.
-			SetAnimated(true);
+			spriteComponent->SetAnimated(true);
 		}
 	}
 

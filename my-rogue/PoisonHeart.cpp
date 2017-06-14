@@ -8,12 +8,13 @@
 #include "PCH.hpp"
 #include "PoisonHeart.hpp"
 #include "ResourcePath.hpp"
+#include "SpriteComponent.hpp"
 
 // Default constructor.
 PoisonHeart::PoisonHeart()
 {
     // Set item sprite.
-    SetSprite(TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "/resources/loot/poison_heart/spr_pickup_poison_heart.png")), false, 8, 12);
+    GetComponent<SpriteComponent>()->SetSprite(TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "/resources/loot/poison_heart/spr_pickup_poison_heart.png")), false, 8, 12);
     
     // Set health value.
     m_health = -15;

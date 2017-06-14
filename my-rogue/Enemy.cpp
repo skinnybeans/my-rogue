@@ -46,13 +46,15 @@ Enemy::Enemy()
 }
 
 // Override the default draw function.
-void Enemy::Draw(sf::RenderWindow& window, float timeDelta)
+
+/*
+ void Enemy::Draw(sf::RenderWindow& window, float timeDelta)
 {
     // Call base class draw first
     Object::Draw(window, timeDelta);
     
     // DEBUG Draw the current path
-/*
+
     for (int i = 0; i < m_path.size(); i++)
     {
         // draw the path sprite
@@ -66,8 +68,7 @@ void Enemy::Draw(sf::RenderWindow& window, float timeDelta)
         m_pathText.setPosition(m_path[i]);
         window.draw(m_pathText);
     }
-*/
-}
+}*/
 
 // Applies the given amount of damage to the enemy.
 void Enemy::Damage(int damage)
@@ -91,8 +92,6 @@ void Enemy::Update(float timeDelta)
         
         std::shared_ptr<TransformComponent> transformComponent = GetComponent<TransformComponent>();
         sf::Vector2f currentPosition = transformComponent->GetPosition();
-        
-        std::cout << "current position x: " << currentPosition.x << " y: " << currentPosition.y << std::endl;
         
         // Check how far away the enemy is from the target location
         m_velocity = sf::Vector2f(targetLocation.x - currentPosition.x, targetLocation.y - currentPosition.y);

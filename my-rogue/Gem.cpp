@@ -1,12 +1,13 @@
 #include "PCH.hpp"
 #include "Gem.hpp"
 #include "ResourcePath.hpp"
+#include "SpriteComponent.hpp"
 
 // Default Constructor.
 Gem::Gem()
 {
 	// Set the sprite.
-	SetSprite(TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "/resources/loot/gem/spr_pickup_gem.png")), false, 8, 12);
+    GetComponent<SpriteComponent>()->SetSprite(TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "/resources/loot/gem/spr_pickup_gem.png")), false, 8, 12);
 
 	// Set the value of the gem.
     m_scoreValue = std::rand() % 100;

@@ -1,6 +1,7 @@
 #include "PCH.hpp"
 #include "Torch.hpp"
 #include "ResourcePath.hpp"
+#include "SpriteComponent.hpp"
 
 // Default constructor.
 Torch::Torch() :
@@ -8,7 +9,7 @@ m_brightness(1.f)
 {
 	// Set sprite.
 	int textureID = TextureManager::AddTexture(resourcePath() + "/resources/spr_torch.png");
-	SetSprite(TextureManager::GetTexture(textureID), false, 5, 12);
+	GetComponent<SpriteComponent>()->SetSprite(TextureManager::GetTexture(textureID), false, 5, 12);
 }
 
 // Update the brightness of the torch.

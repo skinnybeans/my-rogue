@@ -50,7 +50,7 @@ public:
     /**
      * Override default draw function
      */
-    void Draw(sf::RenderWindow& renderWindow, float timeDelta) override;
+    //void Draw(sf::RenderWindow& renderWindow, float timeDelta) override;
     
 private:
     

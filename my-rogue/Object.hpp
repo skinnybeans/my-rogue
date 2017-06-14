@@ -33,7 +33,7 @@ public:
 	 * @param window The render window to draw the object to.
 	 * @param tileDelta The time, in MS, since the last draw call.
 	 */
-	virtual void Draw(sf::RenderWindow &window, float timeDelta);
+	//virtual void Draw(sf::RenderWindow &window, float timeDelta);
 
 	/**
 	 * Creates and sets the object sprite.
@@ -45,7 +45,7 @@ public:
 	 * @param frameSpeed The speed that the animation plays at. Defaults to 1.
 	 * @return true if the operation succeeded.
 	 */
-	bool SetSprite(sf::Texture& texture, bool isSmooth, int frames = 1, int frameSpeed = 0);
+	//bool SetSprite(sf::Texture& texture, bool isSmooth, int frames = 1, int frameSpeed = 0);
 
 	/**
 	 * Returns a reference the object's sprite.
@@ -57,19 +57,19 @@ public:
 	 * Get the number of frames the object has.
 	 * @return The number of frames the object has.
 	 */
-	int GetFrameCount() const;
+	//int GetFrameCount() const;
 
 	/**
 	 * Gets the current animation state of the object.
 	 * @return The current animation state of the object.
 	 */
-	bool IsAnimated();
+	//bool IsAnimated();
 
 	/**
 	* Sets the animation state of the object.
 	* @param isAnimated The new animation state of the object.
 	*/
-	void SetAnimated(bool isAnimated);
+	//void SetAnimated(bool isAnimated);
     
     /**
      * Attach a component to the object
@@ -120,12 +120,7 @@ protected:
 	/**
 	 * The object's sprite.
 	 */
-	sf::Sprite m_sprite;
-
-	/**
-	 * The position of the object in the game window.
-	 */
-	// sf::Vector2f m_position;
+	//sf::Sprite m_sprite;
 
 private:
 
@@ -139,37 +134,37 @@ private:
 	 * The animation speed of the image if applicable.
 	 * Value is frames per second.
 	 */
-	int m_animationSpeed;
+	//int m_animationSpeed;
 
 	/**
 	 * Used to determine if the given sprite is animated.
 	 */
-	bool m_isAnimated;
+	//bool m_isAnimated;
 
 	/**
 	 * The total number of frames the sprite has.
 	 */
-	int m_frameCount;
+	//int m_frameCount;
 
 	/**
 	 * The current frame of the sprite.
 	 */
-	int m_currentFrame;
+	//int m_currentFrame;
 
 	/**
 	 * The width of each frame of the animated sprite if applicable.
 	 */
-	int m_frameWidth;
+	//int m_frameWidth;
 
 	/**
 	 * The height of each frame of the animated sprite if applicable.
 	 */
-	int m_frameHeight;
+	//int m_frameHeight;
 
 	/**
 	 * An aggregate of the time passed between draw calls.
 	 */
-	float m_timeDelta;
+	//float m_timeDelta;
     
     /**
      * Collection of components attached to this Object

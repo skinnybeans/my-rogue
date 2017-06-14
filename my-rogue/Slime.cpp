@@ -1,6 +1,7 @@
 #include "PCH.hpp"
 #include "Slime.hpp"
 #include "ResourcePath.hpp"
+#include "SpriteComponent.hpp"
 
 // Default constructor.
 Slime::Slime()
@@ -16,7 +17,7 @@ Slime::Slime()
 	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_LEFT)] = TextureManager::AddTexture(resourcePath() + "/resources/enemies/slime/spr_slime_idle_left.png");
 
 	// Set initial sprite.
-	SetSprite(TextureManager::GetTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)]), false, 8, 12);
+	GetComponent<SpriteComponent>()->SetSprite(TextureManager::GetTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)]), false, 8, 12);
     
     // Randomise the colour used for the slime
     COLOR color = static_cast<COLOR>(rand() % static_cast<int>(COLOR::COUNT));
@@ -54,9 +55,9 @@ Slime::Slime()
             break;
     }
     
-    m_sprite.setColor(spriteColor);
+    GetComponent<SpriteComponent>()->GetSprite().setColor(spriteColor);
     
     // Randomise the size of the slime
-    float scale = (std::rand() % 15) / 10.f;
-    m_sprite.setScale(sf::Vector2f(scale, scale));
+    float scale = (std::rand() % 10) / 15.f;
+    GetComponent<SpriteComponent>()->GetSprite().setScale(sf::Vector2f(scale, scale));
 }

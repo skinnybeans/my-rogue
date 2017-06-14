@@ -1,6 +1,7 @@
 #include "PCH.hpp"
 #include "Humanoid.hpp"
 #include "ResourcePath.hpp"
+#include "SpriteComponent.hpp"
 
 #include <iostream>
 #include <sstream>
@@ -49,7 +50,7 @@ Humanoid::Humanoid()
     if(humanoidType == ENEMY_HUMANOIDS::GOBLIN)
     {
         float scale = ((std::rand() % 6)/10.f) + 0.7f;
-        m_sprite.setScale(scale, scale);
+        GetComponent<SpriteComponent>()->GetSprite().setScale(scale, scale);
         
         // base goblin color
         sf::Color color(54,133,52,255);
@@ -88,7 +89,7 @@ Humanoid::Humanoid()
     GenerateArmor();
     
 	// Set initial sprite.
-	SetSprite(TextureManager::GetTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)]), false, 8, 12);
+	GetComponent<SpriteComponent>()->SetSprite(TextureManager::GetTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)]), false, 8, 12);
 }
 
 
@@ -98,7 +99,7 @@ void Humanoid::Update(float timeDelta)
     Enemy::Update(timeDelta);
     
     // Update texture with custom texture
-    m_sprite.setTexture(m_textures[m_currentTextureIndex]);
+    GetComponent<SpriteComponent>()->GetSprite().setTexture(m_textures[m_currentTextureIndex]);
 }
 
 // Generate random armor for this enemy

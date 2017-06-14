@@ -2,6 +2,7 @@
 #include "Level.hpp"
 #include "ResourcePath.hpp"
 #include "TransformComponent.hpp"
+#include "SpriteComponent.hpp"
 
 #include <iostream>
 
@@ -703,6 +704,6 @@ void Level::Draw(sf::RenderWindow& window, float timeDelta)
 	// Draw all torches.
 	for (auto& torch : m_torches)
 	{
-		torch->Draw(window, timeDelta);
+		torch->GetComponent<SpriteComponent>()->Draw(window, timeDelta);
 	}
 }

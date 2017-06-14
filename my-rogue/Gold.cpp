@@ -1,6 +1,7 @@
 #include "PCH.hpp"
 #include "Gold.hpp"
 #include "ResourcePath.hpp"
+#include "SpriteComponent.hpp"
 
 
 static const int GOLD_SMALL = 9;
@@ -29,7 +30,7 @@ Gold::Gold()
         textureID = TextureManager::AddTexture(resourcePath() + "/resources/loot/gold/spr_pickup_gold_large.png");
     }
 
-	this->SetSprite(TextureManager::GetTexture(textureID), false, 8, 12);
+	GetComponent<SpriteComponent>()->SetSprite(TextureManager::GetTexture(textureID), false, 8, 12);
 
 	// Set the item type.
 	m_type = ITEM::GOLD;
