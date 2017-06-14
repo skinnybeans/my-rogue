@@ -22,6 +22,7 @@ public:
     
     /**
      * Sets the transform component to use for positioning
+     * @param component the transform component
      */
     void SetTransformComponent(std::shared_ptr<TransformComponent> component);
     
@@ -30,7 +31,7 @@ public:
      * @param window The render window to draw the object to.
      * @param tileDelta The time, in MS, since the last draw call.
      */
-    virtual void Draw(sf::RenderWindow &window, float timeDelta);
+    void Draw(sf::RenderWindow &window, float timeDelta);
     
     /**
      * Creates and sets the object sprite.

@@ -4,6 +4,7 @@
 
 #include "TransformComponent.hpp"
 #include "SpriteComponent.hpp"
+#include "TextComponent.hpp"
 
 #include <cmath>
 #include <iostream>
@@ -1076,6 +1077,12 @@ void Game::Draw(float timeDelta)
 		for (const auto& item : m_items)
 		{
 			item->GetComponent<SpriteComponent>()->Draw(m_window, timeDelta);
+            
+            // if the object has text, render that too
+            std::shared_ptr<TextComponent> textComponent = item->GetComponent<TextComponent>();
+            
+            if(textComponent != nullptr)
+                textComponent->Draw(m_window, timeDelta);
 		}
 
 		// Draw all enemies.
