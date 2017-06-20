@@ -44,8 +44,8 @@ enum class ITEM {
 	GOLD,
 	HEART,
 	POTION,
-	KEY,
     POISON_HEART,
+	KEY,            // Keep key as the last item!!
 	COUNT
 };
 
@@ -89,6 +89,7 @@ enum class COLOR {
 };
 
 // Animation states.
+// The walk and idle states must be kept apart by 4 or the anim code will require updating
 enum class ANIMATION_STATE {
 	WALK_UP,
 	WALK_DOWN,
@@ -137,5 +138,14 @@ enum class VIEW {
 	MAIN,
 	UI,
 	COUNT
+};
+
+// Music tracks.
+enum class MUSIC_TRACK {
+    ALT_1,
+    ALT_2,
+    ALT_3,
+    ALT_4,
+    COUNT
 };
 #endif

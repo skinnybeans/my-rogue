@@ -46,11 +46,7 @@ public:
      * @param timeDelta time since last update
      */
     void Update(float timeDela) override;
-    
-    /**
-     * Override default draw function
-     */
-    //void Draw(sf::RenderWindow& renderWindow, float timeDelta) override;
+
     
 private:
     

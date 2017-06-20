@@ -1,11 +1,9 @@
 #include "PCH.hpp"
 
-std::map<std::string, std::pair<int, std::unique_ptr<sf::SoundBuffer>>> SoundBufferManager::m_soundBuffers;
-int SoundBufferManager::m_currentId = 0;
-
 // Default Constructor.
 SoundBufferManager::SoundBufferManager()
 {
+    m_currentId = 0;
 }
 
 // Adds a sound to the manager, and returns its id in the map.

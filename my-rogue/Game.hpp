@@ -155,8 +155,21 @@ private:
 	 * @param timeDetla The amount of time that has passed since the last update.
 	 */
 	void UpdateProjectiles(float timeDelta);
+    
+    /**
+     * Plays the given sound effect, with randomized parameters.
+     * @param sound sound to play.
+     * @param position position to play the sound.
+     */
+    void PlaySound(sf::Sound& sound, sf::Vector2f position = { 0.f, 0.f});
 
 private:
+    
+    /**
+     * Contains all the sound buffers
+     */
+    std::shared_ptr<SoundBufferManager> m_soundBufferManager;
+    
 	/**
 	 * The main application window.
 	 */
@@ -396,5 +409,40 @@ private:
      * Is the current goal active
      */
     bool m_hasActiveGoal;
+    
+    /**
+     * Sound buffer for music
+     */
+    sf::Music m_music;
+    
+    /**
+     * Fire sound
+     */
+    sf::Sound m_fireSound;
+    
+    /**
+     * Gem pickup sound.
+     */
+    sf::Sound m_gemPickupSound;
+    
+    /**
+     * Coin pickup sound.
+     */
+    sf::Sound m_coinPickupSound;
+    
+    /**
+     * Key collect sound.
+     */
+    sf::Sound m_keyPickupSound;
+    
+    /**
+     * Enemy die sound.
+     */
+    sf::Sound m_enemyDieSound;
+    
+    /**
+     * Player hit sound.
+     */
+    sf::Sound m_playerHitSound;
 };
 #endif

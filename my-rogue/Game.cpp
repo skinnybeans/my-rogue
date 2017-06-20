@@ -37,6 +37,14 @@ m_hasActiveGoal(false)
 
 	// Create the game font.
 	m_font.loadFromFile(resourcePath() + "/resources/fonts/ADDSBP__.TTF");
+    
+    // Load music
+    int trackIndex = std::rand() % static_cast<int>(MUSIC_TRACK::COUNT) + 1;
+    m_music.openFromFile(resourcePath() + "/resources/music/msc_main_track_" + std::to_string(trackIndex) + ".wav");
+    m_music.setVolume(100.f);
+    m_music.setRelativeToListener(true);
+    m_music.setLoop(true);
+    m_music.play();
 }
 
 // Initializes the game.
@@ -64,8 +72,50 @@ void Game::Initialize()
             // error!
             break;
     }
+	
+    m_projectileTextureID = TextureManager::AddTexture(resourcePath() + "/resources/projectiles/spr_" + spriteName + ".png");
     
-	m_projectileTextureID = TextureManager::AddTexture(resourcePath() + "/resources/projectiles/spr_" + spriteName + ".png");
+    // Create the sound buffer manager
+    m_soundBufferManager = std::make_shared<SoundBufferManager>();
+    
+    // Load all game sounds.
+    int soundBufferId;
+    
+    // Load torch sound.
+    
+    soundBufferId = m_soundBufferManager->AddSoundBuffer(resourcePath() + "/resources/sounds/snd_fire.wav");
+    m_fireSound.setBuffer(m_soundBufferManager->GetSoundBuffer(soundBufferId));
+    m_fireSound.setLoop(true);
+    m_fireSound.setMinDistance(80.f);
+    m_fireSound.setAttenuation(5.f);
+    m_fireSound.play();
+    
+    
+    // Load enemy die sound.
+    soundBufferId = m_soundBufferManager->AddSoundBuffer(resourcePath() + "/resources/sounds/snd_enemy_dead.wav");
+    m_enemyDieSound.setBuffer(m_soundBufferManager->GetSoundBuffer(soundBufferId));
+    m_enemyDieSound.setMinDistance(80.f);
+    m_enemyDieSound.setAttenuation(5.f);
+    
+    // Load gem pickup sound.
+    soundBufferId = m_soundBufferManager->AddSoundBuffer(resourcePath() + "/resources/sounds/snd_gem_pickup.wav");
+    m_gemPickupSound.setBuffer(m_soundBufferManager->GetSoundBuffer(soundBufferId));
+    m_gemPickupSound.setRelativeToListener(true);
+    
+    // Load coin pickup sound.
+    soundBufferId = m_soundBufferManager->AddSoundBuffer(resourcePath() + "/resources/sounds/snd_coin_pickup.wav");
+    m_coinPickupSound.setBuffer(m_soundBufferManager->GetSoundBuffer(soundBufferId));
+    m_coinPickupSound.setRelativeToListener(true);
+    
+    // Load key pickup sound.
+    soundBufferId = m_soundBufferManager->AddSoundBuffer(resourcePath() + "/resources/sounds/snd_key_pickup.wav");
+    m_keyPickupSound.setBuffer(m_soundBufferManager->GetSoundBuffer(soundBufferId));
+    m_keyPickupSound.setRelativeToListener(true);
+    
+    // Load player hit sound.
+    soundBufferId = m_soundBufferManager->AddSoundBuffer(resourcePath() + "/resources/sounds/snd_player_hit.wav");
+    m_playerHitSound.setBuffer(m_soundBufferManager->GetSoundBuffer(soundBufferId));
+    m_playerHitSound.setRelativeToListener(true);
 
 	// Initialize the UI.
 	LoadUI();
@@ -376,7 +426,8 @@ void Game::PopulateLevel()
         if(std::rand() % 2)
         {
             // Choose random item to spawn
-            ITEM itemType = static_cast<ITEM>(std::rand() % static_cast<int>(ITEM::COUNT));
+            // Don't randomly spawn other keys
+            ITEM itemType = static_cast<ITEM>(std::rand() % (static_cast<int>(ITEM::COUNT)-1));
             SpawnItem(itemType);
         }
     }
@@ -542,6 +593,15 @@ void Game::SpawnRandomTiles(TILE tileType, int count)
     
 }
 
+// play a sound
+void Game::PlaySound(sf::Sound& sound, sf::Vector2f position)
+{
+    float pitch = ((std::rand() % 11) + 95)/100;
+    sound.setPitch(pitch);
+    sound.setPosition(position.x, position.y, 0);
+    sound.play();
+}
+
 // Returns the running state of the game.
 bool Game::IsRunning()
 {
@@ -670,6 +730,28 @@ void Game::Update(float timeDelta)
 
 			// Update all projectiles.
 			UpdateProjectiles(timeDelta);
+            
+            // Find torch closest to the player.
+            auto torches = m_level.GetTorches();
+            
+            if(!torches->empty())
+            {
+                sf::Vector2f closestTorch = torches->front()->GetComponent<TransformComponent>()->GetPosition();
+                float minDistance = DistanceBetweenPoints(playerPosition, closestTorch);
+                for(auto torch : *torches)
+                {
+                    float distance = DistanceBetweenPoints(playerPosition, torch->GetComponent<TransformComponent>()->GetPosition());
+                    if(distance < minDistance)
+                    {
+                        closestTorch = torch->GetComponent<TransformComponent>()->GetPosition();
+                        minDistance = distance;
+                    }
+                }
+                m_fireSound.setPosition(closestTorch.x, closestTorch.y, 0);
+            }
+            
+            // Update the listener position
+            sf::Listener::setPosition(playerPosition.x, playerPosition.y, 0.f);
 
 			// Center the view.
 			m_views[static_cast<int>(VIEW::MAIN)].setCenter(playerPosition);
@@ -786,6 +868,9 @@ void Game::UpdateItems(sf::Vector2f playerPosition)
                     {
                         m_goldGoal -= goldValue;
                     }
+                    
+                    // Play coin pickup sound
+                    PlaySound(m_coinPickupSound);
                 }
                 break;
 
@@ -802,6 +887,9 @@ void Game::UpdateItems(sf::Vector2f playerPosition)
                     {
                         m_gemGoal -= 1;
                     }
+                    
+                    // Play gem pickup sound.
+                    PlaySound(m_gemPickupSound);
                 }
                 break;
 
@@ -812,6 +900,7 @@ void Game::UpdateItems(sf::Vector2f playerPosition)
 
                     // Set the key as collected.
                     m_keyUiSprite->setColor(sf::Color::White);
+                    PlaySound(m_keyPickupSound);
                 }
                 break;
 
@@ -958,6 +1047,9 @@ void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
 						position.y += std::rand() % 31 - 15;
                         SpawnItem(ITEM::POTION, position);
 					}
+                    
+                    // Play enemy killed sound
+                    PlaySound(m_enemyDieSound, position);
 
 					// Delete enemy.
 					enemyIterator = m_enemies.erase(enemyIterator);
@@ -994,6 +1086,7 @@ void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
 			{
                 int damage = 5 + enemy.GetAttack() + enemy.GetStrength() - m_player.GetDefense();
                 m_player.Damage(std::max(damage, 2));
+                PlaySound(m_playerHitSound);
 			}
 		}
 	}

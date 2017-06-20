@@ -58,6 +58,6 @@ Slime::Slime()
     GetComponent<SpriteComponent>()->GetSprite().setColor(spriteColor);
     
     // Randomise the size of the slime
-    float scale = (std::rand() % 10) / 15.f;
+    float scale = ((std::rand() % 5) + 5) / 10.f;
     GetComponent<SpriteComponent>()->GetSprite().setScale(sf::Vector2f(scale, scale));
 }

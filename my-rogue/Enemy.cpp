@@ -46,7 +46,7 @@ Enemy::Enemy()
 }
 
 // Override the default draw function.
-
+// Need to find a way to do the path rendering with the component architecture...
 /*
  void Enemy::Draw(sf::RenderWindow& window, float timeDelta)
 {
