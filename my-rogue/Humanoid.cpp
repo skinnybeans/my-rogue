@@ -1,7 +1,9 @@
 #include "PCH.hpp"
 #include "Humanoid.hpp"
 #include "ResourcePath.hpp"
+
 #include "SpriteComponent.hpp"
+#include "AnimationStateComponent.hpp"
 
 #include <iostream>
 #include <sstream>
@@ -90,6 +92,7 @@ Humanoid::Humanoid()
     
 	// Set initial sprite.
 	GetComponent<SpriteComponent>()->SetSprite(TextureManager::GetTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)]), false, 8, 12);
+    GetComponent<SpriteComponent>()->SetAnimated(false);
 }
 
 
@@ -99,7 +102,8 @@ void Humanoid::Update(float timeDelta)
     Enemy::Update(timeDelta);
     
     // Update texture with custom texture
-    GetComponent<SpriteComponent>()->GetSprite().setTexture(m_textures[m_currentTextureIndex]);
+    int textureIndex = static_cast<int>(GetComponent<AnimationStateComponent>()->GetState());
+    GetComponent<SpriteComponent>()->GetSprite().setTexture(m_textures[textureIndex]);
 }
 
 // Generate random armor for this enemy

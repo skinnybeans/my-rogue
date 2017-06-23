@@ -119,11 +119,6 @@ protected:
 	int m_textureIDs[static_cast<int>(ANIMATION_STATE::COUNT)];
 
 	/**
-	 * The index of the current texture.
-	 */
-	int m_currentTextureIndex;
-
-	/**
 	 * The entities current health.
 	 */
 	int m_health;

@@ -1,8 +1,10 @@
 #include "PCH.hpp"
 #include "Player.hpp"
 #include "ResourcePath.hpp"
+
 #include "TransformComponent.hpp"
 #include "SpriteComponent.hpp"
+#include "AnimationStateComponent.hpp"
 
 #include <algorithm>
 #include <random>
@@ -51,8 +53,7 @@ m_canTakeDamage(true)
     
 	// Set initial sprite.
 	GetComponent<SpriteComponent>()->SetSprite(TextureManager::GetTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)]), false, 8, 12);
-	m_currentTextureIndex = static_cast<int>(ANIMATION_STATE::WALK_UP);
-	GetComponent<SpriteComponent>()->GetSprite().setOrigin(sf::Vector2f(13.f, 18.f));
+    //GetComponent<SpriteComponent>()->SetSprite(TextureManager::GetTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)]), false, 8, 12);
 
 	// Create the player's aim sprite.
 	int textureID = TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_aim.png");
@@ -123,41 +124,24 @@ void Player::Update(float timeDelta, Level& level)
 	sf::Vector2f previousPosition = GetComponent<TransformComponent>()->GetPosition();
     sf::Vector2f nextPosition = previousPosition;
 
-	// Calculate where the current movement will put us.
-	ANIMATION_STATE animState = static_cast<ANIMATION_STATE>(m_currentTextureIndex);
-
-	if (Input::IsKeyPressed(Input::KEY::KEY_LEFT))
+	
+    // Set the movement speed based on player input
+    if (Input::IsKeyPressed(Input::KEY::KEY_LEFT))
 	{
-		// Set movement speed.
 		movementSpeed.x = -m_speed * timeDelta;
-
-		// Chose animation state.
-		animState = ANIMATION_STATE::WALK_LEFT;
 	}
 	else if (Input::IsKeyPressed(Input::KEY::KEY_RIGHT))
 	{
-		// Set movement speed.
 		movementSpeed.x = m_speed * timeDelta;
-
-		// Chose animation state.
-		animState = ANIMATION_STATE::WALK_RIGHT;
 	}
 
 	if (Input::IsKeyPressed(Input::KEY::KEY_UP))
 	{
-		// Set movement speed.
 		movementSpeed.y = -m_speed * timeDelta;
-
-		// Chose animation state.
-		animState = ANIMATION_STATE::WALK_UP;
 	}
 	else if (Input::IsKeyPressed(Input::KEY::KEY_DOWN))
 	{
-		// Set movement speed.
 		movementSpeed.y = m_speed * timeDelta;
-
-		// Chose animation state.
-		animState = ANIMATION_STATE::WALK_DOWN;
 	}
 
 	// Calculate horizontal movement.
@@ -183,48 +167,38 @@ void Player::Update(float timeDelta, Level& level)
     // Set player's position
     GetComponent<TransformComponent>()->SetPosition(nextPosition);
     
+    // Update animcation state
+    std::shared_ptr<AnimationStateComponent> animationStateComponent = GetComponent<AnimationStateComponent>();
+    
+    animationStateComponent->Update(movementSpeed);
+    
     // output player position for debugging..
     //std::cout << "x: " << GetComponent<TransformComponent>()->GetPosition().x << " y:" << GetComponent<TransformComponent>()->GetPosition().y << std::endl;
-
-	// Set the sprite.
-	if (m_currentTextureIndex != static_cast<int>(animState))
-	{
-		m_currentTextureIndex = static_cast<int>(animState);
-		GetComponent<SpriteComponent>()->GetSprite().setTexture(TextureManager::GetTexture(m_textureIDs[m_currentTextureIndex]));
-	}
 
     // get the sprite component
     std::shared_ptr<SpriteComponent> spriteComponent = GetComponent<SpriteComponent>();
     
-	// set animation speed
-	if ((movementSpeed.x == 0) && (movementSpeed.y == 0))
-	{
-		// the character is still
-		if (spriteComponent->IsAnimated())
-		{
-			// Update sprite to idle version.
-			// In our enum we have 4 walking sprites followed by 4 idle sprites.
-			// Given this, we can simply add 4 to a walking sprite to get its idle counterpart.
-			m_currentTextureIndex += 4;
-			spriteComponent->GetSprite().setTexture(TextureManager::GetTexture(m_textureIDs[m_currentTextureIndex]));
-
-			// Stop movement animations.
-			spriteComponent->SetAnimated(false);
-		}
-	}
-	else
-	{
-		// the character is moving
-		if (!spriteComponent->IsAnimated())
-		{
-			// Update sprite to walking version.
-			m_currentTextureIndex -= 4;
-			spriteComponent->GetSprite().setTexture(TextureManager::GetTexture(m_textureIDs[m_currentTextureIndex]));
-
-			// Start movement animations.
-			spriteComponent->SetAnimated(true);
-		}
-	}
+    // Update sprite if animation state chnaged
+    if (animationStateComponent->HasStateChanged())
+    {
+        //m_currentTextureIndex = static_cast<int>(animState);
+        int textureID = static_cast<int>(animationStateComponent->GetState());
+        GetComponent<SpriteComponent>()->GetSprite().setTexture(TextureManager::GetTexture(m_textureIDs[textureID]));
+        
+        // set animation speed
+        // TODO: required because the sprite texture is set directly on the sf::sprite object
+        // this doesn't change the animation state of the sprite...
+        // should put that knowledge into a texture component
+        // if the texture component doesn't have more than one frame, it should know it can't animate
+        if ((movementSpeed.x == 0) && (movementSpeed.y == 0))
+        {
+            spriteComponent->SetAnimated(false);
+        }
+        else
+        {
+            spriteComponent->SetAnimated(true);
+        }
+    }
 
 	// Calculate aim based on mouse.
 	sf::Vector2i mousePos = sf::Mouse::getPosition();

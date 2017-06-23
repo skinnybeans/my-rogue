@@ -66,6 +66,7 @@ bool SpriteComponent::SetSprite(sf::Texture& texture, bool isSmooth, int frames,
     m_frameCount = frames;
     
     // Calculate frame dimensions.
+    // This should live in a texture component...
     sf::Vector2u texSize = m_sprite.getTexture()->getSize();
     m_frameWidth = texSize.x / m_frameCount;
     m_frameHeight = texSize.y;

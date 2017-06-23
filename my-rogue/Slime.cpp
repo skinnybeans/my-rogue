@@ -18,6 +18,7 @@ Slime::Slime()
 
 	// Set initial sprite.
 	GetComponent<SpriteComponent>()->SetSprite(TextureManager::GetTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)]), false, 8, 12);
+    GetComponent<SpriteComponent>()->SetAnimated(false);
     
     // Randomise the colour used for the slime
     COLOR color = static_cast<COLOR>(rand() % static_cast<int>(COLOR::COUNT));

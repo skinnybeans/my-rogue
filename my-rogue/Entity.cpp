@@ -1,12 +1,13 @@
 #include "PCH.hpp"
 #include "Entity.hpp"
 #include "SpriteComponent.hpp"
+#include "AnimationStateComponent.hpp"
 
 #include <cmath>
 
 // Default constructor.
 Entity::Entity() :
-m_currentTextureIndex(static_cast<int>(ANIMATION_STATE::WALK_DOWN)),
+//m_currentTextureIndex(static_cast<int>(ANIMATION_STATE::WALK_DOWN)),
 m_health(0),
 m_maxHealth(0),
 m_mana(0),
@@ -20,75 +21,36 @@ m_speed(0),
 m_accuracy(0),
 m_velocity({0.f, 0.f})
 {
+    // Add animation state component
+    AttachComponent<AnimationStateComponent>();
 }
 
 // Override the default Object::Update function.
 void Entity::Update(float timeDelta)
 {
-	// Choose animation state.
-	ANIMATION_STATE animState = static_cast<ANIMATION_STATE>(m_currentTextureIndex);
-
-	if ((m_velocity.x != 0) || (m_velocity.y != 0))
-	{
-        if (std::abs(m_velocity.x) > std::abs(m_velocity.y))
-		{
-			if (m_velocity.x <= 0)
-			{
-				animState = ANIMATION_STATE::WALK_LEFT;
-			}
-			else
-			{
-				animState = ANIMATION_STATE::WALK_RIGHT;
-			}
-		}
-		else
-		{
-			if (m_velocity.y <= 0)
-			{
-				animState = ANIMATION_STATE::WALK_UP;
-			}
-			else
-			{
-				animState = ANIMATION_STATE::WALK_DOWN;
-			}
-		}
-	}
-
-	// Get the sprite component
     std::shared_ptr<SpriteComponent> spriteComponent = GetComponent<SpriteComponent>();
+    std::shared_ptr<AnimationStateComponent> animationState = GetComponent<AnimationStateComponent>();
     
-    // Set animation speed.
-	if ((m_velocity.x == 0) && (m_velocity.y == 0))
-	{
-		// The character is still.
-		if (spriteComponent->IsAnimated())
-		{
-			// Update sprite to idle version.
-			m_currentTextureIndex += 4;
-
-			// Stop movement animations.
-			spriteComponent->SetAnimated(false);
-		}
-	}
-	else
-	{
-		// The character is moving.
-		if (!spriteComponent->IsAnimated())
-		{
-			// Update sprite to walking version.
-			m_currentTextureIndex -= 4;
-
-			// Start movement animations.
-			spriteComponent->SetAnimated(true);
-		}
-	}
-
-	// Set the sprite.
-	if (m_currentTextureIndex != static_cast<int>(animState))
-	{
-		m_currentTextureIndex = static_cast<int>(animState);
-		spriteComponent->GetSprite().setTexture(TextureManager::GetTexture(m_textureIDs[m_currentTextureIndex]));
-	}
+    animationState->Update(m_velocity);
+    
+    // Set the sprite texture if the animation state has changed
+    if (animationState->HasStateChanged())
+    {
+        int textureID = static_cast<int>(animationState->GetState());
+        spriteComponent->GetSprite().setTexture(TextureManager::GetTexture(m_textureIDs[textureID]));
+        
+        // The sprite should determine its animation state based on the texture size
+        // Stopping animation outside of that should be a special case
+        // Set animation speed.
+        if ((m_velocity.x == 0) && (m_velocity.y == 0))
+        {
+            spriteComponent->SetAnimated(false);
+        }
+        else
+        {
+            spriteComponent->SetAnimated(true);
+        }
+    }
 }
 
 // Gets the entities health.

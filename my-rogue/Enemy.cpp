@@ -116,6 +116,13 @@ void Enemy::Update(float timeDelta)
             transformComponent->SetPosition(currentPosition);
         }
     }
+    else
+    {
+        // enemy has no path so isn't moving.
+        // make sure velocity get set to 0.
+        m_velocity.x = 0.f;
+        m_velocity.y = 0.f;
+    }
     
     // Call base class update
     Entity::Update(timeDelta);
