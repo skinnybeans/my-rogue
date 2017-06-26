@@ -3,6 +3,8 @@
 std::map<std::string, std::pair<int, std::unique_ptr<sf::Texture>>> TextureManager::m_textures;
 int TextureManager::m_currentId = 0;
 
+std::map<int, std::unique_ptr<AnimatedTexture>> TextureManager::m_animatedTextures;
+
 // Default Constructor.
 TextureManager::TextureManager()
 {
@@ -32,6 +34,37 @@ int TextureManager::AddTexture(std::string filePath)
 
 	// Return the texture.
 	return m_currentId;
+}
+
+int TextureManager::AddAnimatedTexture(std::string filePath, int frameCount)
+{
+    int textureID = TextureManager::AddTexture(filePath);
+    
+    auto it = m_animatedTextures.find(textureID);
+    if(it != m_animatedTextures.end())
+    {
+        return textureID;
+    }
+    else
+    {
+        std::unique_ptr<AnimatedTexture> animatedTexture = std::make_unique<AnimatedTexture>(TextureManager::GetTexture(textureID), frameCount);
+        animatedTexture->m_frameSize = animatedTexture->m_texture.getSize();
+        animatedTexture->m_frameSize.x /= frameCount;
+        
+        m_animatedTextures.insert(std::make_pair(textureID, std::move(animatedTexture)));
+    }
+}
+
+AnimatedTexture& TextureManager::GetAnimatedTexture(int textureID)
+{
+    auto it = m_animatedTextures.find(textureID);
+    
+    if(it != m_animatedTextures.end())
+    {
+        return *it->second;
+    }
+    
+    return *m_animatedTextures.begin()->second;
 }
 
 // Removes a texture from the manager from a given id.

@@ -114,7 +114,6 @@ private:
 	bool CausesCollision(sf::Vector2f movement, Level& level);
 
 private:
-
 	/**
 	 * The sprite for the player's aim cross hair.
 	 */

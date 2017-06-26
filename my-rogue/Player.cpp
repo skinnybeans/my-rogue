@@ -43,6 +43,7 @@ m_canTakeDamage(true)
     }
     
 	// Load textures.
+    /*
 	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)] = TextureManager::AddTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_walk_up.png");
 	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)] = TextureManager::AddTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_walk_down.png");
 	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_RIGHT)] = TextureManager::AddTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_walk_right.png");
@@ -51,11 +52,21 @@ m_canTakeDamage(true)
 	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_DOWN)] = TextureManager::AddTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_idle_down.png");
 	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_RIGHT)] = TextureManager::AddTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_idle_right.png");
 	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_LEFT)] = TextureManager::AddTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_idle_left.png");
+     */
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)] = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_walk_up.png", 8);
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)] = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_walk_down.png", 8);
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_RIGHT)] = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_walk_right.png", 8);
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_LEFT)] = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_walk_left.png", 8);
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)] = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_idle_up.png", 1);
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_DOWN)] = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_idle_down.png", 1);
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_RIGHT)] = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_idle_right.png", 1);
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_LEFT)] = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_idle_left.png", 1);
     
 	// Set initial sprite.
-	sf::Texture texture = TextureManager::GetTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)]);
-    GetComponent<SpriteComponent>()->SetTexture(texture);
-    GetComponent<AnimationFramesComponent>()->SetFrames(texture.getSize(), 8);
+    AnimatedTexture& spriteTexture = TextureManager::GetAnimatedTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)]);
+	//sf::Texture& texture = TextureManager::GetTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)]);
+    GetComponent<SpriteComponent>()->SetTexture(spriteTexture.m_texture);
+    GetComponent<AnimationFramesComponent>()->SetFrames(spriteTexture.m_texture.getSize(), spriteTexture.m_frameCount);
     GetComponent<AnimationFramesComponent>()->SetFrameSpeed(12);
     //GetComponent<SpriteComponent>()->SetSprite(TextureManager::GetTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)]), false, 8, 12);
 
@@ -186,33 +197,16 @@ void Player::Update(float timeDelta, Level& level)
     if (animationStateComponent->HasStateChanged())
     {
         int textureID = static_cast<int>(animationStateComponent->GetState());
-        sf::Texture& texture = TextureManager::GetTexture(m_textureIDs[textureID]);
+        AnimatedTexture& spriteTexture = TextureManager::GetAnimatedTexture(m_textureIDs[textureID]);
         
-        
-        // Horrible hackyness... shows that the frames and textures need to be linked to some degree
-        // Perhaps having the texture holding the frame information so this doesn't need calcs like this
+        // Not as bad hackyness
+        // Feel this explicit calling of setting frames should not be handled in each class
+        // that uses sprites and textures
+        // Perhaps the sprite component needs to know about the frames component more directly.
         auto animationFrames = GetComponent<AnimationFramesComponent>();
-        animationFrames->SetFrames(texture.getSize(), texture.getSize().x/33);
+        animationFrames->SetFrames(spriteTexture.m_texture.getSize(), spriteTexture.m_frameCount);
         
-        GetComponent<SpriteComponent>()->SetTexture(texture);
-        
-        // Shouldn't have to call this, it should be part of the texture information.
-        // Sprite 
-        GetComponent<SpriteComponent>()->SetFrameRect(animationFrames->GetFrameRect());
-        
-        // set animation speed
-        // TODO: required because the sprite texture is set directly on the sf::sprite object
-        // this doesn't change the animation state of the sprite...
-        // should put that knowledge into a texture component
-        // if the texture component doesn't have more than one frame, it should know it can't animate
-        if ((movementSpeed.x == 0) && (movementSpeed.y == 0))
-        {
-            //spriteComponent->SetAnimated(false);
-        }
-        else
-        {
-            //spriteComponent->SetAnimated(true);
-        }
+        GetComponent<SpriteComponent>()->SetAnimatedTexture(spriteTexture);
     }
 
 	// Calculate aim based on mouse.

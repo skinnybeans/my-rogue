@@ -49,14 +49,20 @@ public:
     bool SetSprite(sf::Texture& texture, bool isSmooth, int frames = 1, int frameSpeed = 0);
     
     /**
-     *
+     * Stop direct access to the sf::Sprite for setting the texture
      */
     void SetTexture(sf::Texture& texture);
+    
+    /**
+     * Handles setting the sprite frame correctly with the info in an animated texture
+     */
+    void SetAnimatedTexture(AnimatedTexture& animatedTexture);
     
     void SetFrameRect(sf::IntRect frameRect);
     
     /**
      * Returns a reference the object's sprite.
+     * TODO: remove this. should not provide direct access to the sprite
      * @return A reference to the object's sprite.
      */
     sf::Sprite& GetSprite();

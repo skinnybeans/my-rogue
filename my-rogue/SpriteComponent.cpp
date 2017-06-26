@@ -111,6 +111,16 @@ bool SpriteComponent::SetSprite(sf::Texture& texture, bool isSmooth, int frames,
 void SpriteComponent::SetTexture(sf::Texture& texture)
 {
     m_sprite.setTexture(texture);
+    
+    // Have to wait until moving the enemies over to the new animation/texture handling for this to work!
+    //SetFrameRect(sf::IntRect(0,0,texture.getSize().x, texture.getSize().y));
+}
+
+// Set the texture on the underlying sprite
+void SpriteComponent::SetAnimatedTexture(AnimatedTexture& animatedTexture)
+{
+    m_sprite.setTexture(animatedTexture.m_texture);
+    SetFrameRect(sf::IntRect(0, 0,animatedTexture.m_frameSize.x, animatedTexture.m_frameSize.y));
 }
 
 // Set the texture frame rect
@@ -118,9 +128,6 @@ void SpriteComponent::SetFrameRect(sf::IntRect frameRect)
 {
     // Check the texture fits the rect
     sf::Vector2u textureSize = m_sprite.getTexture()->getSize();
-    
-    //std::cout << "TextureSize x: " << textureSize.x << " y: " << textureSize.y << std::endl;
-    //std::cout << "RectSize x: " << frameRect.left << " y: " << frameRect.top << std::endl << std::endl;
     
     if(frameRect.left > textureSize.x || frameRect.top > textureSize.y)
     {
@@ -131,7 +138,6 @@ void SpriteComponent::SetFrameRect(sf::IntRect frameRect)
         m_sprite.setTextureRect(frameRect);
     }
     m_sprite.setOrigin(frameRect.width / 2.f, frameRect.height / 2.f);
-    
 }
 
 // Returns the object's sprite.
