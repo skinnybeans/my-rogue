@@ -23,6 +23,7 @@
 #include "Slime.hpp"
 #include "Humanoid.hpp"
 #include "Util.hpp"
+#include "SoundBufferManager.hpp"
 
 static float const FPS = 60.0;						// Constant for fixed time - step loop. We'll lock it at 60fps.
 static float const MS_PER_STEP = 1.0f / FPS;		// Roughly (0.017) @ 60fps.

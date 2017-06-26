@@ -33,6 +33,9 @@ public:
      */
     void Draw(sf::RenderWindow &window, float timeDelta);
     
+    // New draw function, a AnimationFramesComponent takes care of all the time based stuff
+    void Draw(sf::RenderWindow &window);
+    
     /**
      * Creates and sets the object sprite.
      * This function takes the location to a resource, and from that create a texture and sprite.
@@ -44,6 +47,13 @@ public:
      * @return true if the operation succeeded.
      */
     bool SetSprite(sf::Texture& texture, bool isSmooth, int frames = 1, int frameSpeed = 0);
+    
+    /**
+     *
+     */
+    void SetTexture(sf::Texture& texture);
+    
+    void SetFrameRect(sf::IntRect frameRect);
     
     /**
      * Returns a reference the object's sprite.
@@ -123,7 +133,6 @@ private:
      * An aggregate of the time passed between draw calls.
      */
     float m_timeDelta;
-    
 };
 
 #endif /* SpriteComponent_hpp */

@@ -5,6 +5,7 @@
 #include "TransformComponent.hpp"
 #include "SpriteComponent.hpp"
 #include "AnimationStateComponent.hpp"
+#include "AnimationFramesComponent.hpp"
 
 #include <algorithm>
 #include <random>
@@ -52,7 +53,10 @@ m_canTakeDamage(true)
 	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_LEFT)] = TextureManager::AddTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_idle_left.png");
     
 	// Set initial sprite.
-	GetComponent<SpriteComponent>()->SetSprite(TextureManager::GetTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)]), false, 8, 12);
+	sf::Texture texture = TextureManager::GetTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)]);
+    GetComponent<SpriteComponent>()->SetTexture(texture);
+    GetComponent<AnimationFramesComponent>()->SetFrames(texture.getSize(), 8);
+    GetComponent<AnimationFramesComponent>()->SetFrameSpeed(12);
     //GetComponent<SpriteComponent>()->SetSprite(TextureManager::GetTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)]), false, 8, 12);
 
 	// Create the player's aim sprite.
@@ -181,9 +185,20 @@ void Player::Update(float timeDelta, Level& level)
     // Update sprite if animation state chnaged
     if (animationStateComponent->HasStateChanged())
     {
-        //m_currentTextureIndex = static_cast<int>(animState);
         int textureID = static_cast<int>(animationStateComponent->GetState());
-        GetComponent<SpriteComponent>()->GetSprite().setTexture(TextureManager::GetTexture(m_textureIDs[textureID]));
+        sf::Texture& texture = TextureManager::GetTexture(m_textureIDs[textureID]);
+        
+        
+        // Horrible hackyness... shows that the frames and textures need to be linked to some degree
+        // Perhaps having the texture holding the frame information so this doesn't need calcs like this
+        auto animationFrames = GetComponent<AnimationFramesComponent>();
+        animationFrames->SetFrames(texture.getSize(), texture.getSize().x/33);
+        
+        GetComponent<SpriteComponent>()->SetTexture(texture);
+        
+        // Shouldn't have to call this, it should be part of the texture information.
+        // Sprite 
+        GetComponent<SpriteComponent>()->SetFrameRect(animationFrames->GetFrameRect());
         
         // set animation speed
         // TODO: required because the sprite texture is set directly on the sf::sprite object
@@ -192,11 +207,11 @@ void Player::Update(float timeDelta, Level& level)
         // if the texture component doesn't have more than one frame, it should know it can't animate
         if ((movementSpeed.x == 0) && (movementSpeed.y == 0))
         {
-            spriteComponent->SetAnimated(false);
+            //spriteComponent->SetAnimated(false);
         }
         else
         {
-            spriteComponent->SetAnimated(true);
+            //spriteComponent->SetAnimated(true);
         }
     }
 

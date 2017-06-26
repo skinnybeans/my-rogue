@@ -1,5 +1,7 @@
 #include "PCH.hpp"
 
+#include "SoundBufferManager.hpp"
+
 // Default Constructor.
 SoundBufferManager::SoundBufferManager()
 {

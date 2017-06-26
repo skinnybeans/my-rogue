@@ -9,6 +9,8 @@
 #include "PCH.hpp"
 #include "SpriteComponent.hpp"
 
+#include <iostream>
+
 // Default constructor
 SpriteComponent::SpriteComponent() :
 m_transformComponent(nullptr),
@@ -54,6 +56,19 @@ void SpriteComponent::Draw(sf::RenderWindow &window, float timeDelta)
     window.draw(m_sprite);
 }
 
+void SpriteComponent::Draw(sf::RenderWindow& window)
+{
+    // If the sprite has no position, then don't render it
+    if(m_transformComponent == nullptr)
+        return;
+    
+    // Update the sprite position before drawing
+    m_sprite.setPosition(m_transformComponent->GetPosition());
+    m_sprite.setRotation(m_transformComponent->GetRotationDegrees());
+    
+    window.draw(m_sprite);
+}
+
 bool SpriteComponent::SetSprite(sf::Texture& texture, bool isSmooth, int frames, int frameSpeed)
 {
     // Create a sprite from the loaded texture.
@@ -90,6 +105,33 @@ bool SpriteComponent::SetSprite(sf::Texture& texture, bool isSmooth, int frames,
     m_sprite.setOrigin(m_frameWidth / 2.f, m_frameHeight / 2.f);
     
     return true;
+}
+
+// Set the texture on the underlying sprite
+void SpriteComponent::SetTexture(sf::Texture& texture)
+{
+    m_sprite.setTexture(texture);
+}
+
+// Set the texture frame rect
+void SpriteComponent::SetFrameRect(sf::IntRect frameRect)
+{
+    // Check the texture fits the rect
+    sf::Vector2u textureSize = m_sprite.getTexture()->getSize();
+    
+    //std::cout << "TextureSize x: " << textureSize.x << " y: " << textureSize.y << std::endl;
+    //std::cout << "RectSize x: " << frameRect.left << " y: " << frameRect.top << std::endl << std::endl;
+    
+    if(frameRect.left > textureSize.x || frameRect.top > textureSize.y)
+    {
+        m_sprite.setTextureRect(sf::IntRect(0,0,textureSize.x, textureSize.y));
+    }
+    else
+    {
+        m_sprite.setTextureRect(frameRect);
+    }
+    m_sprite.setOrigin(frameRect.width / 2.f, frameRect.height / 2.f);
+    
 }
 
 // Returns the object's sprite.

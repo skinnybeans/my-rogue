@@ -36,6 +36,8 @@
 		9C8A95E31EB8106400E2927B /* Torch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C8A95CC1EB8106400E2927B /* Torch.cpp */; };
 		9C8A95E51EB8164C00E2927B /* resources in Resources */ = {isa = PBXBuildFile; fileRef = 9C8A95E41EB8164C00E2927B /* resources */; };
 		9C8A95E71EB8281800E2927B /* ResourcePath.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9C8A95E61EB8281800E2927B /* ResourcePath.mm */; };
+		9CCCA45A1EFD1289008753E1 /* TextureComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9CCCA4581EFD1289008753E1 /* TextureComponent.cpp */; };
+		9CCDD1D01F0065E600F76F12 /* AnimationFramesComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9CCDD1CE1F0065E600F76F12 /* AnimationFramesComponent.cpp */; };
 		9CE6500E1EF1E84600B5652C /* TextComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9CE6500C1EF1E84600B5652C /* TextComponent.cpp */; };
 /* End PBXBuildFile section */
 
@@ -98,6 +100,10 @@
 		9C8A95E41EB8164C00E2927B /* resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = resources; sourceTree = "<group>"; };
 		9C8A95E61EB8281800E2927B /* ResourcePath.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ResourcePath.mm; sourceTree = "<group>"; };
 		9C8A95E81EB8283800E2927B /* ResourcePath.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ResourcePath.hpp; sourceTree = "<group>"; };
+		9CCCA4581EFD1289008753E1 /* TextureComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureComponent.cpp; sourceTree = "<group>"; };
+		9CCCA4591EFD1289008753E1 /* TextureComponent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextureComponent.hpp; sourceTree = "<group>"; };
+		9CCDD1CE1F0065E600F76F12 /* AnimationFramesComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationFramesComponent.cpp; sourceTree = "<group>"; };
+		9CCDD1CF1F0065E600F76F12 /* AnimationFramesComponent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationFramesComponent.hpp; sourceTree = "<group>"; };
 		9CE6500C1EF1E84600B5652C /* TextComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextComponent.cpp; sourceTree = "<group>"; };
 		9CE6500D1EF1E84600B5652C /* TextComponent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextComponent.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -213,6 +219,8 @@
 		9C7F641F1EE93A1000E360EA /* components */ = {
 			isa = PBXGroup;
 			children = (
+				9CCDD1CE1F0065E600F76F12 /* AnimationFramesComponent.cpp */,
+				9CCDD1CF1F0065E600F76F12 /* AnimationFramesComponent.hpp */,
 				9C3293F91EFBB3C600FFAB57 /* AnimationStateComponent.cpp */,
 				9C3293FA1EFBB3C600FFAB57 /* AnimationStateComponent.hpp */,
 				9C7F64201EE93A3100E360EA /* Component.cpp */,
@@ -221,6 +229,8 @@
 				9C17913C1EEFCF2C004D086C /* SpriteComponent.hpp */,
 				9CE6500C1EF1E84600B5652C /* TextComponent.cpp */,
 				9CE6500D1EF1E84600B5652C /* TextComponent.hpp */,
+				9CCCA4581EFD1289008753E1 /* TextureComponent.cpp */,
+				9CCCA4591EFD1289008753E1 /* TextureComponent.hpp */,
 				9C7F64231EE9403400E360EA /* TransformComponent.cpp */,
 				9C7F64241EE9403400E360EA /* TransformComponent.hpp */,
 			);
@@ -335,9 +345,11 @@
 				9C8A95D51EB8106400E2927B /* Humanoid.cpp in Sources */,
 				9C8A95DF1EB8106400E2927B /* Projectile.cpp in Sources */,
 				9C7F64221EE93A3100E360EA /* Component.cpp in Sources */,
+				9CCCA45A1EFD1289008753E1 /* TextureComponent.cpp in Sources */,
 				9C8A95D81EB8106400E2927B /* Key.cpp in Sources */,
 				9C8A95CF1EB8106400E2927B /* Enemy.cpp in Sources */,
 				9C8A95D31EB8106400E2927B /* Gold.cpp in Sources */,
+				9CCDD1D01F0065E600F76F12 /* AnimationFramesComponent.cpp in Sources */,
 				9C555B451EC0442300399F54 /* PoisonHeart.cpp in Sources */,
 				9C8A95DD1EB8106400E2927B /* Player.cpp in Sources */,
 				9C8A95E21EB8106400E2927B /* TextureManager.cpp in Sources */,
