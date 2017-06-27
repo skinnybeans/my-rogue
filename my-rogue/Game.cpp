@@ -1192,13 +1192,8 @@ void Game::Draw(float timeDelta)
 		}
 
 		// Draw the player.
-        // Trying new split of animation frames separate from sprite
-        // Will need to combine this inside sprite most likely
-        auto animationFrames = m_player.GetComponent<AnimationFramesComponent>();
-        auto sprite = m_player.GetComponent<SpriteComponent>();
-        animationFrames->Update(timeDelta);
-        sprite->SetFrameRect(animationFrames->GetFrameRect());
-		sprite->Draw(m_window);
+        m_player.GetComponent<AnimationFramesComponent>()->Update(timeDelta);
+        m_player.GetComponent<SpriteComponent>()->Draw(m_window);
 
 		// Draw level light.
 		for (const sf::Sprite& sprite : m_lightGrid)

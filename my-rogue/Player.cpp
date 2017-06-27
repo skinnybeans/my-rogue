@@ -43,16 +43,6 @@ m_canTakeDamage(true)
     }
     
 	// Load textures.
-    /*
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)] = TextureManager::AddTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_walk_up.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)] = TextureManager::AddTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_walk_down.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_RIGHT)] = TextureManager::AddTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_walk_right.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_LEFT)] = TextureManager::AddTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_walk_left.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)] = TextureManager::AddTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_idle_up.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_DOWN)] = TextureManager::AddTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_idle_down.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_RIGHT)] = TextureManager::AddTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_idle_right.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_LEFT)] = TextureManager::AddTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_idle_left.png");
-     */
     m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)] = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_walk_up.png", 8);
     m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)] = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_walk_down.png", 8);
     m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_RIGHT)] = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_walk_right.png", 8);
@@ -62,13 +52,14 @@ m_canTakeDamage(true)
     m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_RIGHT)] = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_idle_right.png", 1);
     m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_LEFT)] = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_idle_left.png", 1);
     
-	// Set initial sprite.
+	// Get initial texture
     AnimatedTexture& spriteTexture = TextureManager::GetAnimatedTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)]);
-	//sf::Texture& texture = TextureManager::GetTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)]);
-    GetComponent<SpriteComponent>()->SetTexture(spriteTexture.m_texture);
-    GetComponent<AnimationFramesComponent>()->SetFrames(spriteTexture.m_texture.getSize(), spriteTexture.m_frameCount);
+
+    // Set the texture on the sprite
+    GetComponent<SpriteComponent>()->SetAnimatedTexture(spriteTexture);
+    
+    // Set the animcation speed
     GetComponent<AnimationFramesComponent>()->SetFrameSpeed(12);
-    //GetComponent<SpriteComponent>()->SetSprite(TextureManager::GetTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)]), false, 8, 12);
 
 	// Create the player's aim sprite.
 	int textureID = TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_aim.png");
@@ -184,28 +175,19 @@ void Player::Update(float timeDelta, Level& level)
     
     // Update animcation state
     std::shared_ptr<AnimationStateComponent> animationStateComponent = GetComponent<AnimationStateComponent>();
-    
     animationStateComponent->Update(movementSpeed);
-    
-    // output player position for debugging..
-    //std::cout << "x: " << GetComponent<TransformComponent>()->GetPosition().x << " y:" << GetComponent<TransformComponent>()->GetPosition().y << std::endl;
 
     // get the sprite component
     std::shared_ptr<SpriteComponent> spriteComponent = GetComponent<SpriteComponent>();
     
-    // Update sprite if animation state chnaged
+    // Update sprite if animation state changed
     if (animationStateComponent->HasStateChanged())
     {
-        int textureID = static_cast<int>(animationStateComponent->GetState());
-        AnimatedTexture& spriteTexture = TextureManager::GetAnimatedTexture(m_textureIDs[textureID]);
+        // AnimationState knows which texture should be used given the current entity movement
+        int textureIndex = static_cast<int>(animationStateComponent->GetState());
+        AnimatedTexture& spriteTexture = TextureManager::GetAnimatedTexture(m_textureIDs[textureIndex]);
         
-        // Not as bad hackyness
-        // Feel this explicit calling of setting frames should not be handled in each class
-        // that uses sprites and textures
-        // Perhaps the sprite component needs to know about the frames component more directly.
-        auto animationFrames = GetComponent<AnimationFramesComponent>();
-        animationFrames->SetFrames(spriteTexture.m_texture.getSize(), spriteTexture.m_frameCount);
-        
+        // Update the sprite with the new texture
         GetComponent<SpriteComponent>()->SetAnimatedTexture(spriteTexture);
     }
 

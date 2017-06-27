@@ -11,6 +11,7 @@
 
 #include "Component.hpp"
 #include "TransformComponent.hpp"
+#include "AnimationFramesComponent.hpp"
 
 class SpriteComponent : public Component
 {
@@ -25,6 +26,11 @@ public:
      * @param component the transform component
      */
     void SetTransformComponent(std::shared_ptr<TransformComponent> component);
+    
+    /**
+     * Sets the animation frames component that controls the animation of a texture
+     */
+    void SetAnimationFramesComponent(std::shared_ptr<AnimationFramesComponent> component);
     
     /**
      * Draws the object to the screen at its current position.
@@ -98,6 +104,11 @@ private:
      * Used to get the position the sprite should be rendered at
      */
     std::shared_ptr<TransformComponent> m_transformComponent;
+    
+    /**
+     * Used to animate a texture
+     */
+    std::shared_ptr<AnimationFramesComponent> m_animationFramesComponent;
     
     /**
      * The object's sprite.

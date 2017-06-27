@@ -28,6 +28,12 @@ void SpriteComponent::SetTransformComponent(std::shared_ptr<TransformComponent> 
     m_transformComponent = component;
 }
 
+// Sets the animation frames to use
+void SpriteComponent::SetAnimationFramesComponent(std::shared_ptr<AnimationFramesComponent> component)
+{
+    m_animationFramesComponent = component;
+}
+
 // Draws the object to the given render window.
 void SpriteComponent::Draw(sf::RenderWindow &window, float timeDelta)
 {
@@ -65,6 +71,9 @@ void SpriteComponent::Draw(sf::RenderWindow& window)
     // Update the sprite position before drawing
     m_sprite.setPosition(m_transformComponent->GetPosition());
     m_sprite.setRotation(m_transformComponent->GetRotationDegrees());
+    
+    // Update the frame
+    SetFrameRect(m_animationFramesComponent->GetFrameRect());
     
     window.draw(m_sprite);
 }
@@ -120,7 +129,10 @@ void SpriteComponent::SetTexture(sf::Texture& texture)
 void SpriteComponent::SetAnimatedTexture(AnimatedTexture& animatedTexture)
 {
     m_sprite.setTexture(animatedTexture.m_texture);
-    SetFrameRect(sf::IntRect(0, 0,animatedTexture.m_frameSize.x, animatedTexture.m_frameSize.y));
+    m_animationFramesComponent->SetFrames(animatedTexture.m_texture.getSize(), animatedTexture.m_frameCount);
+    SetFrameRect(m_animationFramesComponent->GetFrameRect());
+    
+    //SetFrameRect(sf::IntRect(0, 0,animatedTexture.m_frameSize.x, animatedTexture.m_frameSize.y));
 }
 
 // Set the texture frame rect

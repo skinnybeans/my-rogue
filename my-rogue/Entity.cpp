@@ -27,6 +27,9 @@ m_velocity({0.f, 0.f})
     
     // Add component to track animation frames
     AttachComponent<AnimationFramesComponent>();
+    
+    // Pass the animation frames component into the sprite
+    GetComponent<SpriteComponent>()->SetAnimationFramesComponent(GetComponent<AnimationFramesComponent>());
 }
 
 // Override the default Object::Update function.
