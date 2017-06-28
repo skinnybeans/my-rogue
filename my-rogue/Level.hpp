@@ -244,7 +244,12 @@ private:
     /**
      * Calculates the correct textures for each tile
      */
-    void CalculateTextures();
+    void CalculateWalls();
+    
+    /**
+     * Sets the textures for all the level tiles based on tile type
+     */
+    void SetTextures();
     
     /**
      * Creates entry and exit points for the level

@@ -83,7 +83,6 @@ void Game::Initialize()
     int soundBufferId;
     
     // Load torch sound.
-    
     soundBufferId = m_soundBufferManager->AddSoundBuffer(resourcePath() + "/resources/sounds/snd_fire.wav");
     m_fireSound.setBuffer(m_soundBufferManager->GetSoundBuffer(soundBufferId));
     m_fireSound.setLoop(true);

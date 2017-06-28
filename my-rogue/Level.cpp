@@ -290,7 +290,6 @@ bool Level::GenerateLevel()
             {
                 // Even tiles become wall
                 m_grid[i][j].type = TILE::WALL_TOP;
-                m_grid[i][j].sprite.setTexture(TextureManager::GetTexture(m_textureIDs[static_cast<int>(TILE::WALL_TOP)]));
             }
             m_grid[i][j].sprite.setPosition(m_origin.x + (TILE_SIZE * i), m_origin.y + (TILE_SIZE * j));
         }
@@ -302,7 +301,11 @@ bool Level::GenerateLevel()
     int roomCount = static_cast<int>((m_gridSize.x * m_gridSize.y) / 25);
     CreateRooms(roomCount);
     
-    CalculateTextures();
+    // Calculate the correct wall type to use after knocking out walls and rooms
+    CalculateWalls();
+    
+    // Apply textures to the level
+    SetTextures();
     
     // Set color of the level
     // Change color every 5 rooms
@@ -359,7 +362,6 @@ void Level::CreatePath(int columnIndex, int  rowIndex)
             {
                 // Set the tile to floor
                 nextTile->type = TILE::FLOOR;
-                nextTile->sprite.setTexture(TextureManager::GetTexture(m_textureIDs[static_cast<int>(TILE::FLOOR)]));
                 
                 // Smash wall between the two grid spaces
                 int ddx = currentTile->columnIndex + (directions[i].x/2);
@@ -368,7 +370,6 @@ void Level::CreatePath(int columnIndex, int  rowIndex)
                 Tile* wall = &m_grid[ddx][ddy];
                 
                 wall->type = TILE::FLOOR;
-                wall->sprite.setTexture(TextureManager::GetTexture(m_textureIDs[static_cast<int>(TILE::FLOOR)]));
                 
                 // Move to next tile
                 CreatePath(dx, dy);
@@ -407,7 +408,6 @@ void Level::CreateRooms(int roomCount)
                     {
                         Tile* tile = &m_grid[currentX][currentY];
                         tile->type = TILE::FLOOR;
-                        tile->sprite.setTexture(TextureManager::GetTexture(m_textureIDs[static_cast<int>(TILE::FLOOR)]));
                     }
                 }
             }
@@ -438,7 +438,7 @@ void Level::CreateTorches(int torchCount)
 
 
 // Set the wall textures correctly
-void Level::CalculateTextures()
+void Level::CalculateWalls()
 {
     for(int i=0; i<m_gridSize.x; i++)
     {
@@ -468,8 +468,19 @@ void Level::CalculateTextures()
                     value += 8;
                 
                 m_grid[i][j].type = static_cast<TILE>(value);
-                m_grid[i][j].sprite.setTexture(TextureManager::GetTexture(m_textureIDs[value]));
             }
+        }
+    }
+}
+
+// Sets the textures for the level based on tile types
+void Level::SetTextures()
+{
+    for(int i=0; i<m_gridSize.x; i++)
+    {
+        for(int j=0; j<m_gridSize.y; j++)
+        {
+            m_grid[i][j].sprite.setTexture(TextureManager::GetTexture(m_textureIDs[static_cast<int>(m_grid[i][j].type)]));
         }
     }
 }
