@@ -8,8 +8,10 @@ Torch::Torch() :
 m_brightness(1.f)
 {
 	// Set sprite.
-	int textureID = TextureManager::AddTexture(resourcePath() + "/resources/spr_torch.png");
-	GetComponent<SpriteComponent>()->SetSprite(TextureManager::GetTexture(textureID), false, 5, 12);
+	int textureID = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/spr_torch.png", 5);
+    
+	GetComponent<SpriteComponent>()->SetAnimatedTexture(TextureManager::GetAnimatedTexture(textureID));
+    GetComponent<AnimationFramesComponent>()->SetFrameSpeed(12);
 }
 
 // Update the brightness of the torch.

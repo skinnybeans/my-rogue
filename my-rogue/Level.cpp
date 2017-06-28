@@ -704,6 +704,7 @@ void Level::Draw(sf::RenderWindow& window, float timeDelta)
 	// Draw all torches.
 	for (auto& torch : m_torches)
 	{
-		torch->GetComponent<SpriteComponent>()->Draw(window, timeDelta);
+        torch->GetComponent<AnimationFramesComponent>()->Update(timeDelta);
+		torch->GetComponent<SpriteComponent>()->Draw(window);
 	}
 }

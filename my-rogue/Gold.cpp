@@ -19,18 +19,19 @@ Gold::Gold()
     
     if(this->m_goldValue <= GOLD_SMALL)
     {
-        textureID = TextureManager::AddTexture(resourcePath() + "/resources/loot/gold/spr_pickup_gold_small.png");
+        textureID = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/loot/gold/spr_pickup_gold_small.png", 8);
     }
     else if(this->m_goldValue < GOLD_LARGE)
     {
-        textureID = TextureManager::AddTexture(resourcePath() + "/resources/loot/gold/spr_pickup_gold_medium.png");
+        textureID = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/loot/gold/spr_pickup_gold_medium.png", 8);
     }
     else
     {
-        textureID = TextureManager::AddTexture(resourcePath() + "/resources/loot/gold/spr_pickup_gold_large.png");
+        textureID = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/loot/gold/spr_pickup_gold_large.png", 8);
     }
 
-	GetComponent<SpriteComponent>()->SetSprite(TextureManager::GetTexture(textureID), false, 8, 12);
+	GetComponent<SpriteComponent>()->SetAnimatedTexture(TextureManager::GetAnimatedTexture(textureID));
+    GetComponent<AnimationFramesComponent>()->SetFrameSpeed(12);
 
 	// Set the item type.
 	m_type = ITEM::GOLD;

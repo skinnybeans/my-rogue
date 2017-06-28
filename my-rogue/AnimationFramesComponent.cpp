@@ -57,7 +57,7 @@ sf::IntRect AnimationFramesComponent::GetFrameRect()
 void AnimationFramesComponent::Update(float timeDelta)
 {
     // If there is only 1 frame, don't bother updating
-    if(m_frameCount == 1)
+    if(m_frameCount <= 1)
         return;
     
     m_elapsedTime += timeDelta;

@@ -712,7 +712,8 @@ void Game::Update(float timeDelta)
 				if (m_player.GetMana() >= 2)
 				{
 					sf::Vector2f target(static_cast<float>(sf::Mouse::getPosition().x), static_cast<float>(sf::Mouse::getPosition().y));
-					std::unique_ptr<Projectile> proj = std::make_unique<Projectile>(TextureManager::GetTexture(m_projectileTextureID), playerPosition, m_screenCenter, target);
+					
+                    std::unique_ptr<Projectile> proj = std::make_unique<Projectile>(TextureManager::GetTexture(m_projectileTextureID), playerPosition, m_screenCenter, target);
 					m_playerProjectiles.push_back(std::move(proj));
 
 					// Reduce player mana.
@@ -1170,7 +1171,8 @@ void Game::Draw(float timeDelta)
 		// Draw all objects.
 		for (const auto& item : m_items)
 		{
-			item->GetComponent<SpriteComponent>()->Draw(m_window, timeDelta);
+            item->GetComponent<AnimationFramesComponent>()->Update(timeDelta);
+            item->GetComponent<SpriteComponent>()->Draw(m_window);
             
             // if the object has text, render that too
             std::shared_ptr<TextComponent> textComponent = item->GetComponent<TextComponent>();
@@ -1182,13 +1184,14 @@ void Game::Draw(float timeDelta)
 		// Draw all enemies.
 		for (const auto& enemy : m_enemies)
 		{
-			enemy->GetComponent<SpriteComponent>()->Draw(m_window, timeDelta);
+            enemy->GetComponent<AnimationFramesComponent>()->Update(timeDelta);
+            enemy->GetComponent<SpriteComponent>()->Draw(m_window);
 		}
 
 		// Draw all projectiles
 		for (const auto& proj : m_playerProjectiles)
 		{
-            proj->GetComponent<SpriteComponent>()->Draw(m_window, timeDelta);
+            proj->GetComponent<SpriteComponent>()->Draw(m_window);
 		}
 
 		// Draw the player.

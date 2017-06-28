@@ -53,7 +53,9 @@ m_accuracy(0)
     
     
 	// Load and set sprite.
-	GetComponent<SpriteComponent>()->SetSprite(TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "/resources/loot/potions/" + textureName)), false, 8, 12);
+	GetComponent<SpriteComponent>()->SetAnimatedTexture(TextureManager::GetAnimatedTexture(TextureManager::AddAnimatedTexture(resourcePath() + "/resources/loot/potions/" + textureName, 8)));
+    
+    GetComponent<AnimationFramesComponent>()->SetFrameSpeed(12);
 
 	// Set the item type.
 	m_type = ITEM::POTION;

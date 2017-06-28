@@ -24,12 +24,6 @@ m_velocity({0.f, 0.f})
 {
     // Add component to track animation state
     AttachComponent<AnimationStateComponent>();
-    
-    // Add component to track animation frames
-    AttachComponent<AnimationFramesComponent>();
-    
-    // Pass the animation frames component into the sprite
-    GetComponent<SpriteComponent>()->SetAnimationFramesComponent(GetComponent<AnimationFramesComponent>());
 }
 
 // Override the default Object::Update function.
@@ -37,32 +31,15 @@ void Entity::Update(float timeDelta)
 {
     std::shared_ptr<SpriteComponent> spriteComponent = GetComponent<SpriteComponent>();
     std::shared_ptr<AnimationStateComponent> animationState = GetComponent<AnimationStateComponent>();
-    std::shared_ptr<AnimationFramesComponent> animationFrames = GetComponent<AnimationFramesComponent>();
     
     animationState->Update(m_velocity);
     
     // Set the sprite texture if the animation state has changed
     if (animationState->HasStateChanged())
     {
-        // Reset to the start of the frames for new texture
-        animationFrames->Reset();
-        
-        int textureID = static_cast<int>(animationState->GetState());
-        spriteComponent->SetTexture(TextureManager::GetTexture(m_textureIDs[textureID]));
-        
-        //spriteComponent->GetSprite().setTexture(TextureManager::GetTexture(m_textureIDs[textureID]));
-        
-        // The sprite should determine its animation state based on the texture size
-        // Stopping animation outside of that should be a special case
-        // Set animation speed.
-        if ((m_velocity.x == 0) && (m_velocity.y == 0))
-        {
-            spriteComponent->SetAnimated(false);
-        }
-        else
-        {
-            spriteComponent->SetAnimated(true);
-        }
+        int stateID = static_cast<int>(animationState->GetState());
+
+        spriteComponent->SetAnimatedTexture(TextureManager::GetAnimatedTexture(m_textureIDs[stateID]));
     }
 }
 

@@ -10,7 +10,7 @@
 Projectile::Projectile(sf::Texture& texture, sf::Vector2f origin, sf::Vector2f screenCenter, sf::Vector2f target)
 {
 	// Create the sprite.
-	GetComponent<SpriteComponent>()->SetSprite(texture, false);
+	GetComponent<SpriteComponent>()->SetTexture(texture);
 
 	// Set the position.
     GetComponent<TransformComponent>()->SetPosition(origin);

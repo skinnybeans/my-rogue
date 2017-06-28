@@ -15,4 +15,10 @@ Object::Object()
     
     // Sprite needs access to position
     GetComponent<SpriteComponent>()->SetTransformComponent(GetComponent<TransformComponent>());
+    
+    // Add component to track animation frames
+    AttachComponent<AnimationFramesComponent>();
+    
+    // Pass the animation frames component into the sprite
+    GetComponent<SpriteComponent>()->SetAnimationFramesComponent(GetComponent<AnimationFramesComponent>());
 }
