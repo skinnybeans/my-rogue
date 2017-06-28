@@ -75,10 +75,3 @@ void AnimationFramesComponent::Update(float timeDelta)
         m_elapsedTime = 0.f;
     }
 }
-
-void AnimationFramesComponent::Reset()
-{
-    m_elapsedTime = 0.f;
-    m_frameCount = 0;
-    CalculateRect();
-}

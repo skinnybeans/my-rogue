@@ -43,7 +43,7 @@ void SpriteComponent::Draw(sf::RenderWindow &window, float timeDelta)
     m_sprite.setRotation(m_transformComponent->GetRotationDegrees());
     
     // Update the frame
-    SetFrameRect(m_animationFramesComponent->GetFrameRect());
+    m_sprite.setTextureRect(m_animationFramesComponent->GetFrameRect());
     
     window.draw(m_sprite);
 }
@@ -55,7 +55,11 @@ void SpriteComponent::SetTexture(sf::Texture& texture)
     
     // Any texture set this way is assumed to only have one frame
     m_animationFramesComponent->SetFrames(texture.getSize(), 1);
-    SetFrameRect(m_animationFramesComponent->GetFrameRect());
+    
+    // Reset the currently displayed frame
+    sf::IntRect frameRect = m_animationFramesComponent->GetFrameRect();
+    m_sprite.setOrigin(frameRect.width / 2.f, frameRect.height / 2.f);
+    m_sprite.setTextureRect(frameRect);
 }
 
 // Set the texture on the underlying sprite
@@ -68,24 +72,9 @@ void SpriteComponent::SetAnimatedTexture(AnimatedTexture& animatedTexture)
     m_animationFramesComponent->SetFrames(animatedTexture.m_texture.getSize(), animatedTexture.m_frameCount);
     
     // Reset the currently displayed frame
-    SetFrameRect(m_animationFramesComponent->GetFrameRect());
-}
-
-// Set the texture frame rect
-void SpriteComponent::SetFrameRect(sf::IntRect frameRect)
-{
-    // Check the texture fits the rect
-    sf::Vector2u textureSize = m_sprite.getTexture()->getSize();
-    
-    if(frameRect.left > textureSize.x || frameRect.top > textureSize.y)
-    {
-        m_sprite.setTextureRect(sf::IntRect(0,0,textureSize.x, textureSize.y));
-    }
-    else
-    {
-        m_sprite.setTextureRect(frameRect);
-    }
+    sf::IntRect frameRect = m_animationFramesComponent->GetFrameRect();
     m_sprite.setOrigin(frameRect.width / 2.f, frameRect.height / 2.f);
+    m_sprite.setTextureRect(frameRect);
 }
 
 // Returns the object's sprite.

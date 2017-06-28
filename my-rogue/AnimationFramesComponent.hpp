@@ -43,11 +43,6 @@ public:
      */
     sf::IntRect GetFrameRect();
     
-    /**
-     * Resets to first frame and 0 time
-     */
-    void Reset();
-    
 private:
     void CalculateRect();
 

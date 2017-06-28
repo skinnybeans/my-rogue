@@ -51,17 +51,9 @@ public:
     
     /**
      * Returns a reference the object's sprite.
-     * TODO: remove this. should not provide direct access to the sprite
      * @return A reference to the object's sprite.
      */
     sf::Sprite& GetSprite();
-
-private:
-    /**
-     * Sets the next frame of the texture to display
-     */
-    void SetFrameRect(sf::IntRect frameRect);
-    
     
 private:
     
