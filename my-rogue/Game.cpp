@@ -1171,8 +1171,7 @@ void Game::Draw(float timeDelta)
 		// Draw all objects.
 		for (const auto& item : m_items)
 		{
-            item->GetComponent<AnimationFramesComponent>()->Update(timeDelta);
-            item->GetComponent<SpriteComponent>()->Draw(m_window);
+            item->GetComponent<SpriteComponent>()->Draw(m_window, timeDelta);
             
             // if the object has text, render that too
             std::shared_ptr<TextComponent> textComponent = item->GetComponent<TextComponent>();
@@ -1184,19 +1183,17 @@ void Game::Draw(float timeDelta)
 		// Draw all enemies.
 		for (const auto& enemy : m_enemies)
 		{
-            enemy->GetComponent<AnimationFramesComponent>()->Update(timeDelta);
-            enemy->GetComponent<SpriteComponent>()->Draw(m_window);
+            enemy->GetComponent<SpriteComponent>()->Draw(m_window, timeDelta);
 		}
 
 		// Draw all projectiles
 		for (const auto& proj : m_playerProjectiles)
 		{
-            proj->GetComponent<SpriteComponent>()->Draw(m_window);
+            proj->GetComponent<SpriteComponent>()->Draw(m_window, timeDelta);
 		}
 
 		// Draw the player.
-        m_player.GetComponent<AnimationFramesComponent>()->Update(timeDelta);
-        m_player.GetComponent<SpriteComponent>()->Draw(m_window);
+        m_player.GetComponent<SpriteComponent>()->Draw(m_window, timeDelta);
 
 		// Draw level light.
 		for (const sf::Sprite& sprite : m_lightGrid)

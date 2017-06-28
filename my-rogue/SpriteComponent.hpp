@@ -37,10 +37,7 @@ public:
      * @param window The render window to draw the object to.
      * @param tileDelta The time, in MS, since the last draw call.
      */
-    //void Draw(sf::RenderWindow &window, float timeDelta);
-    
-    // New draw function, a AnimationFramesComponent takes care of all the time based stuff
-    void Draw(sf::RenderWindow &window);
+    void Draw(sf::RenderWindow &window, float timeDelta);
     
     /**
      * Stop direct access to the sf::Sprite for setting the texture

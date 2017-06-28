@@ -30,40 +30,13 @@ void SpriteComponent::SetAnimationFramesComponent(std::shared_ptr<AnimationFrame
 }
 
 // Draws the object to the given render window.
-/*
 void SpriteComponent::Draw(sf::RenderWindow &window, float timeDelta)
 {
     // If the sprite has no position, then don't render it
     if(m_transformComponent == nullptr)
         return;
     
-    // Update the sprite position before drawing
-    m_sprite.setPosition(m_transformComponent->GetPosition());
-    m_sprite.setRotation(m_transformComponent->GetRotationDegrees());
-    
-    // check if the sprite is animated
-    if (m_isAnimated)
-    {
-        // add the elapsed time since the last draw call to the aggregate
-        m_timeDelta += timeDelta;
-        
-        // check if the frame should be updated
-        if (m_timeDelta >= (1.f / m_animationSpeed))
-        {
-            NextFrame();
-            m_timeDelta = 0;
-        }
-    }
-    
-    window.draw(m_sprite);
-}
-*/
-
-void SpriteComponent::Draw(sf::RenderWindow& window)
-{
-    // If the sprite has no position, then don't render it
-    if(m_transformComponent == nullptr)
-        return;
+    m_animationFramesComponent->Update(timeDelta);
     
     // Update the sprite position before drawing
     m_sprite.setPosition(m_transformComponent->GetPosition());
@@ -80,9 +53,9 @@ void SpriteComponent::SetTexture(sf::Texture& texture)
 {
     m_sprite.setTexture(texture);
     
+    // Any texture set this way is assumed to only have one frame
     m_animationFramesComponent->SetFrames(texture.getSize(), 1);
     SetFrameRect(m_animationFramesComponent->GetFrameRect());
-    //SetFrameRect(sf::IntRect(0,0,texture.getSize().x, texture.getSize().y));
 }
 
 // Set the texture on the underlying sprite
