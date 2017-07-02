@@ -4,20 +4,16 @@
 #include "TransformComponent.hpp"
 #include "SpriteComponent.hpp"
 
+#include "LevelGeneratorComponent.hpp"
+
 #include <iostream>
 
-// Default constructor.
-Level::Level()
-{
-}
-
 // Constructor.
-Level::Level(sf::RenderWindow& window) : 
-m_origin({ 0, 0 }),
+Level::Level() :
 m_floorNumber(1),
 m_levelNumber(0),
 m_doorTileIndices({ 0, 0 }),
-m_gridSize(sf::Vector2i(9,9))
+m_gridSize(sf::Vector2i(0,0))
 {
 	// Load all tiles.
 	AddTile(resourcePath() + "/resources/tiles/spr_tile_floor.png", TILE::FLOOR);
@@ -51,23 +47,6 @@ m_gridSize(sf::Vector2i(9,9))
     AddTile(resourcePath() + "/resources/tiles/spr_tile_wall_entrance_left.png", TILE::WALL_ENTRANCE_LEFT);
     AddTile(resourcePath() + "/resources/tiles/spr_tile_door_locked_right.png", TILE::WALL_DOOR_LOCKED_RIGHT);
     AddTile(resourcePath() + "/resources/tiles/spr_tile_door_unlocked_right.png", TILE::WALL_DOOR_UNLOCKED_RIGHT);
-
-	// Calculate the top left of the grid.
-	m_origin.x = (window.getSize().x - (m_gridSize.x * TILE_SIZE));
-	m_origin.x /= 2;
-
-	m_origin.y = (window.getSize().y - (m_gridSize.y * TILE_SIZE));
-	m_origin.y /= 2;
-    
-    // Initalise the grid
-    ResetGrid();
-    
-    // Set initial floor color
-    sf::Uint8 red = std::rand() %101 + 100;
-    sf::Uint8 green = std::rand() %101 + 100;
-    sf::Uint8 blue = std::rand() %101 + 100;
-    
-    SetColor(sf::Color(red, green, blue, 255));
 }
 
 // Sets overlay color of level tiles
@@ -115,12 +94,6 @@ bool Level::IsSolid(int i, int j)
 	}
 	else
 		return false;
-}
-
-// Returns the position of the level relative to the application window.
-sf::Vector2f Level::GetPosition() const
-{
-	return sf::Vector2f(static_cast<float>(m_origin.x), static_cast<float>(m_origin.y));
 }
 
 // Returns the id of the given tile in the 2D level array.
@@ -180,8 +153,8 @@ sf::Vector2f Level::GetActualTileLocation(int columnIndex, int rowIndex)
 {
     sf::Vector2f location;
     
-    location.x = m_origin.x + (columnIndex * TILE_SIZE) + (TILE_SIZE / 2);
-    location.y = m_origin.y + (rowIndex * TILE_SIZE) + (TILE_SIZE / 2);
+    location.x = (columnIndex * TILE_SIZE) + (TILE_SIZE / 2);
+    location.y = (rowIndex * TILE_SIZE) + (TILE_SIZE / 2);
     
     return location;
 }
@@ -238,7 +211,7 @@ sf::Vector2f Level::GetSpawnLocation()
 }
 
 // Gets the size of the level in terms of tiles.
-sf::Vector2i Level::GetSize() const
+sf::Vector2u Level::GetSize() const
 {
 	return m_gridSize;
 }
@@ -246,10 +219,6 @@ sf::Vector2i Level::GetSize() const
 // Gets the tile that the position lies on.
 Tile* Level::GetTile(sf::Vector2f position)
 {
-	// Convert the position to relative to the level grid.
-	position.x -= m_origin.x;
-	position.y -= m_origin.y;
-
 	// Convert to a tile position.
 	int tileColumn, tileRow;
 
@@ -272,10 +241,19 @@ Tile* Level::GetTile(int columnIndex, int rowIndex)
 	}
 }
 
-// Generate a random level
-bool Level::GenerateLevel()
+bool Level::GenerateLevel(LevelConfig config)
 {
+    m_gridSize.x = config.width;
+    m_gridSize.y = config.height;
+    
+    LevelGeneratorComponent generator;
+    
+    generator.GenerateLevel(&m_grid, m_gridSize);
+    
+    //ResetGrid();
+    
     // Generate the initial grid pattern
+    /*
     for(int i=0; i<m_gridSize.x; i++)
     {
         for(int j=0; j<m_gridSize.y; j++)
@@ -291,15 +269,18 @@ bool Level::GenerateLevel()
                 // Even tiles become wall
                 m_grid[i][j].type = TILE::WALL_TOP;
             }
-            m_grid[i][j].sprite.setPosition(m_origin.x + (TILE_SIZE * i), m_origin.y + (TILE_SIZE * j));
+            m_grid[i][j].sprite.setPosition(TILE_SIZE * i, TILE_SIZE * j);
         }
     }
+    */
     
-    CreatePath(1,1);
+    //CreatePath(1,1);
+    generator.CreatePath(sf::Vector2u(1,1));
     
     // Create rooms based on the grid size
     int roomCount = static_cast<int>((m_gridSize.x * m_gridSize.y) / 25);
-    CreateRooms(roomCount);
+    //CreateRooms(roomCount);
+    generator.CreateRooms(roomCount);
     
     // Calculate the correct wall type to use after knocking out walls and rooms
     CalculateWalls();
@@ -331,6 +312,22 @@ bool Level::GenerateLevel()
     CreateTorches(torchCount);
     
     return true;
+}
+
+// Generate a random level
+bool Level::GenerateLevel()
+{
+    LevelConfig config;
+    config.width = std::rand() % 15 + 5;
+    config.height = std::rand() % 15 + 5;
+    
+    if(config.width % 2 == 0)
+        config.width += 1;
+    
+    if(config.height % 2 == 0)
+        config.height += 1;
+    
+    return GenerateLevel(config);
 }
 
 // Generates random paths through the level
@@ -588,7 +585,7 @@ bool Level::LoadLevelFromFile(std::string fileName)
 				cell.type = static_cast<TILE>(tileID);
                 
 				cell.sprite.setTexture(TextureManager::GetTexture(m_textureIDs[tileID]));
-				cell.sprite.setPosition(m_origin.x + (TILE_SIZE * i), m_origin.y + (TILE_SIZE * j));
+                cell.sprite.setPosition(TILE_SIZE * i, TILE_SIZE * j);
 
 				// Check for entry/exit nodes.
 				if (cell.type == TILE::WALL_DOOR_LOCKED)

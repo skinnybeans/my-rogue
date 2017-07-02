@@ -11,6 +11,8 @@
 		9C3293FB1EFBB3C600FFAB57 /* AnimationStateComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C3293F91EFBB3C600FFAB57 /* AnimationStateComponent.cpp */; };
 		9C555B451EC0442300399F54 /* PoisonHeart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C555B421EBFDE4D00399F54 /* PoisonHeart.cpp */; };
 		9C555B471EC2EB7000399F54 /* include in Resources */ = {isa = PBXBuildFile; fileRef = 9C555B461EC2EB7000399F54 /* include */; };
+		9C58768A1F04E98300F67575 /* LevelGeneratorComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C5876881F04E98300F67575 /* LevelGeneratorComponent.cpp */; };
+		9C58768D1F05AD4700F67575 /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C58768B1F05AD4700F67575 /* Tile.cpp */; };
 		9C7F64221EE93A3100E360EA /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F64201EE93A3100E360EA /* Component.cpp */; };
 		9C7F64251EE9403400E360EA /* TransformComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F64231EE9403400E360EA /* TransformComponent.cpp */; };
 		9C8A95CF1EB8106400E2927B /* Enemy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C8A95A51EB8106400E2927B /* Enemy.cpp */; };
@@ -50,6 +52,10 @@
 		9C555B421EBFDE4D00399F54 /* PoisonHeart.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PoisonHeart.cpp; sourceTree = "<group>"; };
 		9C555B431EBFDE4D00399F54 /* PoisonHeart.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PoisonHeart.hpp; sourceTree = "<group>"; };
 		9C555B461EC2EB7000399F54 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
+		9C5876881F04E98300F67575 /* LevelGeneratorComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelGeneratorComponent.cpp; sourceTree = "<group>"; };
+		9C5876891F04E98300F67575 /* LevelGeneratorComponent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LevelGeneratorComponent.hpp; sourceTree = "<group>"; };
+		9C58768B1F05AD4700F67575 /* Tile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tile.cpp; sourceTree = "<group>"; };
+		9C58768C1F05AD4700F67575 /* Tile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Tile.hpp; sourceTree = "<group>"; };
 		9C7F64201EE93A3100E360EA /* Component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Component.cpp; sourceTree = "<group>"; };
 		9C7F64211EE93A3100E360EA /* Component.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Component.hpp; sourceTree = "<group>"; };
 		9C7F64231EE9403400E360EA /* TransformComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransformComponent.cpp; sourceTree = "<group>"; };
@@ -137,7 +143,8 @@
 		9C06DF741EB7F680004A7F3D /* my-rogue */ = {
 			isa = PBXGroup;
 			children = (
-				9C7F641F1EE93A1000E360EA /* components */,
+				9C5876871F04E8DF00F67575 /* level-components */,
+				9C7F641F1EE93A1000E360EA /* object-components */,
 				9C4084661EF1F10500F00326 /* entities */,
 				9C4084651EF1F07400F00326 /* Items */,
 				9C8A95A91EB8106400E2927B /* Game.cpp */,
@@ -213,7 +220,18 @@
 			name = entities;
 			sourceTree = "<group>";
 		};
-		9C7F641F1EE93A1000E360EA /* components */ = {
+		9C5876871F04E8DF00F67575 /* level-components */ = {
+			isa = PBXGroup;
+			children = (
+				9C5876881F04E98300F67575 /* LevelGeneratorComponent.cpp */,
+				9C5876891F04E98300F67575 /* LevelGeneratorComponent.hpp */,
+				9C58768B1F05AD4700F67575 /* Tile.cpp */,
+				9C58768C1F05AD4700F67575 /* Tile.hpp */,
+			);
+			name = "level-components";
+			sourceTree = "<group>";
+		};
+		9C7F641F1EE93A1000E360EA /* object-components */ = {
 			isa = PBXGroup;
 			children = (
 				9CCDD1CE1F0065E600F76F12 /* AnimationFramesComponent.cpp */,
@@ -229,7 +247,7 @@
 				9C7F64231EE9403400E360EA /* TransformComponent.cpp */,
 				9C7F64241EE9403400E360EA /* TransformComponent.hpp */,
 			);
-			name = components;
+			name = "object-components";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -332,10 +350,12 @@
 				9C17913D1EEFCF2C004D086C /* SpriteComponent.cpp in Sources */,
 				9C8A95E01EB8106400E2927B /* Slime.cpp in Sources */,
 				9CE6500E1EF1E84600B5652C /* TextComponent.cpp in Sources */,
+				9C58768D1F05AD4700F67575 /* Tile.cpp in Sources */,
 				9C8A95E71EB8281800E2927B /* ResourcePath.mm in Sources */,
 				9C8A95D21EB8106400E2927B /* Gem.cpp in Sources */,
 				9C8A95D01EB8106400E2927B /* Entity.cpp in Sources */,
 				9C8A95E31EB8106400E2927B /* Torch.cpp in Sources */,
+				9C58768A1F04E98300F67575 /* LevelGeneratorComponent.cpp in Sources */,
 				9C8A95D91EB8106400E2927B /* Level.cpp in Sources */,
 				9C8A95D51EB8106400E2927B /* Humanoid.cpp in Sources */,
 				9C8A95DF1EB8106400E2927B /* Projectile.cpp in Sources */,
@@ -445,6 +465,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				GCC_OPTIMIZATION_LEVEL = 1;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include/,
 					$PROJECT_DIR/include/,
@@ -468,6 +489,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				GCC_OPTIMIZATION_LEVEL = 1;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include/,
 					"$(inherited)",

@@ -34,7 +34,7 @@ m_hasActiveGoal(false)
 	m_screenCenter = { m_window.getSize().x / 2.f, m_window.getSize().y / 2.f };
 
 	// Create the level object.
-	m_level = Level(*window);
+	m_level = Level();
 
 	// Create the game font.
 	m_font.loadFromFile(resourcePath() + "/resources/fonts/ADDSBP__.TTF");
@@ -120,9 +120,6 @@ void Game::Initialize()
 	// Initialize the UI.
 	LoadUI();
 
-	// Builds the light grid.
-	ConstructLightGrid();
-
 	// Define the game views.
 	m_views[static_cast<int>(VIEW::MAIN)] = m_window.getDefaultView();
 	//m_views[static_cast<int>(VIEW::MAIN)].zoom(0.75f);
@@ -145,8 +142,8 @@ void Game::ConstructLightGrid()
 	sf::IntRect levelArea;
 
 	// Define the bounds of the level.
-	levelArea.left = static_cast<int>(m_level.GetPosition().x);
-	levelArea.top = static_cast<int>(m_level.GetPosition().y);
+    levelArea.left = 0;
+    levelArea.top = 0;
 	levelArea.width = m_level.GetSize().x * m_level.GetTileSize();
 	levelArea.height = m_level.GetSize().y * m_level.GetTileSize();
 
@@ -389,6 +386,9 @@ void Game::GenerateLevel()
     // Crete new level
     m_level.GenerateLevel();
     
+    // Throw down some darkness
+    ConstructLightGrid();
+    
     // Place key randomly in level
     SpawnItem(ITEM::KEY);
     
@@ -412,7 +412,7 @@ void Game::GenerateLevel()
 void Game::PopulateLevel()
 {
     // Spawn enemies and items based on the size of the level
-    sf::Vector2i levelSize = m_level.GetSize();
+    sf::Vector2u levelSize = m_level.GetSize();
     int levelArea = levelSize.x * levelSize.y;
     
     int itemSpawnCount = levelArea/7;

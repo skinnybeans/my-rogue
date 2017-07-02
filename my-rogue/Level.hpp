@@ -12,20 +12,14 @@
 #define LEVEL_H
 
 #include "Torch.hpp"
+#include "Tile.hpp"
 
 // The width and height of each tile in pixels.
 static int const TILE_SIZE = 50;
 
-// The level tile type.
-struct Tile {
-	TILE type;							// The type of tile this is.
-	int columnIndex;					// The column index of the tile.
-	int rowIndex;						// The row index of the tile.
-	sf::Sprite sprite;					// The tile sprite.
-	int H;								// Heuristic / movement cost to goal.
-	int G;								// Movement cost. (Total of entire path)
-	int F;								// Estimated cost for full path. (G + H)
-	Tile* parentNode;					// Node to reach this node.
+struct LevelConfig {
+    int width;
+    int height;
 };
 
 class Level
@@ -35,13 +29,6 @@ public:
 	 * Default constructor.
 	 */
 	Level();
-
-	/** 
-	 * Constructor.
-	 * A renderWindow is needed in order for the level to calculate its position.
-	 * @param window The game window.
-	 */
-	Level(sf::RenderWindow& window);
 
     /**
      * Sets the overlay color of the level tiles.
@@ -108,6 +95,8 @@ public:
      * @return true if the level generated successfully.
      */
     bool GenerateLevel();
+    
+    bool GenerateLevel(LevelConfig config);
 
 	/**
 	 * Gets the tile at the given position.
@@ -128,7 +117,7 @@ public:
 	 * Gets the position of the level grid relative to the window.
 	 * @return The position of the top-left of the level grid.
 	 */
-	sf::Vector2f GetPosition() const;
+	//sf::Vector2f GetPosition() const;
     
     /**
      * Get the coordinates of the spawn location
@@ -167,7 +156,7 @@ public:
 	 * Gets the size of the level in terms of tiles.
 	 * @return The size of the level grid.
 	 */
-	sf::Vector2i GetSize() const;
+	sf::Vector2u GetSize() const;
 
 	/**
 	 * Spawns a given number of torches in the level.
@@ -227,6 +216,8 @@ private:
     
     /**
      * Creates a path between two nodes in the recursive backtracker algorithm.
+     * @param columnIndex starting column
+     * @param rowIndex starting row
      */
     void CreatePath(int columnIndex, int rowIndex);
     
@@ -264,7 +255,7 @@ private:
 private:
     
     // The size of the currently generated level grid
-    sf::Vector2i m_gridSize;
+    sf::Vector2u m_gridSize;
     
 	/**
 	 * A 2D array that describes the level data.
@@ -281,7 +272,7 @@ private:
 	 * The position of the level relative to the window.
 	 * This is to the top-left of the level grid.
 	 */
-	sf::Vector2i m_origin;
+	//sf::Vector2i m_origin;
 
 	/**
 	* The floor number that the player is currently on.
@@ -293,11 +284,6 @@ private:
 	* The level number that the player is currently in.
 	*/
 	int m_levelNumber;
-
-	/**
-	* A 2D array that contains the room layout for the current floor.
-	*/
-	int m_roomLayout[3][10];
 
 	/**
 	 * An array containing all texture IDs of the level tiles.
