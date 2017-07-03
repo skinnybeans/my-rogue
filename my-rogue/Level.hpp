@@ -13,14 +13,10 @@
 
 #include "Torch.hpp"
 #include "Tile.hpp"
+#include "LevelConfig.hpp"
 
 // The width and height of each tile in pixels.
 static int const TILE_SIZE = 50;
-
-struct LevelConfig {
-    int width;
-    int height;
-};
 
 class Level
 {
@@ -215,19 +211,6 @@ private:
 	bool IsWall(int columnIndex, int rowIndex);
     
     /**
-     * Creates a path between two nodes in the recursive backtracker algorithm.
-     * @param columnIndex starting column
-     * @param rowIndex starting row
-     */
-    void CreatePath(int columnIndex, int rowIndex);
-    
-    /**
-     * Creates a set number of rooms in the level.
-     */
-    void CreateRooms(int roomCount);
-    
-    
-    /**
      * Create torches to place around the level.
      */
     void CreateTorches(int torchCount);
@@ -246,11 +229,6 @@ private:
      * Creates entry and exit points for the level
      */
     void GenerateEntryExit();
-    
-    /**
-     * Clears and resets the level grid based on the currently set size
-     */
-    void ResetGrid();
 
 private:
     
@@ -267,12 +245,6 @@ private:
 	 * A vector off all the sprites in the level.
 	 */
 	std::vector<sf::Sprite> m_tileSprites;
-
-	/**
-	 * The position of the level relative to the window.
-	 * This is to the top-left of the level grid.
-	 */
-	//sf::Vector2i m_origin;
 
 	/**
 	* The floor number that the player is currently on.

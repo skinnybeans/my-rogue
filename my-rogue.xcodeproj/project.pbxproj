@@ -13,6 +13,7 @@
 		9C555B471EC2EB7000399F54 /* include in Resources */ = {isa = PBXBuildFile; fileRef = 9C555B461EC2EB7000399F54 /* include */; };
 		9C58768A1F04E98300F67575 /* LevelGeneratorComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C5876881F04E98300F67575 /* LevelGeneratorComponent.cpp */; };
 		9C58768D1F05AD4700F67575 /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C58768B1F05AD4700F67575 /* Tile.cpp */; };
+		9C5876901F0A24E000F67575 /* LevelConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C58768E1F0A24E000F67575 /* LevelConfig.cpp */; };
 		9C7F64221EE93A3100E360EA /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F64201EE93A3100E360EA /* Component.cpp */; };
 		9C7F64251EE9403400E360EA /* TransformComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F64231EE9403400E360EA /* TransformComponent.cpp */; };
 		9C8A95CF1EB8106400E2927B /* Enemy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C8A95A51EB8106400E2927B /* Enemy.cpp */; };
@@ -56,6 +57,8 @@
 		9C5876891F04E98300F67575 /* LevelGeneratorComponent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LevelGeneratorComponent.hpp; sourceTree = "<group>"; };
 		9C58768B1F05AD4700F67575 /* Tile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tile.cpp; sourceTree = "<group>"; };
 		9C58768C1F05AD4700F67575 /* Tile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Tile.hpp; sourceTree = "<group>"; };
+		9C58768E1F0A24E000F67575 /* LevelConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelConfig.cpp; sourceTree = "<group>"; };
+		9C58768F1F0A24E000F67575 /* LevelConfig.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LevelConfig.hpp; sourceTree = "<group>"; };
 		9C7F64201EE93A3100E360EA /* Component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Component.cpp; sourceTree = "<group>"; };
 		9C7F64211EE93A3100E360EA /* Component.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Component.hpp; sourceTree = "<group>"; };
 		9C7F64231EE9403400E360EA /* TransformComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransformComponent.cpp; sourceTree = "<group>"; };
@@ -227,6 +230,8 @@
 				9C5876891F04E98300F67575 /* LevelGeneratorComponent.hpp */,
 				9C58768B1F05AD4700F67575 /* Tile.cpp */,
 				9C58768C1F05AD4700F67575 /* Tile.hpp */,
+				9C58768E1F0A24E000F67575 /* LevelConfig.cpp */,
+				9C58768F1F0A24E000F67575 /* LevelConfig.hpp */,
 			);
 			name = "level-components";
 			sourceTree = "<group>";
@@ -350,6 +355,7 @@
 				9C17913D1EEFCF2C004D086C /* SpriteComponent.cpp in Sources */,
 				9C8A95E01EB8106400E2927B /* Slime.cpp in Sources */,
 				9CE6500E1EF1E84600B5652C /* TextComponent.cpp in Sources */,
+				9C5876901F0A24E000F67575 /* LevelConfig.cpp in Sources */,
 				9C58768D1F05AD4700F67575 /* Tile.cpp in Sources */,
 				9C8A95E71EB8281800E2927B /* ResourcePath.mm in Sources */,
 				9C8A95D21EB8106400E2927B /* Gem.cpp in Sources */,

@@ -129,25 +129,6 @@ void Level::SetTile(int columnIndex, int rowIndex, TILE tileType)
 	m_grid[columnIndex][rowIndex].sprite.setTexture(TextureManager::GetTexture(m_textureIDs[static_cast<int>(tileType)]));
 }
 
-// Clear the level grid
-void Level::ResetGrid()
-{
-    // Store the column and row information for each node.
-    m_grid.clear();
-    m_grid.resize(m_gridSize.x);
-    for (int i = 0; i < m_gridSize.x; i++)
-    {
-        m_grid.at(i).clear();
-        m_grid.at(i).resize(m_gridSize.y);
-        for (int j = 0; j < m_gridSize.y; j++)
-        {
-            auto cell = &m_grid[i][j];
-            cell->columnIndex = i;
-            cell->rowIndex = j;
-        }
-    }
-}
-
 // Returns world coordinates of a tile
 sf::Vector2f Level::GetActualTileLocation(int columnIndex, int rowIndex)
 {
@@ -243,44 +224,17 @@ Tile* Level::GetTile(int columnIndex, int rowIndex)
 
 bool Level::GenerateLevel(LevelConfig config)
 {
-    m_gridSize.x = config.width;
-    m_gridSize.y = config.height;
+    m_gridSize.x = config.dimentions.x;
+    m_gridSize.y = config.dimentions.y;
+    
+    config.roomCount = static_cast<int>((config.dimentions.x * config.dimentions.y) / 25);
     
     LevelGeneratorComponent generator;
     
-    generator.GenerateLevel(&m_grid, m_gridSize);
+    generator.GenerateLevel(&m_grid, config);
     
-    //ResetGrid();
-    
-    // Generate the initial grid pattern
-    /*
-    for(int i=0; i<m_gridSize.x; i++)
-    {
-        for(int j=0; j<m_gridSize.y; j++)
-        {
-            // Remember arrays are 0 based so every second tile will have an odd index
-            if((i%2 != 0) && (j%2 != 0))
-            {
-                // Odd tiles are empty.
-                m_grid[i][j].type = TILE::EMPTY;
-            }
-            else
-            {
-                // Even tiles become wall
-                m_grid[i][j].type = TILE::WALL_TOP;
-            }
-            m_grid[i][j].sprite.setPosition(TILE_SIZE * i, TILE_SIZE * j);
-        }
-    }
-    */
-    
-    //CreatePath(1,1);
-    generator.CreatePath(sf::Vector2u(1,1));
-    
-    // Create rooms based on the grid size
-    int roomCount = static_cast<int>((m_gridSize.x * m_gridSize.y) / 25);
-    //CreateRooms(roomCount);
-    generator.CreateRooms(roomCount);
+    // Add entry and exit rooms
+    GenerateEntryExit();
     
     // Calculate the correct wall type to use after knocking out walls and rooms
     CalculateWalls();
@@ -304,8 +258,6 @@ bool Level::GenerateLevel(LevelConfig config)
         SetColor(sf::Color(red, green, blue, 255));
     }
     
-    GenerateEntryExit();
-    
     // Generate torches based on level size
     m_torches.clear();
     int torchCount = static_cast<int>((m_gridSize.x * m_gridSize.y) / 45);
@@ -318,98 +270,16 @@ bool Level::GenerateLevel(LevelConfig config)
 bool Level::GenerateLevel()
 {
     LevelConfig config;
-    config.width = std::rand() % 15 + 5;
-    config.height = std::rand() % 15 + 5;
+    config.dimentions.x = std::rand() % 15 + 5;
+    config.dimentions.y = std::rand() % 15 + 5;
     
-    if(config.width % 2 == 0)
-        config.width += 1;
+    if(config.dimentions.x % 2 == 0)
+        config.dimentions.x += 1;
     
-    if(config.height % 2 == 0)
-        config.height += 1;
+    if(config.dimentions.y % 2 == 0)
+        config.dimentions.y += 1;
     
     return GenerateLevel(config);
-}
-
-// Generates random paths through the level
-void Level::CreatePath(int columnIndex, int  rowIndex)
-{
-    // Store the current tile
-    Tile* currentTile = &m_grid[columnIndex][rowIndex];
-    
-    // Create a list of possible directions
-    sf::Vector2i directions[] = {{0,-2},{2,0},{0,2},{-2,0}};
-    
-    // Shuffle the directions so we pick a random one first
-    std::random_shuffle(std::begin(directions), std::end(directions));
-    
-    // Check all the tiles
-    for(int i=0; i<4; i++)
-    {
-        int dx = currentTile->columnIndex + directions[i].x;
-        int dy = currentTile->rowIndex + directions[i].y;
-        
-        // Check the grid position is valid
-        if(TileIsValid(dx, dy))
-        {
-            
-            Tile* nextTile = &m_grid[dx][dy];
-            
-            // Check if tile has been visited before
-            if(nextTile->type == TILE::EMPTY)
-            {
-                // Set the tile to floor
-                nextTile->type = TILE::FLOOR;
-                
-                // Smash wall between the two grid spaces
-                int ddx = currentTile->columnIndex + (directions[i].x/2);
-                int ddy = currentTile->rowIndex + (directions[i].y/2);
-                
-                Tile* wall = &m_grid[ddx][ddy];
-                
-                wall->type = TILE::FLOOR;
-                
-                // Move to next tile
-                CreatePath(dx, dy);
-            }
-        }
-    }
-}
-
-// Add rooms to the level
-void Level::CreateRooms(int roomCount)
-{
-    for(int i=0; i<roomCount; i++)
-    {
-        // Generate room size
-        int height = std::rand() % 3 + 1;
-        int width = std::rand() % 3 + 1;
-        
-        // Choose starting location
-        int startX = std::rand() % (m_gridSize.x-2) + 2;
-        int startY = std::rand() % (m_gridSize.y-2) + 2;
-        
-        // Punch out the room
-        for(int j=0; j<width; j++)
-        {
-            for(int k=0; k<height; k++)
-            {
-                // Coords for the tile
-                int currentX = startX + j;
-                int currentY = startY + k;
-                
-                // Do we have a tile inside the bounds of the level
-                if(TileIsValid(currentX, currentY))
-                {
-                    // Don't put holes in the edges of the level. Monsters will escape...
-                    if(currentX != 0 && currentY != 0 && currentX != m_gridSize.x-1 && currentY != m_gridSize.y-1)
-                    {
-                        Tile* tile = &m_grid[currentX][currentY];
-                        tile->type = TILE::FLOOR;
-                    }
-                }
-            }
-        }
-    }
 }
 
 // Create torches for the level

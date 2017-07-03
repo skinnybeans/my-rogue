@@ -12,49 +12,46 @@
 LevelGeneratorComponent::LevelGeneratorComponent()
 {}
 
-void LevelGeneratorComponent::GenerateLevel(std::vector<std::vector<Tile>>* grid, sf::Vector2u size)
+void LevelGeneratorComponent::GenerateLevel(std::vector<std::vector<Tile>>* grid, LevelConfig& config)
 {
-    m_grid = grid;
-    m_gridSize = size;
-    
-    ResetGrid();
+    ResetGrid(grid, config);
     
     // Generate the initial grid pattern
-    for(int i=0; i<size.x; i++)
+    for(int i=0; i<config.dimentions.x; i++)
     {
-        for(int j=0; j<size.y; j++)
+        for(int j=0; j<config.dimentions.y; j++)
         {
             // Remember arrays are 0 based so every second tile will have an odd index
             if((i%2 != 0) && (j%2 != 0))
             {
                 // Odd tiles are empty.
-                //grid[i][j].type = TILE::EMPTY;
                 grid->at(i)[j].type = TILE::EMPTY;
             }
             else
             {
                 // Even tiles become wall
-                //grid[i][j].type = TILE::WALL_TOP;
                 grid->at(i)[j].type = TILE::WALL_TOP;
             }
-            //grid[i][j].sprite.setPosition(TILE_SIZE * i, TILE_SIZE * j);
             grid->at(i)[j].sprite.setPosition(TILE_SIZE * i, TILE_SIZE * j);
         }
     }
+    
+    CreatePath(grid, config, sf::Vector2u(1,1));
+    CreateRooms(grid, config);
 }
 
-void LevelGeneratorComponent::ResetGrid()
+void LevelGeneratorComponent::ResetGrid(std::vector<std::vector<Tile>>* grid, LevelConfig& config)
 {
     // Store the column and row information for each node.
-    m_grid->clear();
-    m_grid->resize(m_gridSize.x);
-    for (int i = 0; i < m_gridSize.x; i++)
+    grid->clear();
+    grid->resize(config.dimentions.x);
+    for (int i = 0; i < config.dimentions.x; i++)
     {
-        m_grid->at(i).clear();
-        m_grid->at(i).resize(m_gridSize.y);
-        for (int j = 0; j < m_gridSize.y; j++)
+        grid->at(i).clear();
+        grid->at(i).resize(config.dimentions.y);
+        for (int j = 0; j < config.dimentions.y; j++)
         {
-            auto cell = &(m_grid->at(i)[j]);
+            auto cell = &(grid->at(i)[j]);
             cell->columnIndex = i;
             cell->rowIndex = j;
         }
@@ -62,10 +59,10 @@ void LevelGeneratorComponent::ResetGrid()
 }
 
 // Generates random paths through the level
-void LevelGeneratorComponent::CreatePath(sf::Vector2u start)
+void LevelGeneratorComponent::CreatePath(std::vector<std::vector<Tile>>* grid, LevelConfig& config, sf::Vector2u start)
 {
     // Store the current tile
-    Tile* currentTile = &m_grid->at(start.x)[start.y];
+    Tile* currentTile = &grid->at(start.x)[start.y];
     
     // Create a list of possible directions
     sf::Vector2i directions[] = {{0,-2},{2,0},{0,2},{-2,0}};
@@ -80,10 +77,10 @@ void LevelGeneratorComponent::CreatePath(sf::Vector2u start)
         int dy = currentTile->rowIndex + directions[i].y;
         
         // Check the grid position is valid
-        if(IsValidTile(sf::Vector2i(dx, dy)))
+        if(IsValidTile(sf::Vector2i(dx, dy), config.dimentions))
         {
             
-            Tile* nextTile = &m_grid->at(dx)[dy];
+            Tile* nextTile = &grid->at(dx)[dy];
             
             // Check if tile has been visited before
             if(nextTile->type == TILE::EMPTY)
@@ -95,28 +92,28 @@ void LevelGeneratorComponent::CreatePath(sf::Vector2u start)
                 int ddx = currentTile->columnIndex + (directions[i].x/2);
                 int ddy = currentTile->rowIndex + (directions[i].y/2);
                 
-                Tile* wall = &m_grid->at(ddx)[ddy];
+                Tile* wall = &grid->at(ddx)[ddy];
                 
                 wall->type = TILE::FLOOR;
                 
                 // Move to next tile
-                CreatePath(sf::Vector2u(dx, dy));
+                CreatePath(grid, config, sf::Vector2u(dx, dy));
             }
         }
     }
 }
 
-void LevelGeneratorComponent::CreateRooms(int roomCount)
+void LevelGeneratorComponent::CreateRooms(std::vector<std::vector<Tile>>* grid, LevelConfig& config)
 {
-    for(int i=0; i<roomCount; i++)
+    for(int i=0; i<config.roomCount; i++)
     {
         // Generate room size
         int height = std::rand() % 3 + 1;
         int width = std::rand() % 3 + 1;
         
         // Choose starting location
-        int startX = std::rand() % (m_gridSize.x-2) + 2;
-        int startY = std::rand() % (m_gridSize.y-2) + 2;
+        int startX = std::rand() % (config.dimentions.x-2) + 2;
+        int startY = std::rand() % (config.dimentions.y-2) + 2;
         
         // Punch out the room
         for(int j=0; j<width; j++)
@@ -128,12 +125,12 @@ void LevelGeneratorComponent::CreateRooms(int roomCount)
                 int currentY = startY + k;
                 
                 // Do we have a tile inside the bounds of the level
-                if(IsValidTile(sf::Vector2i(currentX, currentY)))
+                if(IsValidTile(sf::Vector2i(currentX, currentY), config.dimentions))
                 {
                     // Don't put holes in the edges of the level. Monsters will escape...
-                    if(currentX != 0 && currentY != 0 && currentX != m_gridSize.x-1 && currentY != m_gridSize.y-1)
+                    if(currentX != 0 && currentY != 0 && currentX != config.dimentions.x-1 && currentY != config.dimentions.y-1)
                     {
-                        Tile* tile = &m_grid->at(currentX)[currentY];
+                        Tile* tile = &grid->at(currentX)[currentY];
                         tile->type = TILE::FLOOR;
                     }
                 }
@@ -143,12 +140,12 @@ void LevelGeneratorComponent::CreateRooms(int roomCount)
 }
 
 
-bool LevelGeneratorComponent::IsValidTile(sf::Vector2i location)
+bool LevelGeneratorComponent::IsValidTile(sf::Vector2i location, sf::Vector2u dimentions)
 {
     bool validColumn, validRow;
     
-    validColumn = ((location.x >= 0) && (location.x < m_gridSize.x));
-    validRow = ((location.y >= 0) && (location.y < m_gridSize.y));
+    validColumn = ((location.x >= 0) && (location.x < dimentions.x));
+    validRow = ((location.y >= 0) && (location.y < dimentions.y));
     
     return (validColumn && validRow);
 }

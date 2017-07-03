@@ -12,23 +12,18 @@
 #include "PCH.hpp"
 #include "Tile.hpp"
 #include "Level.hpp"
+#include "LevelConfig.hpp"
 
 class LevelGeneratorComponent
 {
 public:
     LevelGeneratorComponent();
-    
-    void GenerateLevel(std::vector<std::vector<Tile>>* grid, sf::Vector2u size);
-    void CreatePath(sf::Vector2u start);
-    void CreateRooms(int roomCount);
+    void GenerateLevel(std::vector<std::vector<Tile>>* grid, LevelConfig& config);
 private:
-    void ResetGrid();
-    bool IsValidTile(sf::Vector2i location);
-    
-    std::vector<std::vector<Tile>>* m_grid;
-    
-    sf::Vector2u m_gridSize;
-    
+    void CreatePath(std::vector<std::vector<Tile>>* grid, LevelConfig& config, sf::Vector2u start);
+    void CreateRooms(std::vector<std::vector<Tile>>* grid, LevelConfig& config);
+    void ResetGrid(std::vector<std::vector<Tile>>* grid, LevelConfig& config);
+    bool IsValidTile(sf::Vector2i location, sf::Vector2u dimentions);
 };
 
 #endif /* LevelGeneratorComponent_hpp */
