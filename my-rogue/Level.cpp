@@ -4,7 +4,8 @@
 #include "TransformComponent.hpp"
 #include "SpriteComponent.hpp"
 
-#include "LevelGeneratorComponent.hpp"
+#include "LevelGenerator.hpp"
+#include "BacktrackerLevelGenerator.hpp"
 
 #include <iostream>
 
@@ -222,14 +223,14 @@ Tile* Level::GetTile(int columnIndex, int rowIndex)
 	}
 }
 
-bool Level::GenerateLevel(LevelConfig config)
+bool Level::GenerateLevel(LevelConfig& config)
 {
     m_gridSize.x = config.dimentions.x;
     m_gridSize.y = config.dimentions.y;
     
     config.roomCount = static_cast<int>((config.dimentions.x * config.dimentions.y) / 25);
     
-    LevelGeneratorComponent generator;
+    BacktrackerLevelGenerator generator;
     
     generator.GenerateLevel(&m_grid, config);
     

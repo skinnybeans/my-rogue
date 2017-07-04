@@ -92,7 +92,7 @@ public:
      */
     bool GenerateLevel();
     
-    bool GenerateLevel(LevelConfig config);
+    bool GenerateLevel(LevelConfig& config);
 
 	/**
 	 * Gets the tile at the given position.

@@ -1,18 +1,17 @@
 //
-//  LevelComponent.cpp
+//  BacktrackerLevelGenerator.cpp
 //  my-rogue
 //
-//  Created by Henrik Axelsson on 29/6/17.
+//  Created by Henrik Axelsson on 4/7/17.
 //  Copyright © 2017 Henrik Axelsson. All rights reserved.
 //
 
-#include "LevelGeneratorComponent.hpp"
-#include <iostream>
+#include "BacktrackerLevelGenerator.hpp"
 
-LevelGeneratorComponent::LevelGeneratorComponent()
+BacktrackerLevelGenerator::BacktrackerLevelGenerator()
 {}
 
-void LevelGeneratorComponent::GenerateLevel(std::vector<std::vector<Tile>>* grid, LevelConfig& config)
+void BacktrackerLevelGenerator::GenerateLevel(std::vector<std::vector<Tile>>* grid, LevelConfig& config)
 {
     ResetGrid(grid, config);
     
@@ -40,7 +39,7 @@ void LevelGeneratorComponent::GenerateLevel(std::vector<std::vector<Tile>>* grid
     CreateRooms(grid, config);
 }
 
-void LevelGeneratorComponent::ResetGrid(std::vector<std::vector<Tile>>* grid, LevelConfig& config)
+void BacktrackerLevelGenerator::ResetGrid(std::vector<std::vector<Tile>>* grid, LevelConfig& config)
 {
     // Store the column and row information for each node.
     grid->clear();
@@ -59,7 +58,7 @@ void LevelGeneratorComponent::ResetGrid(std::vector<std::vector<Tile>>* grid, Le
 }
 
 // Generates random paths through the level
-void LevelGeneratorComponent::CreatePath(std::vector<std::vector<Tile>>* grid, LevelConfig& config, sf::Vector2u start)
+void BacktrackerLevelGenerator::CreatePath(std::vector<std::vector<Tile>>* grid, LevelConfig& config, sf::Vector2u start)
 {
     // Store the current tile
     Tile* currentTile = &grid->at(start.x)[start.y];
@@ -103,7 +102,7 @@ void LevelGeneratorComponent::CreatePath(std::vector<std::vector<Tile>>* grid, L
     }
 }
 
-void LevelGeneratorComponent::CreateRooms(std::vector<std::vector<Tile>>* grid, LevelConfig& config)
+void BacktrackerLevelGenerator::CreateRooms(std::vector<std::vector<Tile>>* grid, LevelConfig& config)
 {
     for(int i=0; i<config.roomCount; i++)
     {
@@ -140,7 +139,7 @@ void LevelGeneratorComponent::CreateRooms(std::vector<std::vector<Tile>>* grid, 
 }
 
 
-bool LevelGeneratorComponent::IsValidTile(sf::Vector2i location, sf::Vector2u dimentions)
+bool BacktrackerLevelGenerator::IsValidTile(sf::Vector2i location, sf::Vector2u dimentions)
 {
     bool validColumn, validRow;
     
