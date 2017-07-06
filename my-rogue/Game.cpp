@@ -748,6 +748,8 @@ void Game::Update(float timeDelta)
                         minDistance = distance;
                     }
                 }
+                
+                // move the fire sound to the closest torch
                 m_fireSound.setPosition(closestTorch.x, closestTorch.y, 0);
             }
             

@@ -10,14 +10,14 @@
 #define LevelGenerator_hpp
 
 #include "PCH.hpp"
-#include "Tile.hpp"
+#include "LevelGrid.hpp"
 #include "Level.hpp"
 #include "LevelConfig.hpp"
 
 class LevelGenerator
 {
 public:
-    virtual void GenerateLevel(std::vector<std::vector<Tile>>* grid, LevelConfig& config) = 0;
+    virtual void GenerateLevel(LevelGrid& grid, LevelConfig& config) = 0;
 };
 
 #endif /* LevelGeneratorComponent_hpp */

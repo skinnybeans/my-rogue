@@ -12,7 +12,7 @@
 		9C555B451EC0442300399F54 /* PoisonHeart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C555B421EBFDE4D00399F54 /* PoisonHeart.cpp */; };
 		9C555B471EC2EB7000399F54 /* include in Resources */ = {isa = PBXBuildFile; fileRef = 9C555B461EC2EB7000399F54 /* include */; };
 		9C58768A1F04E98300F67575 /* LevelGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C5876881F04E98300F67575 /* LevelGenerator.cpp */; };
-		9C58768D1F05AD4700F67575 /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C58768B1F05AD4700F67575 /* Tile.cpp */; };
+		9C58768D1F05AD4700F67575 /* LevelGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C58768B1F05AD4700F67575 /* LevelGrid.cpp */; };
 		9C5876901F0A24E000F67575 /* LevelConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C58768E1F0A24E000F67575 /* LevelConfig.cpp */; };
 		9C5876931F0AFDE300F67575 /* BacktrackerLevelGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C5876911F0AFDE300F67575 /* BacktrackerLevelGenerator.cpp */; };
 		9C7F64221EE93A3100E360EA /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F64201EE93A3100E360EA /* Component.cpp */; };
@@ -56,8 +56,8 @@
 		9C555B461EC2EB7000399F54 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
 		9C5876881F04E98300F67575 /* LevelGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelGenerator.cpp; sourceTree = "<group>"; };
 		9C5876891F04E98300F67575 /* LevelGenerator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LevelGenerator.hpp; sourceTree = "<group>"; };
-		9C58768B1F05AD4700F67575 /* Tile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tile.cpp; sourceTree = "<group>"; };
-		9C58768C1F05AD4700F67575 /* Tile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Tile.hpp; sourceTree = "<group>"; };
+		9C58768B1F05AD4700F67575 /* LevelGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelGrid.cpp; sourceTree = "<group>"; };
+		9C58768C1F05AD4700F67575 /* LevelGrid.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LevelGrid.hpp; sourceTree = "<group>"; };
 		9C58768E1F0A24E000F67575 /* LevelConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelConfig.cpp; sourceTree = "<group>"; };
 		9C58768F1F0A24E000F67575 /* LevelConfig.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LevelConfig.hpp; sourceTree = "<group>"; };
 		9C5876911F0AFDE300F67575 /* BacktrackerLevelGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BacktrackerLevelGenerator.cpp; sourceTree = "<group>"; };
@@ -233,8 +233,8 @@
 				9C5876921F0AFDE300F67575 /* BacktrackerLevelGenerator.hpp */,
 				9C5876881F04E98300F67575 /* LevelGenerator.cpp */,
 				9C5876891F04E98300F67575 /* LevelGenerator.hpp */,
-				9C58768B1F05AD4700F67575 /* Tile.cpp */,
-				9C58768C1F05AD4700F67575 /* Tile.hpp */,
+				9C58768B1F05AD4700F67575 /* LevelGrid.cpp */,
+				9C58768C1F05AD4700F67575 /* LevelGrid.hpp */,
 				9C58768E1F0A24E000F67575 /* LevelConfig.cpp */,
 				9C58768F1F0A24E000F67575 /* LevelConfig.hpp */,
 			);
@@ -361,7 +361,7 @@
 				9C8A95E01EB8106400E2927B /* Slime.cpp in Sources */,
 				9CE6500E1EF1E84600B5652C /* TextComponent.cpp in Sources */,
 				9C5876901F0A24E000F67575 /* LevelConfig.cpp in Sources */,
-				9C58768D1F05AD4700F67575 /* Tile.cpp in Sources */,
+				9C58768D1F05AD4700F67575 /* LevelGrid.cpp in Sources */,
 				9C8A95E71EB8281800E2927B /* ResourcePath.mm in Sources */,
 				9C8A95D21EB8106400E2927B /* Gem.cpp in Sources */,
 				9C8A95D01EB8106400E2927B /* Entity.cpp in Sources */,

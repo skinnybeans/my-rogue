@@ -239,41 +239,41 @@ void Enemy::UpdatePathfinding(Level & level, sf::Vector2f playerPosition)
         
         // Check top. Row -1
         potentialNode = level.GetTile(currentNode->columnIndex, currentNode->rowIndex - 1);
-        if((potentialNode != nullptr) && (level.IsFloor(*potentialNode)))
+        if((potentialNode != nullptr) && (!level.IsSolid(*potentialNode)))
         {
             adjacentNodes.push_back(potentialNode);
         }
         
         // Check bottom. Row +1
         potentialNode = level.GetTile(currentNode->columnIndex, currentNode->rowIndex + 1);
-        if((potentialNode != nullptr) && (level.IsFloor(*potentialNode)))
+        if((potentialNode != nullptr) && (!level.IsSolid(*potentialNode)))
         {
             adjacentNodes.push_back(potentialNode);
         }
         
         // Check left. Col -1
         potentialNode = level.GetTile(currentNode->columnIndex - 1, currentNode->rowIndex);
-        if((potentialNode != nullptr) && (level.IsFloor(*potentialNode)))
+        if((potentialNode != nullptr) && (!level.IsSolid(*potentialNode)))
         {
             adjacentNodes.push_back(potentialNode);
         }
         
         // Check right. Col +1
         potentialNode = level.GetTile(currentNode->columnIndex + 1, currentNode->rowIndex);
-        if((potentialNode != nullptr) && (level.IsFloor(*potentialNode)))
+        if((potentialNode != nullptr) && (!level.IsSolid(*potentialNode)))
         {
             adjacentNodes.push_back(potentialNode);
         }
         
         // Check top left
         potentialNode = level.GetTile(currentNode->columnIndex - 1, currentNode->rowIndex - 1);
-        if((potentialNode != nullptr) && (level.IsFloor(*potentialNode)))
+        if((potentialNode != nullptr) && (!level.IsSolid(*potentialNode)))
         {
             // Prevent cutting corners through walls
             Tile* topNode = level.GetTile(currentNode->columnIndex, currentNode->rowIndex - 1);
             Tile* leftNode = level.GetTile(currentNode->columnIndex - 1, currentNode->rowIndex);
             
-            if((topNode != nullptr) && level.IsFloor(*topNode) && (leftNode != nullptr) && level.IsFloor(*leftNode))
+            if((topNode != nullptr) && !level.IsSolid(*topNode) && (leftNode != nullptr) && !level.IsSolid(*leftNode))
             {
                 adjacentNodes.push_back(potentialNode);
             }
@@ -281,13 +281,13 @@ void Enemy::UpdatePathfinding(Level & level, sf::Vector2f playerPosition)
         
         // Check top right
         potentialNode = level.GetTile(currentNode->columnIndex + 1, currentNode->rowIndex - 1);
-        if((potentialNode != nullptr) && (level.IsFloor(*potentialNode)))
+        if((potentialNode != nullptr) && (!level.IsSolid(*potentialNode)))
         {
             // Prevent cutting corners through walls
             Tile* topNode = level.GetTile(currentNode->columnIndex, currentNode->rowIndex - 1);
             Tile* rightNode = level.GetTile(currentNode->columnIndex + 1, currentNode->rowIndex);
             
-            if((topNode != nullptr) && level.IsFloor(*topNode) && (rightNode != nullptr) && level.IsFloor(*rightNode))
+            if((topNode != nullptr) && !level.IsSolid(*topNode) && (rightNode != nullptr) && !level.IsSolid(*rightNode))
             {
                 adjacentNodes.push_back(potentialNode);
             }
@@ -295,13 +295,13 @@ void Enemy::UpdatePathfinding(Level & level, sf::Vector2f playerPosition)
         
         // Check bottom left
         potentialNode = level.GetTile(currentNode->columnIndex - 1, currentNode->rowIndex + 1);
-        if((potentialNode != nullptr) && (level.IsFloor(*potentialNode)))
+        if((potentialNode != nullptr) && (!level.IsSolid(*potentialNode)))
         {
             // Prevent cutting corners through walls
             Tile* bottomNode = level.GetTile(currentNode->columnIndex, currentNode->rowIndex + 1);
             Tile* leftNode = level.GetTile(currentNode->columnIndex - 1, currentNode->rowIndex);
             
-            if((bottomNode != nullptr) && level.IsFloor(*bottomNode) && (leftNode != nullptr) && level.IsFloor(*leftNode))
+            if((bottomNode != nullptr) && !level.IsSolid(*bottomNode) && (leftNode != nullptr) && !level.IsSolid(*leftNode))
             {
                 adjacentNodes.push_back(potentialNode);
             }
@@ -309,13 +309,13 @@ void Enemy::UpdatePathfinding(Level & level, sf::Vector2f playerPosition)
         
         // Check botton right
         potentialNode = level.GetTile(currentNode->columnIndex + 1, currentNode->rowIndex + 1);
-        if((potentialNode != nullptr) && (level.IsFloor(*potentialNode)))
+        if((potentialNode != nullptr) && (!level.IsSolid(*potentialNode)))
         {
             // Prevent cutting corners through walls
             Tile* bottomNode = level.GetTile(currentNode->columnIndex, currentNode->rowIndex + 1);
             Tile* rightNode = level.GetTile(currentNode->columnIndex + 1, currentNode->rowIndex);
             
-            if((bottomNode != nullptr) && level.IsFloor(*bottomNode) && (rightNode != nullptr) && level.IsFloor(*rightNode))
+            if((bottomNode != nullptr) && !level.IsSolid(*bottomNode) && (rightNode != nullptr) && !level.IsSolid(*rightNode))
             {
                 adjacentNodes.push_back(potentialNode);
             }

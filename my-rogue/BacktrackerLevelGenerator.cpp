@@ -11,9 +11,10 @@
 BacktrackerLevelGenerator::BacktrackerLevelGenerator()
 {}
 
-void BacktrackerLevelGenerator::GenerateLevel(std::vector<std::vector<Tile>>* grid, LevelConfig& config)
+void BacktrackerLevelGenerator::GenerateLevel(LevelGrid& grid, LevelConfig& config)
 {
-    ResetGrid(grid, config);
+    //ResetGrid(grid, config);
+    grid.ResetGrid(config.dimentions);
     
     // Generate the initial grid pattern
     for(int i=0; i<config.dimentions.x; i++)
@@ -24,44 +25,28 @@ void BacktrackerLevelGenerator::GenerateLevel(std::vector<std::vector<Tile>>* gr
             if((i%2 != 0) && (j%2 != 0))
             {
                 // Odd tiles are empty.
-                grid->at(i)[j].type = TILE::EMPTY;
+                grid[i][j].type = TILE::EMPTY;
             }
             else
             {
                 // Even tiles become wall
-                grid->at(i)[j].type = TILE::WALL_TOP;
+                grid[i][j].type = TILE::WALL_TOP;
             }
-            grid->at(i)[j].sprite.setPosition(TILE_SIZE * i, TILE_SIZE * j);
+            grid[i][j].sprite.setPosition(TILE_SIZE * i, TILE_SIZE * j);
         }
     }
     
     CreatePath(grid, config, sf::Vector2u(1,1));
     CreateRooms(grid, config);
-}
-
-void BacktrackerLevelGenerator::ResetGrid(std::vector<std::vector<Tile>>* grid, LevelConfig& config)
-{
-    // Store the column and row information for each node.
-    grid->clear();
-    grid->resize(config.dimentions.x);
-    for (int i = 0; i < config.dimentions.x; i++)
-    {
-        grid->at(i).clear();
-        grid->at(i).resize(config.dimentions.y);
-        for (int j = 0; j < config.dimentions.y; j++)
-        {
-            auto cell = &(grid->at(i)[j]);
-            cell->columnIndex = i;
-            cell->rowIndex = j;
-        }
-    }
+    SmoothWalls(grid);
+    CreateEntryExit(grid);
 }
 
 // Generates random paths through the level
-void BacktrackerLevelGenerator::CreatePath(std::vector<std::vector<Tile>>* grid, LevelConfig& config, sf::Vector2u start)
+void BacktrackerLevelGenerator::CreatePath(LevelGrid& grid, LevelConfig& config, sf::Vector2u start)
 {
     // Store the current tile
-    Tile* currentTile = &grid->at(start.x)[start.y];
+    Tile* currentTile = &grid[start.x][start.y];
     
     // Create a list of possible directions
     sf::Vector2i directions[] = {{0,-2},{2,0},{0,2},{-2,0}};
@@ -76,10 +61,10 @@ void BacktrackerLevelGenerator::CreatePath(std::vector<std::vector<Tile>>* grid,
         int dy = currentTile->rowIndex + directions[i].y;
         
         // Check the grid position is valid
-        if(IsValidTile(sf::Vector2i(dx, dy), config.dimentions))
+        if(grid.IsValidTile(sf::Vector2u(dx, dy)))
         {
             
-            Tile* nextTile = &grid->at(dx)[dy];
+            Tile* nextTile = &grid[dx][dy];
             
             // Check if tile has been visited before
             if(nextTile->type == TILE::EMPTY)
@@ -91,7 +76,7 @@ void BacktrackerLevelGenerator::CreatePath(std::vector<std::vector<Tile>>* grid,
                 int ddx = currentTile->columnIndex + (directions[i].x/2);
                 int ddy = currentTile->rowIndex + (directions[i].y/2);
                 
-                Tile* wall = &grid->at(ddx)[ddy];
+                Tile* wall = &grid[ddx][ddy];
                 
                 wall->type = TILE::FLOOR;
                 
@@ -102,7 +87,7 @@ void BacktrackerLevelGenerator::CreatePath(std::vector<std::vector<Tile>>* grid,
     }
 }
 
-void BacktrackerLevelGenerator::CreateRooms(std::vector<std::vector<Tile>>* grid, LevelConfig& config)
+void BacktrackerLevelGenerator::CreateRooms(LevelGrid& grid, LevelConfig& config)
 {
     for(int i=0; i<config.roomCount; i++)
     {
@@ -124,12 +109,12 @@ void BacktrackerLevelGenerator::CreateRooms(std::vector<std::vector<Tile>>* grid
                 int currentY = startY + k;
                 
                 // Do we have a tile inside the bounds of the level
-                if(IsValidTile(sf::Vector2i(currentX, currentY), config.dimentions))
+                if(grid.IsValidTile(sf::Vector2u(currentX, currentY)))
                 {
                     // Don't put holes in the edges of the level. Monsters will escape...
                     if(currentX != 0 && currentY != 0 && currentX != config.dimentions.x-1 && currentY != config.dimentions.y-1)
                     {
-                        Tile* tile = &grid->at(currentX)[currentY];
+                        Tile* tile = &grid[currentX][currentY];
                         tile->type = TILE::FLOOR;
                     }
                 }
@@ -138,13 +123,137 @@ void BacktrackerLevelGenerator::CreateRooms(std::vector<std::vector<Tile>>* grid
     }
 }
 
-
-bool BacktrackerLevelGenerator::IsValidTile(sf::Vector2i location, sf::Vector2u dimentions)
+void BacktrackerLevelGenerator::CreateEntryExit(LevelGrid& grid)
 {
-    bool validColumn, validRow;
+    int startLocation = -1;
+    int endLocation = -1;
+    sf::Vector2u dimentions = grid.GetDimentions();
     
-    validColumn = ((location.x >= 0) && (location.x < dimentions.x));
-    validRow = ((location.y >= 0) && (location.y < dimentions.y));
-    
-    return (validColumn && validRow);
+    // Set the entry/exit to top/bottom or left/right depending on level dimentions
+    if(dimentions.x > dimentions.y)
+    {
+        // Place entry/exit on left/right of level
+        while(startLocation == -1)
+        {
+            int index = std::rand() % dimentions.y;
+            if(grid[1][index].type == TILE::FLOOR)
+            {
+                startLocation = index;
+            }
+        }
+        
+        while(endLocation == -1)
+        {
+            int index = std::rand() % dimentions.y;
+            if(grid[dimentions.x-2][index].type == TILE::FLOOR)
+            {
+                endLocation = index;
+            }
+        }
+        
+        // Set the tile textures for the entrance and exit tiles.
+        grid[0][startLocation].type = TILE::WALL_ENTRANCE_LEFT;
+        grid[dimentions.x-1][endLocation].type = TILE::WALL_DOOR_LOCKED_RIGHT;
+        
+        grid.SetEntryPosition(sf::Vector2u(0,startLocation));
+        grid.SetExitPosition(sf::Vector2u(dimentions.x-1,endLocation));
+        
+        // Spawn position is the tile next to the entry tile
+        grid.SetSpawnPosition(sf::Vector2u(1, startLocation));
+        
+    }
+    else
+    {
+        // Place entry/exit on top/bottom of level
+        while(startLocation == -1)
+        {
+            int index = std::rand() % dimentions.x;
+            if(grid[index][dimentions.y - 2].type == TILE::FLOOR)
+            {
+                startLocation = index;
+            }
+        }
+        
+        while(endLocation == -1)
+        {
+            int index = std::rand() % dimentions.x;
+            if(grid[index][1].type == TILE::FLOOR)
+            {
+                endLocation = index;
+            }
+        }
+        
+        // Set the tile textures for the entrance and exit tiles.
+        grid[startLocation][dimentions.y - 1].type =  TILE::WALL_ENTRANCE;
+        grid[endLocation][0].type = TILE::WALL_DOOR_LOCKED;
+        
+        grid.SetEntryPosition(sf::Vector2u(startLocation, dimentions.y - 1));
+        grid.SetExitPosition(sf::Vector2u(endLocation, 0));
+        
+        // Spawn position is the tile next to the entry tile
+        grid.SetSpawnPosition(sf::Vector2u(startLocation, dimentions.y-2));
+    }
 }
+
+void BacktrackerLevelGenerator::SmoothWalls(LevelGrid& grid)
+{
+    for(int i=0; i<grid.GetDimentions().x; i++)
+    {
+        for(int j=0; j<grid.GetDimentions().y; j++)
+        {
+            if(grid.IsWall(sf::Vector2u(i,j)))
+            {
+                // Calculate bit mask
+                int value = 0;
+                
+                TILE type = grid[i][j].type;
+                
+                // Top
+                if(grid.IsWall(sf::Vector2u(i,j-1)))
+                    value += 1;
+                
+                // Right
+                if(grid.IsWall(sf::Vector2u(i+1, j)))
+                    value += 2;
+                
+                // Bottom
+                if(grid.IsWall(sf::Vector2u(i, j+1)))
+                    value += 4;
+                
+                // Left
+                if(grid.IsWall(sf::Vector2u(i-1, j)))
+                    value += 8;
+                
+                grid[i][j].type = static_cast<TILE>(value);
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

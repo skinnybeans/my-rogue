@@ -12,9 +12,7 @@
 // Constructor.
 Level::Level() :
 m_floorNumber(1),
-m_levelNumber(0),
-m_doorTileIndices({ 0, 0 }),
-m_gridSize(sf::Vector2i(0,0))
+m_levelNumber(0)
 {
 	// Load all tiles.
 	AddTile(resourcePath() + "/resources/tiles/spr_tile_floor.png", TILE::FLOOR);
@@ -53,9 +51,9 @@ m_gridSize(sf::Vector2i(0,0))
 // Sets overlay color of level tiles
 void Level::SetColor(sf::Color tileColor)
 {
-    for(int i=0; i<m_gridSize.x; i++)
+    for(int i=0; i<m_grid.GetDimentions().x; i++)
     {
-        for(int j=0; j<m_gridSize.y; j++)
+        for(int j=0; j<m_grid.GetDimentions().y; j++)
         {
             m_grid[i][j].sprite.setColor(tileColor);
         }
@@ -81,27 +79,11 @@ int Level::AddTile(std::string fileName, TILE tileType)
 	return textureID;
 }
 
-// Checks if a given tile is passable
-bool Level::IsSolid(int i, int j)
-{
-	// Check that the tile is valid
-	if (TileIsValid(i, j))
-	{
-		int tileIndex = static_cast<int>(m_grid[i][j].type);
-		return (((tileIndex != static_cast<int>(TILE::FLOOR)) &&
-                 (tileIndex != static_cast<int>(TILE::FLOOR_ALT))) &&
-                (tileIndex != static_cast<int>(TILE::WALL_DOOR_UNLOCKED)) &&
-                (tileIndex != static_cast<int>(TILE::WALL_DOOR_UNLOCKED_RIGHT)));
-	}
-	else
-		return false;
-}
-
 // Returns the id of the given tile in the 2D level array.
 TILE Level::GetTileType(int columnIndex, int rowIndex) const
 {
 	// Check that the parameters are valid.
-	if ((columnIndex >= m_gridSize.x) || (rowIndex >= m_gridSize.y))
+	if ((columnIndex >= m_grid.GetDimentions().x) || (rowIndex >= m_grid.GetDimentions().y))
 	{
 		return TILE::EMPTY; // failed
 	}
@@ -114,7 +96,7 @@ TILE Level::GetTileType(int columnIndex, int rowIndex) const
 void Level::SetTile(int columnIndex, int rowIndex, TILE tileType)
 {
 	// Check that the provided tile index is valid.
-	if ((columnIndex >= m_gridSize.x) || (rowIndex >= m_gridSize.y))
+	if ((columnIndex >= m_grid.GetDimentions().x) || (rowIndex >= m_grid.GetDimentions().y))
 	{
 		return;
 	}
@@ -150,8 +132,8 @@ sf::Vector2f Level::GetRandomSpawnLocation()
     // Loop until a location is found
     while (!IsFloor(columnIndex, rowIndex))
     {
-        columnIndex = rand() % m_gridSize.x;
-        rowIndex = rand() % m_gridSize.y;
+        columnIndex = rand() % m_grid.GetDimentions().x;
+        rowIndex = rand() % m_grid.GetDimentions().y;
     }
     
     sf::Vector2f tileLocation = GetActualTileLocation(columnIndex, rowIndex);
@@ -175,27 +157,16 @@ int Level::GetLevelNumber() const
 	return m_levelNumber;
 }
 
-// Checks if a given tile is valid.
-bool Level::TileIsValid(int column, int row)
-{
-	bool validColumn, validRow;
-
-	validColumn = ((column >= 0) && (column < m_gridSize.x));
-	validRow = ((row >= 0) && (row < m_gridSize.y));
-
-	return (validColumn && validRow);
-}
-
 // Get the spawn location coords
 sf::Vector2f Level::GetSpawnLocation()
 {
-    return m_spawnLocation;
+    return GetActualTileLocation(m_grid.GetSpawnPosition().x, m_grid.GetSpawnPosition().y);
 }
 
 // Gets the size of the level in terms of tiles.
 sf::Vector2u Level::GetSize() const
 {
-	return m_gridSize;
+	return m_grid.GetDimentions();
 }
 
 // Gets the tile that the position lies on.
@@ -213,7 +184,7 @@ Tile* Level::GetTile(sf::Vector2f position)
 // Returns a pointer to the tile at the given index.
 Tile* Level::GetTile(int columnIndex, int rowIndex)
 {
-	if (TileIsValid(columnIndex, rowIndex))
+    if (m_grid.IsValidTile(sf::Vector2u(columnIndex, rowIndex)))
 	{
 		return &m_grid[columnIndex][rowIndex];
 	}
@@ -223,22 +194,13 @@ Tile* Level::GetTile(int columnIndex, int rowIndex)
 	}
 }
 
+// Generate the level using input configuration
 bool Level::GenerateLevel(LevelConfig& config)
 {
-    m_gridSize.x = config.dimentions.x;
-    m_gridSize.y = config.dimentions.y;
-    
-    config.roomCount = static_cast<int>((config.dimentions.x * config.dimentions.y) / 25);
-    
     BacktrackerLevelGenerator generator;
     
-    generator.GenerateLevel(&m_grid, config);
-    
-    // Add entry and exit rooms
-    GenerateEntryExit();
-    
-    // Calculate the correct wall type to use after knocking out walls and rooms
-    CalculateWalls();
+    // Create the level grid
+    generator.GenerateLevel(m_grid, config);
     
     // Apply textures to the level
     SetTextures();
@@ -261,7 +223,7 @@ bool Level::GenerateLevel(LevelConfig& config)
     
     // Generate torches based on level size
     m_torches.clear();
-    int torchCount = static_cast<int>((m_gridSize.x * m_gridSize.y) / 45);
+    int torchCount = static_cast<int>((m_grid.GetDimentions().x * m_grid.GetDimentions().y) / 45);
     CreateTorches(torchCount);
     
     return true;
@@ -280,6 +242,8 @@ bool Level::GenerateLevel()
     if(config.dimentions.y % 2 == 0)
         config.dimentions.y += 1;
     
+    config.roomCount = static_cast<int>((config.dimentions.x * config.dimentions.y) / 25);
+    
     return GenerateLevel(config);
 }
 
@@ -290,10 +254,10 @@ void Level::CreateTorches(int torchCount)
     // simples way to start.. Just randomly pick tiles until a wall is selected
     while(spawnedCount < torchCount)
     {
-        int x = std::rand() % m_gridSize.x;
-        int y = std::rand() % m_gridSize.y;
+        int x = std::rand() % m_grid.GetDimentions().x;
+        int y = std::rand() % m_grid.GetDimentions().y;
         
-        if(IsWall(x, y))
+        if(m_grid.IsWall(sf::Vector2u(x, y)))
         {
             std::shared_ptr<Torch> torch = std::make_shared<Torch>();
             torch->GetComponent<TransformComponent>()->SetPosition(GetActualTileLocation(x, y));
@@ -304,128 +268,22 @@ void Level::CreateTorches(int torchCount)
     }
 }
 
-
-// Set the wall textures correctly
-void Level::CalculateWalls()
-{
-    for(int i=0; i<m_gridSize.x; i++)
-    {
-        for(int j=0; j<m_gridSize.y; j++)
-        {
-            if(IsWall(i, j))
-            {
-                // Calculate bit mask
-                int value = 0;
-                
-                TILE type = m_grid[i][j].type;
-                
-                // Top
-                if(IsWall(i,j-1))
-                    value += 1;
-                
-                // Right
-                if(IsWall(i+1, j))
-                    value += 2;
-                
-                // Bottom
-                if(IsWall(i, j+1))
-                    value += 4;
-                
-                // Left
-                if(IsWall(i-1, j))
-                    value += 8;
-                
-                m_grid[i][j].type = static_cast<TILE>(value);
-            }
-        }
-    }
-}
-
 // Sets the textures for the level based on tile types
 void Level::SetTextures()
 {
-    for(int i=0; i<m_gridSize.x; i++)
+    for(int i=0; i<m_grid.GetDimentions().x; i++)
     {
-        for(int j=0; j<m_gridSize.y; j++)
+        for(int j=0; j<m_grid.GetDimentions().y; j++)
         {
             m_grid[i][j].sprite.setTexture(TextureManager::GetTexture(m_textureIDs[static_cast<int>(m_grid[i][j].type)]));
         }
     }
 }
 
-// Creates the entry and exit to the level
-void Level::GenerateEntryExit()
-{
-    int startLocation = -1;
-    int endLocation = -1;
-    
-    // Set the entry/exit to top/bottom or left/right depending on level dimentions
-    if(m_gridSize.x > m_gridSize.y)
-    {
-        // Place entry/exit on left/right of level
-        while(startLocation == -1)
-        {
-            int index = std::rand() % m_gridSize.x;
-            if(m_grid[1][index].type == TILE::FLOOR)
-            {
-                startLocation = index;
-            }
-        }
-        
-        while(endLocation == -1)
-        {
-            int index = std::rand() % m_gridSize.x;
-            if(m_grid[m_gridSize.x-2][index].type == TILE::FLOOR)
-            {
-                endLocation = index;
-            }
-        }
-        
-        // Set the tile textures for the entrance and exit tiles.
-        SetTile(0, startLocation, TILE::WALL_ENTRANCE_LEFT);
-        SetTile(m_gridSize.x-1, endLocation, TILE::WALL_DOOR_LOCKED_RIGHT);
-        
-        // Save spawn position coordinates
-        m_spawnLocation = GetActualTileLocation(1, startLocation);
-        // Save exit door location
-        m_doorTileIndices = sf::Vector2i(m_gridSize.x-1, endLocation);
-       
-    }
-    else
-    {
-        // Place entry/exit on top/bottom of level
-        while(startLocation == -1)
-        {
-            int index = std::rand() % m_gridSize.x;
-            if(m_grid[index][m_gridSize.y - 2].type == TILE::FLOOR)
-            {
-                startLocation = index;
-            }
-        }
-        
-        while(endLocation == -1)
-        {
-            int index = std::rand() % m_gridSize.x;
-            if(m_grid[index][1].type == TILE::FLOOR)
-            {
-                endLocation = index;
-            }
-        }
-        
-        // Set the tile textures for the entrance and exit tiles.
-        SetTile(startLocation, m_gridSize.y - 1, TILE::WALL_ENTRANCE);
-        SetTile(endLocation, 0, TILE::WALL_DOOR_LOCKED);
-        
-        // Save spawn position coordinates
-        m_spawnLocation = GetActualTileLocation(startLocation, m_gridSize.y-2);
-        // Save exit door location
-        m_doorTileIndices = sf::Vector2i(endLocation, 0);
-    }
-}
-
 // Loads a level from a .txt file.
 bool Level::LoadLevelFromFile(std::string fileName)
 {
+    /*
 	// Create all the fields we need.
 	std::ifstream file(fileName);
 
@@ -501,30 +359,45 @@ bool Level::LoadLevelFromFile(std::string fileName)
 	{
 		return false;
 	}
-
+     */
 	return true;
-}
-
-// Checks if a given tile is a wall block.
-bool Level::IsWall(int i, int j)
-{
-	if (TileIsValid(i, j))
-		return m_grid[i][j].type <= TILE::WALL_INTERSECTION;
-	else
-		return false;
 }
 
 // Unlocks the door in the level.
 void Level::UnlockDoor()
 {
-    TILE exitTile = GetTile(m_doorTileIndices.x, m_doorTileIndices.y)->type;
+    TILE exitTile = GetTile(m_grid.GetExitPosition().x, m_grid.GetExitPosition().y)->type;
     
     if(exitTile == TILE::WALL_DOOR_LOCKED || exitTile == TILE::WALL_DOOR_LOCKED_RIGHT)
     {
         // The locked and unlocked doors are next to each other in the enum
         // So adding 1 to the current tile will get the unlocked door
-        SetTile(m_doorTileIndices.x, m_doorTileIndices.y, static_cast<TILE>(static_cast<int>(exitTile)+1));
+        SetTile(m_grid.GetExitPosition().x, m_grid.GetExitPosition().y, static_cast<TILE>(static_cast<int>(exitTile)+1));
     }
+}
+
+// Checks if a given tile is passable
+bool Level::IsSolid(int i, int j)
+{
+    // Check that the tile is valid
+    if (m_grid.IsValidTile(sf::Vector2u(i, j)))
+    {
+        Tile& tile = m_grid[i][j];
+        return IsSolid(tile);
+    }
+    else
+        return false;
+}
+
+// Checks if a given tile is passable
+bool Level::IsSolid(const Tile& tile)
+{
+    // Check that the tile is valid
+    TILE tileType = tile.type;
+    return (((tileType != TILE::FLOOR) &&
+             (tileType != TILE::FLOOR_ALT)) &&
+            (tileType != TILE::WALL_DOOR_UNLOCKED) &&
+            (tileType != TILE::WALL_DOOR_UNLOCKED_RIGHT));
 }
 
 // Return true if the given tile is a floor tile.
@@ -537,22 +410,17 @@ bool Level::IsFloor(int columnIndex, int rowIndex)
 	return ((tile->type == TILE::FLOOR) || (tile->type == TILE::FLOOR_ALT));
 }
 
-// Return true if the given tile is a floor tile.
-bool Level::IsFloor(const Tile& tile)
-{
-	return ((tile.type == TILE::FLOOR) || (tile.type == TILE::FLOOR_ALT) || (tile.type == TILE::FLOOR_SPIKES));
-}
-
 // Gets the size of the tiles in the level.
 int Level::GetTileSize() const
 {
 	return TILE_SIZE;
 }
 
+// Reset nodes used for pathfinding
 void Level::ResetNodes()
 {
-    for (int i=0; i<m_gridSize.x; i++) {
-        for(int j=0; j<m_gridSize.y; j++)
+    for (int i=0; i<m_grid.GetDimentions().x; i++) {
+        for(int j=0; j<m_grid.GetDimentions().y; j++)
         {
             m_grid[i][j].parentNode = nullptr;
             m_grid[i][j].H = 0;
@@ -572,9 +440,9 @@ std::vector<std::shared_ptr<Torch>>* Level::GetTorches()
 void Level::Draw(sf::RenderWindow& window, float timeDelta)
 {
 	// Draw the level tiles.
-	for (int i = 0; i < m_gridSize.x; i++)
+	for (int i = 0; i < m_grid.GetDimentions().x; i++)
 	{
-		for (int j = 0; j < m_gridSize.y; j++)
+		for (int j = 0; j < m_grid.GetDimentions().y; j++)
 		{
 			window.draw(m_grid[i][j].sprite);
 		}
