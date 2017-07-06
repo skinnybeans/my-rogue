@@ -18,6 +18,10 @@ class LevelGenerator
 {
 public:
     virtual void GenerateLevel(LevelGrid& grid, LevelConfig& config) = 0;
+    
+protected:
+    void SmoothWalls(LevelGrid& grid);
+    void CreateEntryExit(LevelGrid& grid);
 };
 
 #endif /* LevelGeneratorComponent_hpp */

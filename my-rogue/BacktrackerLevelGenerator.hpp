@@ -22,10 +22,7 @@ public:
 private:
     void CreatePath(LevelGrid& grid, LevelConfig& config, sf::Vector2u start);
     void CreateRooms(LevelGrid& grid, LevelConfig& config);
-    void CreateEntryExit(LevelGrid& grid);
-    void SmoothWalls(LevelGrid& grid);
 };
-
 
 // Uses the recursive backtracker algorithm for generating the maze
 

@@ -6,6 +6,7 @@
 
 #include "LevelGenerator.hpp"
 #include "BacktrackerLevelGenerator.hpp"
+#include "OpenRoomLevelGenerator.hpp"
 
 #include <iostream>
 
@@ -77,19 +78,6 @@ int Level::AddTile(std::string fileName, TILE tileType)
 
 	// Return the ID of the tile.
 	return textureID;
-}
-
-// Returns the id of the given tile in the 2D level array.
-TILE Level::GetTileType(int columnIndex, int rowIndex) const
-{
-	// Check that the parameters are valid.
-	if ((columnIndex >= m_grid.GetDimentions().x) || (rowIndex >= m_grid.GetDimentions().y))
-	{
-		return TILE::EMPTY; // failed
-	}
-
-	// Fetch the id.
-	return m_grid[columnIndex][rowIndex].type;
 }
 
 // Sets the id of the given tile in the grid.
@@ -198,6 +186,7 @@ Tile* Level::GetTile(int columnIndex, int rowIndex)
 bool Level::GenerateLevel(LevelConfig& config)
 {
     BacktrackerLevelGenerator generator;
+    //OpenRoomLevelGenerator generator;
     
     // Create the level grid
     generator.GenerateLevel(m_grid, config);

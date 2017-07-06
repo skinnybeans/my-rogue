@@ -64,14 +64,6 @@ public:
 	void Draw(sf::RenderWindow &window, float timeDelta);
 
 	/**
-	 * Gets the index of the given tile.
-	 * @param columnIndex The column index of the tile to check.
-	 * @param rowIndex The row index of the tile to check.
-	 * @return The index of the given tile.
-	 */
-	TILE GetTileType(int columnIndex, int rowIndex) const;
-
-	/**
 	 * Loads a level from a text file.
 	 * @param fileName The path to the level file to load.
 	 * @return true if the level loaded succesfully.
