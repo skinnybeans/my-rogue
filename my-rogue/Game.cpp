@@ -7,6 +7,9 @@
 #include "TextComponent.hpp"
 #include "AnimationFramesComponent.hpp"
 
+#include "BacktrackerLevelGenerator.hpp"
+#include "OpenRoomLevelGenerator.hpp"
+
 #include <cmath>
 #include <iostream>
 
@@ -383,8 +386,39 @@ void Game::LoadLevel()
 // Generates a random level
 void Game::GenerateLevel()
 {
+    // Create a config to pass into the level
+    LevelConfig config;
+    config.dimentions.x = std::rand() % 15 + 5;
+    config.dimentions.y = std::rand() % 15 + 5;
+    
+    if(config.dimentions.x % 2 == 0)
+        config.dimentions.x += 1;
+    
+    if(config.dimentions.y % 2 == 0)
+        config.dimentions.y += 1;
+    
+    config.roomCount = static_cast<int>((config.dimentions.x * config.dimentions.y) / 25);
+    
+    // Randomly select level generator to use
+    LEVEL_GENERATOR generatorType = static_cast<LEVEL_GENERATOR>(std::rand() % 2);
+    
+    std::shared_ptr<LevelGenerator> generator;
+    
+    switch(generatorType)
+    {
+        case LEVEL_GENERATOR::BACKTRACKER:
+            generator = std::make_shared<BacktrackerLevelGenerator>();
+            break;
+        case LEVEL_GENERATOR::OPEN_ROOM:
+            generator = std::make_shared<OpenRoomLevelGenerator>();
+            break;
+        case LEVEL_GENERATOR::COUNT:
+            // error!
+            break;
+    }
+    
     // Crete new level
-    m_level.GenerateLevel();
+    m_level.GenerateLevel(config, generator);
     
     // Throw down some darkness
     ConstructLightGrid();

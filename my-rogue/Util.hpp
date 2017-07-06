@@ -148,4 +148,10 @@ enum class MUSIC_TRACK {
     ALT_4,
     COUNT
 };
+
+enum class LEVEL_GENERATOR {
+    BACKTRACKER,
+    OPEN_ROOM,
+    COUNT
+};
 #endif

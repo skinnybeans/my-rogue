@@ -77,7 +77,7 @@ public:
      */
     bool GenerateLevel();
     
-    bool GenerateLevel(LevelConfig& config, LevelGenerator* generator);
+    bool GenerateLevel(LevelConfig& config, std::shared_ptr<LevelGenerator> generator);
 
 	/**
 	 * Gets the tile at the given position.

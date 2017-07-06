@@ -183,7 +183,7 @@ Tile* Level::GetTile(int columnIndex, int rowIndex)
 }
 
 // Generate the level using input configuration
-bool Level::GenerateLevel(LevelConfig& config, LevelGenerator* generator)
+bool Level::GenerateLevel(LevelConfig& config, std::shared_ptr<LevelGenerator> generator)
 {
     //BacktrackerLevelGenerator generator;
     //OpenRoomLevelGenerator generator;
@@ -233,9 +233,9 @@ bool Level::GenerateLevel()
     
     config.roomCount = static_cast<int>((config.dimentions.x * config.dimentions.y) / 25);
     
-    BacktrackerLevelGenerator generator;
+    std::shared_ptr<LevelGenerator> generator = std::make_shared<BacktrackerLevelGenerator>();
     
-    return GenerateLevel(config, &generator);
+    return GenerateLevel(config,generator);
 }
 
 // Create torches for the level
