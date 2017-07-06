@@ -8,24 +8,26 @@
 
 #include "OpenRoomLevelGenerator.hpp"
 
+// Default constructor
 OpenRoomLevelGenerator::OpenRoomLevelGenerator()
 {}
 
+// Generate the level grid
 void OpenRoomLevelGenerator::GenerateLevel(LevelGrid& grid, LevelConfig& config)
 {
-    // put walls around the edges of the level
+    // Make sure level is reset
     grid.ResetGrid(config.dimentions);
     
+    // Fill with floor tiles
     for(int i=0; i<config.dimentions.x; i++)
     {
         for(int j=0; j<config.dimentions.y; j++)
         {
             grid[i][j].type = TILE::FLOOR;
-            
-            grid[i][j].sprite.setPosition(TILE_SIZE * i, TILE_SIZE * j);
         }
     }
     
+    // put walls around the edges of the level
     // top
     for(int i=0; i<config.dimentions.x; i++)
     {

@@ -118,7 +118,7 @@ sf::Vector2f Level::GetRandomSpawnLocation()
     int columnIndex(0);
     
     // Loop until a location is found
-    while (!IsFloor(columnIndex, rowIndex))
+    while (!IsSpawnableFloor(columnIndex, rowIndex))
     {
         columnIndex = rand() % m_grid.GetDimentions().x;
         rowIndex = rand() % m_grid.GetDimentions().y;
@@ -183,13 +183,13 @@ Tile* Level::GetTile(int columnIndex, int rowIndex)
 }
 
 // Generate the level using input configuration
-bool Level::GenerateLevel(LevelConfig& config)
+bool Level::GenerateLevel(LevelConfig& config, LevelGenerator* generator)
 {
-    BacktrackerLevelGenerator generator;
+    //BacktrackerLevelGenerator generator;
     //OpenRoomLevelGenerator generator;
     
     // Create the level grid
-    generator.GenerateLevel(m_grid, config);
+    generator->GenerateLevel(m_grid, config);
     
     // Apply textures to the level
     SetTextures();
@@ -233,7 +233,9 @@ bool Level::GenerateLevel()
     
     config.roomCount = static_cast<int>((config.dimentions.x * config.dimentions.y) / 25);
     
-    return GenerateLevel(config);
+    BacktrackerLevelGenerator generator;
+    
+    return GenerateLevel(config, &generator);
 }
 
 // Create torches for the level
@@ -264,6 +266,7 @@ void Level::SetTextures()
     {
         for(int j=0; j<m_grid.GetDimentions().y; j++)
         {
+            m_grid[i][j].sprite.setPosition(TILE_SIZE * i, TILE_SIZE * j);
             m_grid[i][j].sprite.setTexture(TextureManager::GetTexture(m_textureIDs[static_cast<int>(m_grid[i][j].type)]));
         }
     }
@@ -389,8 +392,8 @@ bool Level::IsSolid(const Tile& tile)
             (tileType != TILE::WALL_DOOR_UNLOCKED_RIGHT));
 }
 
-// Return true if the given tile is a floor tile.
-bool Level::IsFloor(int columnIndex, int rowIndex)
+// Return true if the given tile is floor that can have something spawned on it
+bool Level::IsSpawnableFloor(int columnIndex, int rowIndex)
 {
 	Tile* tile = &m_grid[columnIndex][rowIndex];
 

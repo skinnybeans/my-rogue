@@ -14,8 +14,16 @@
 class OpenRoomLevelGenerator : public LevelGenerator
 {
 public:
+    /**
+     * Default constructor
+     */
     OpenRoomLevelGenerator();
     
+    /**
+     * Generate the level grid
+     * @param grid reference to a LevelGrid
+     * @param config only uses grid size for this level type
+     */
     void GenerateLevel(LevelGrid& grid, LevelConfig& config) override;
     
 private:

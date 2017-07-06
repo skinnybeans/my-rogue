@@ -11,6 +11,7 @@
 #ifndef LEVEL_H
 #define LEVEL_H
 
+#include "LevelGenerator.hpp"
 #include "Torch.hpp"
 #include "LevelGrid.hpp"
 #include "LevelConfig.hpp"
@@ -76,7 +77,7 @@ public:
      */
     bool GenerateLevel();
     
-    bool GenerateLevel(LevelConfig& config);
+    bool GenerateLevel(LevelConfig& config, LevelGenerator* generator);
 
 	/**
 	 * Gets the tile at the given position.
@@ -141,7 +142,7 @@ public:
 	 * @param rowIndex The column that the row is in.
 	 * @return True if the given tile is a floor tile.
 	 */
-	bool IsFloor(int columnIndex, int rowIndex);
+	bool IsSpawnableFloor(int columnIndex, int rowIndex);
     
     /**
      * Returns true if the given tile index is solid.

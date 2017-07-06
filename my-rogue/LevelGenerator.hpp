@@ -11,7 +11,6 @@
 
 #include "PCH.hpp"
 #include "LevelGrid.hpp"
-#include "Level.hpp"
 #include "LevelConfig.hpp"
 
 class LevelGenerator

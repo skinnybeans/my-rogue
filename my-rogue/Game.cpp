@@ -583,7 +583,7 @@ void Game::SpawnRandomTiles(TILE tileType, int count)
         int rowIndex(0);
         int columnIndex(0);
         
-        while(!m_level.IsFloor(columnIndex, rowIndex))
+        while(!m_level.IsSpawnableFloor(columnIndex, rowIndex))
         {
             columnIndex = std::rand() % m_level.GetSize().x;
             rowIndex = std::rand() & m_level.GetSize().y;

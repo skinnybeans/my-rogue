@@ -32,7 +32,6 @@ void BacktrackerLevelGenerator::GenerateLevel(LevelGrid& grid, LevelConfig& conf
                 // Even tiles become wall
                 grid[i][j].type = TILE::WALL_TOP;
             }
-            grid[i][j].sprite.setPosition(TILE_SIZE * i, TILE_SIZE * j);
         }
     }
     
