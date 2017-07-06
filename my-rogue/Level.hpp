@@ -11,22 +11,13 @@
 #ifndef LEVEL_H
 #define LEVEL_H
 
+#include "LevelGenerator.hpp"
 #include "Torch.hpp"
+#include "LevelGrid.hpp"
+#include "LevelConfig.hpp"
 
 // The width and height of each tile in pixels.
 static int const TILE_SIZE = 50;
-
-// The level tile type.
-struct Tile {
-	TILE type;							// The type of tile this is.
-	int columnIndex;					// The column index of the tile.
-	int rowIndex;						// The row index of the tile.
-	sf::Sprite sprite;					// The tile sprite.
-	int H;								// Heuristic / movement cost to goal.
-	int G;								// Movement cost. (Total of entire path)
-	int F;								// Estimated cost for full path. (G + H)
-	Tile* parentNode;					// Node to reach this node.
-};
 
 class Level
 {
@@ -36,26 +27,11 @@ public:
 	 */
 	Level();
 
-	/** 
-	 * Constructor.
-	 * A renderWindow is needed in order for the level to calculate its position.
-	 * @param window The game window.
-	 */
-	Level(sf::RenderWindow& window);
-
     /**
      * Sets the overlay color of the level tiles.
      * @param tileColor The new tile overlay color
      */
     void SetColor(sf::Color tileColor);
-    
-	/**
-	 * Returns true if the given tile index is solid.
-	 * @param columnIndex The tile's column index.
-	 * @param rowIndex The tile's row index.
-	 * @return True if the given tile is solid.
-	 */
-	bool IsSolid(int columnIndex, int rowIndex);
 
 	/**
 	 * Sets the index of a given tile in the 2D game grid.
@@ -89,14 +65,6 @@ public:
 	void Draw(sf::RenderWindow &window, float timeDelta);
 
 	/**
-	 * Gets the index of the given tile.
-	 * @param columnIndex The column index of the tile to check.
-	 * @param rowIndex The row index of the tile to check.
-	 * @return The index of the given tile.
-	 */
-	TILE GetTileType(int columnIndex, int rowIndex) const;
-
-	/**
 	 * Loads a level from a text file.
 	 * @param fileName The path to the level file to load.
 	 * @return true if the level loaded succesfully.
@@ -108,6 +76,8 @@ public:
      * @return true if the level generated successfully.
      */
     bool GenerateLevel();
+    
+    bool GenerateLevel(LevelConfig& config, std::shared_ptr<LevelGenerator> generator);
 
 	/**
 	 * Gets the tile at the given position.
@@ -123,12 +93,6 @@ public:
 	* @return A pointer to the tile if valid.
 	*/
 	Tile* GetTile(int columnIndex, int rowIndex);
-
-	/**
-	 * Gets the position of the level grid relative to the window.
-	 * @return The position of the top-left of the level grid.
-	 */
-	sf::Vector2f GetPosition() const;
     
     /**
      * Get the coordinates of the spawn location
@@ -142,14 +106,6 @@ public:
 	 * @return A vector of shared_ptrs containing all torches in the level.
 	 */
 	std::vector<std::shared_ptr<Torch>>* GetTorches();
-
-	/**
-	 * Checks if a given tile is valid.
-	 * @param columnIndex The column that the tile is in.
-	 * @param rowIndex The column that the row is in.
-	 * @return True if the tile is valid.
-	 */
-	bool TileIsValid(int columnIndex, int rowIndex);
 
 	/**
 	 * Gets the current floor number.
@@ -167,7 +123,7 @@ public:
 	 * Gets the size of the level in terms of tiles.
 	 * @return The size of the level grid.
 	 */
-	sf::Vector2i GetSize() const;
+	sf::Vector2u GetSize() const;
 
 	/**
 	 * Spawns a given number of torches in the level.
@@ -186,14 +142,23 @@ public:
 	 * @param rowIndex The column that the row is in.
 	 * @return True if the given tile is a floor tile.
 	 */
-	bool IsFloor(int columnIndex, int rowIndex);
-
-	/**
-	* Return true if the given tile is a floor tile.
-	* @param tile The tile to check
-	* @return True if the given tile is a floor tile.
-	*/
-	bool IsFloor(const Tile& tile);
+	bool IsSpawnableFloor(int columnIndex, int rowIndex);
+    
+    /**
+     * Returns true if the given tile index is solid.
+     * @param columnIndex The tile's column index.
+     * @param rowIndex The tile's row index.
+     * @return True if the given tile is solid.
+     */
+    bool IsSolid(int columnIndex, int rowIndex);
+    
+    /**
+     * Returns true if the given tile index is solid.
+     * @param columnIndex The tile's column index.
+     * @param rowIndex The tile's row index.
+     * @return True if the given tile is solid.
+     */
+    bool IsSolid(const Tile& tile);
 
 	/**
 	 * Returns the size of the tiles in the level.
@@ -216,72 +181,28 @@ public:
     void ResetNodes();
 
 private:
-
-	/**
-	 * Checks if a given tile is a wall block.
-	 * @param columnIndex The column that the tile is in.
-	 * @param rowIndex The column that the row is in.
-	 * @return True if the given tile is a wall tile.
-	 */
-	bool IsWall(int columnIndex, int rowIndex);
-    
-    /**
-     * Creates a path between two nodes in the recursive backtracker algorithm.
-     */
-    void CreatePath(int columnIndex, int rowIndex);
-    
-    /**
-     * Creates a set number of rooms in the level.
-     */
-    void CreateRooms(int roomCount);
-    
-    
     /**
      * Create torches to place around the level.
      */
     void CreateTorches(int torchCount);
     
     /**
-     * Calculates the correct textures for each tile
-     */
-    void CalculateWalls();
-    
-    /**
      * Sets the textures for all the level tiles based on tile type
      */
     void SetTextures();
-    
-    /**
-     * Creates entry and exit points for the level
-     */
-    void GenerateEntryExit();
-    
-    /**
-     * Clears and resets the level grid based on the currently set size
-     */
-    void ResetGrid();
 
 private:
-    
-    // The size of the currently generated level grid
-    sf::Vector2i m_gridSize;
     
 	/**
 	 * A 2D array that describes the level data.
 	 * The type is Tile, which holds a sprite and an index.
 	 */
-    std::vector<std::vector<Tile>> m_grid;
+    LevelGrid m_grid;
 
 	/**
 	 * A vector off all the sprites in the level.
 	 */
 	std::vector<sf::Sprite> m_tileSprites;
-
-	/**
-	 * The position of the level relative to the window.
-	 * This is to the top-left of the level grid.
-	 */
-	sf::Vector2i m_origin;
 
 	/**
 	* The floor number that the player is currently on.
@@ -295,28 +216,13 @@ private:
 	int m_levelNumber;
 
 	/**
-	* A 2D array that contains the room layout for the current floor.
-	*/
-	int m_roomLayout[3][10];
-
-	/**
 	 * An array containing all texture IDs of the level tiles.
 	 */
 	int m_textureIDs[static_cast<int>(TILE::COUNT)];
 
 	/**
-	 * The indices of the tile containing the levels door.
-	 */
-	sf::Vector2i m_doorTileIndices;
-
-	/**
 	 * A vector of all tiles in the level.
 	 */
 	std::vector<std::shared_ptr<Torch>> m_torches;
-    
-    /**
-     * Return the coordinates of the spawn location
-     */
-    sf::Vector2f m_spawnLocation;
 };
 #endif

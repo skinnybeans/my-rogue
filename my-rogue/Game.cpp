@@ -7,6 +7,9 @@
 #include "TextComponent.hpp"
 #include "AnimationFramesComponent.hpp"
 
+#include "BacktrackerLevelGenerator.hpp"
+#include "OpenRoomLevelGenerator.hpp"
+
 #include <cmath>
 #include <iostream>
 
@@ -34,7 +37,7 @@ m_hasActiveGoal(false)
 	m_screenCenter = { m_window.getSize().x / 2.f, m_window.getSize().y / 2.f };
 
 	// Create the level object.
-	m_level = Level(*window);
+	m_level = Level();
 
 	// Create the game font.
 	m_font.loadFromFile(resourcePath() + "/resources/fonts/ADDSBP__.TTF");
@@ -120,9 +123,6 @@ void Game::Initialize()
 	// Initialize the UI.
 	LoadUI();
 
-	// Builds the light grid.
-	ConstructLightGrid();
-
 	// Define the game views.
 	m_views[static_cast<int>(VIEW::MAIN)] = m_window.getDefaultView();
 	//m_views[static_cast<int>(VIEW::MAIN)].zoom(0.75f);
@@ -145,8 +145,8 @@ void Game::ConstructLightGrid()
 	sf::IntRect levelArea;
 
 	// Define the bounds of the level.
-	levelArea.left = static_cast<int>(m_level.GetPosition().x);
-	levelArea.top = static_cast<int>(m_level.GetPosition().y);
+    levelArea.left = 0;
+    levelArea.top = 0;
 	levelArea.width = m_level.GetSize().x * m_level.GetTileSize();
 	levelArea.height = m_level.GetSize().y * m_level.GetTileSize();
 
@@ -386,8 +386,42 @@ void Game::LoadLevel()
 // Generates a random level
 void Game::GenerateLevel()
 {
+    // Create a config to pass into the level
+    LevelConfig config;
+    config.dimentions.x = std::rand() % 15 + 5;
+    config.dimentions.y = std::rand() % 15 + 5;
+    
+    if(config.dimentions.x % 2 == 0)
+        config.dimentions.x += 1;
+    
+    if(config.dimentions.y % 2 == 0)
+        config.dimentions.y += 1;
+    
+    config.roomCount = static_cast<int>((config.dimentions.x * config.dimentions.y) / 25);
+    
+    // Randomly select level generator to use
+    LEVEL_GENERATOR generatorType = static_cast<LEVEL_GENERATOR>(std::rand() % 2);
+    
+    std::shared_ptr<LevelGenerator> generator;
+    
+    switch(generatorType)
+    {
+        case LEVEL_GENERATOR::BACKTRACKER:
+            generator = std::make_shared<BacktrackerLevelGenerator>();
+            break;
+        case LEVEL_GENERATOR::OPEN_ROOM:
+            generator = std::make_shared<OpenRoomLevelGenerator>();
+            break;
+        case LEVEL_GENERATOR::COUNT:
+            // error!
+            break;
+    }
+    
     // Crete new level
-    m_level.GenerateLevel();
+    m_level.GenerateLevel(config, generator);
+    
+    // Throw down some darkness
+    ConstructLightGrid();
     
     // Place key randomly in level
     SpawnItem(ITEM::KEY);
@@ -412,7 +446,7 @@ void Game::GenerateLevel()
 void Game::PopulateLevel()
 {
     // Spawn enemies and items based on the size of the level
-    sf::Vector2i levelSize = m_level.GetSize();
+    sf::Vector2u levelSize = m_level.GetSize();
     int levelArea = levelSize.x * levelSize.y;
     
     int itemSpawnCount = levelArea/7;
@@ -583,7 +617,7 @@ void Game::SpawnRandomTiles(TILE tileType, int count)
         int rowIndex(0);
         int columnIndex(0);
         
-        while(!m_level.IsFloor(columnIndex, rowIndex))
+        while(!m_level.IsSpawnableFloor(columnIndex, rowIndex))
         {
             columnIndex = std::rand() % m_level.GetSize().x;
             rowIndex = std::rand() & m_level.GetSize().y;
@@ -748,6 +782,8 @@ void Game::Update(float timeDelta)
                         minDistance = distance;
                     }
                 }
+                
+                // move the fire sound to the closest torch
                 m_fireSound.setPosition(closestTorch.x, closestTorch.y, 0);
             }
             
