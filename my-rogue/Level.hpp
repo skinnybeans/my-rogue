@@ -43,15 +43,6 @@ public:
 	void SetTile(int columnIndex, int rowIndex, TILE tileType);
     
     /**
-     * Gets the world coordinates of a tile.
-     * @param columnIndex The tile's column index
-     * @param rowIndex The tile's row index
-     * @return The coordinates of the tile
-     */
-    sf::Vector2f GetActualTileLocation(int columnIndex, int rowIndex);
-    
-    
-    /**
      * Gets a valid tile to spawn an item/enemy
      * @return The coorindates to spawn the item
      */
@@ -79,6 +70,14 @@ public:
     
     bool GenerateLevel(LevelConfig& config, std::shared_ptr<LevelGenerator> generator);
 
+    /**
+     * Gets the world coordinates of a tile.
+     * @param columnIndex The tile's column index
+     * @param rowIndex The tile's row index
+     * @return The coordinates of the tile
+     */
+    sf::Vector2f GetActualTileLocation(int columnIndex, int rowIndex);
+    
 	/**
 	 * Gets the tile at the given position.
 	 * @param position The coordinates of the position to check.
@@ -194,8 +193,7 @@ private:
 private:
     
 	/**
-	 * A 2D array that describes the level data.
-	 * The type is Tile, which holds a sprite and an index.
+	 * Holds the level tile infomration.
 	 */
     LevelGrid m_grid;
 

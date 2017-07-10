@@ -11,7 +11,13 @@
 #ifndef TORCH_H
 #define TORCH_H
 
-#include "Item.hpp"
+#include "Object.hpp"
+
+enum class TORCH_STATE{
+    BRIGHT,
+    DARK,
+    COUNT
+};
 
 class Torch : public Object
 {
@@ -37,8 +43,28 @@ public:
 private:
 
 	/**
-	 * The brightness modifier of the torch. This is used to denote flicker.
+	 * The max brightness of the torch
 	 */
-	float m_brightness;
+	float m_intensityBright;
+    
+    /**
+     * The min brightness of the torch
+     */
+    float m_intensityDark;
+    
+    /**
+     * The current brightness of the torch
+     */
+    float m_intensityCurrent;
+    
+    /**
+     * How quickly the torch transitions between light and dark intensity
+     */
+    float m_transitionSpeed;
+    
+    /**
+     * Current state of the torch
+     */
+    TORCH_STATE m_state;
 };
 #endif

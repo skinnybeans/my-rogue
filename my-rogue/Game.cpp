@@ -137,6 +137,9 @@ void Game::Initialize()
 // Constructs the grid of sprites that are used to draw the game light system.
 void Game::ConstructLightGrid()
 {
+    // Ensure the grid is cleared from the previous level
+    m_lightGrid.clear();
+    
 	// Load the light tile texture and store a reference.
 	int textureID = TextureManager::AddTexture(resourcePath() + "/resources/spr_light_grid.png");
 	sf::Texture& lightTexture = TextureManager::GetTexture(textureID);
@@ -775,6 +778,9 @@ void Game::Update(float timeDelta)
                 float minDistance = DistanceBetweenPoints(playerPosition, closestTorch);
                 for(auto torch : *torches)
                 {
+                    // While we are looping through them all, call update too
+                    torch->Update(timeDelta);
+                    
                     float distance = DistanceBetweenPoints(playerPosition, torch->GetComponent<TransformComponent>()->GetPosition());
                     if(distance < minDistance)
                     {

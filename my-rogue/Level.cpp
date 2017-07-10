@@ -241,6 +241,9 @@ bool Level::GenerateLevel()
 // Create torches for the level
 void Level::CreateTorches(int torchCount)
 {
+    // Clear previously generated torches
+    m_torches.clear();
+    
     int spawnedCount = 0;
     // simples way to start.. Just randomly pick tiles until a wall is selected
     while(spawnedCount < torchCount)
