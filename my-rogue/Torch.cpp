@@ -32,20 +32,27 @@ Torch::Torch()
 // Update the brightness of the torch.
 void Torch::Update(float timeDelta)
 {
+    // How much does the intensity change this update
     float intensityDelta = (m_intensityBright - m_intensityDark) * (1/m_transitionSpeed) * timeDelta;
     
     switch(m_state)
     {
+        // Torch was dark so need to make it brighter
         case TORCH_STATE::DARK:
         {
             m_intensityCurrent += intensityDelta;
+            
+            // When the max intensity is reached, start going darker
             if(m_intensityCurrent >= m_intensityBright)
                 m_state = TORCH_STATE::BRIGHT;
         }
             break;
+        // Torch was bright so need to make it darker
         case TORCH_STATE::BRIGHT:
         {
             m_intensityCurrent -= intensityDelta;
+            
+            // When the min intensity is reached, start going brighter
             if(m_intensityCurrent <= m_intensityDark)
                 m_state = TORCH_STATE::DARK;
         }

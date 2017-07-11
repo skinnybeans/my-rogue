@@ -13,14 +13,16 @@
 
 #include "Object.hpp"
 
-enum class TORCH_STATE{
-    BRIGHT,
-    DARK,
-    COUNT
-};
 
 class Torch : public Object
 {
+private:
+    enum class TORCH_STATE{
+        BRIGHT,
+        DARK,
+        COUNT
+    };
+    
 public:
 
 	/**

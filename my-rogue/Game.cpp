@@ -861,8 +861,15 @@ void Game::UpdateLight(sf::Vector2f playerPosition)
 			// Update the light surrounding each torch.
 			for (std::shared_ptr<Torch> torch : *torches)
 			{
+                // The torch position refers to the the top left corner of the sprite
+                // Need to make the distance calculation from the center of the sprite so the
+                // light gets centered around the torch correctly
+                sf::Vector2f torchCenter = torch->GetComponent<TransformComponent>()->GetPosition();
+                torchCenter.x -= 12.5;
+                torchCenter.y -= 12.5;
+                
 				// If the light tile is within range of the torch.
-				distance = DistanceBetweenPoints(sprite.getPosition(), torch->GetComponent<TransformComponent>()->GetPosition());
+                distance = DistanceBetweenPoints(sprite.getPosition(), torchCenter);
 				if (distance < 100.f)
 				{
 					// Edit its alpha.
