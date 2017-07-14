@@ -634,7 +634,7 @@ void Game::SpawnRandomTiles(TILE tileType, int count)
 void Game::PlaySound(sf::Sound& sound, sf::Vector2f position)
 {
     float pitch = ((std::rand() % 11) + 95)/100;
-    sound.setPitch(pitch);
+    //sound.setPitch(pitch);
     sound.setPosition(position.x, position.y, 0);
     sound.play();
 }
@@ -726,6 +726,8 @@ void Game::Update(float timeDelta)
             // Check if player has moved tiles
             if(playerCurrentTile != m_playerPreviousTile)
             {
+                
+                m_audio.PlaySound(SOUND_ID::GEM_PICKUP);
                 // Store new location
                 m_playerPreviousTile = playerCurrentTile;
                 

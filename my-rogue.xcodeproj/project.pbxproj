@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		9C17913D1EEFCF2C004D086C /* SpriteComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C17913B1EEFCF2C004D086C /* SpriteComponent.cpp */; };
+		9C29F9D31F176AF9007236EA /* Audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C29F9D11F176AF9007236EA /* Audio.cpp */; };
+		9C29F9D61F181F6E007236EA /* ServiceLocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C29F9D41F181F6E007236EA /* ServiceLocator.cpp */; };
+		9C29F9DC1F1821FA007236EA /* SoundList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C29F9DA1F1821F9007236EA /* SoundList.cpp */; };
 		9C3293FB1EFBB3C600FFAB57 /* AnimationStateComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C3293F91EFBB3C600FFAB57 /* AnimationStateComponent.cpp */; };
 		9C4EB59C1F0E273900E4E783 /* OpenRoomLevelGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C4EB59A1F0E273900E4E783 /* OpenRoomLevelGenerator.cpp */; };
 		9C555B451EC0442300399F54 /* PoisonHeart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C555B421EBFDE4D00399F54 /* PoisonHeart.cpp */; };
@@ -50,6 +53,12 @@
 		9C06DF761EB7F680004A7F3D /* my-rogue-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "my-rogue-Info.plist"; sourceTree = "<group>"; };
 		9C17913B1EEFCF2C004D086C /* SpriteComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteComponent.cpp; sourceTree = "<group>"; };
 		9C17913C1EEFCF2C004D086C /* SpriteComponent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SpriteComponent.hpp; sourceTree = "<group>"; };
+		9C29F9D11F176AF9007236EA /* Audio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Audio.cpp; sourceTree = "<group>"; };
+		9C29F9D21F176AF9007236EA /* Audio.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Audio.hpp; sourceTree = "<group>"; };
+		9C29F9D41F181F6E007236EA /* ServiceLocator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ServiceLocator.cpp; sourceTree = "<group>"; };
+		9C29F9D51F181F6E007236EA /* ServiceLocator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ServiceLocator.hpp; sourceTree = "<group>"; };
+		9C29F9DA1F1821F9007236EA /* SoundList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundList.cpp; sourceTree = "<group>"; };
+		9C29F9DB1F1821F9007236EA /* SoundList.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SoundList.hpp; sourceTree = "<group>"; };
 		9C3293F91EFBB3C600FFAB57 /* AnimationStateComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationStateComponent.cpp; sourceTree = "<group>"; };
 		9C3293FA1EFBB3C600FFAB57 /* AnimationStateComponent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationStateComponent.hpp; sourceTree = "<group>"; };
 		9C4EB59A1F0E273900E4E783 /* OpenRoomLevelGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenRoomLevelGenerator.cpp; sourceTree = "<group>"; };
@@ -152,6 +161,7 @@
 		9C06DF741EB7F680004A7F3D /* my-rogue */ = {
 			isa = PBXGroup;
 			children = (
+				9C29F9CD1F160FD8007236EA /* Audio */,
 				9C5876871F04E8DF00F67575 /* level-components */,
 				9C7F641F1EE93A1000E360EA /* object-components */,
 				9C4084661EF1F10500F00326 /* entities */,
@@ -171,8 +181,8 @@
 				9C8A95C51EB8106400E2927B /* Projectile.hpp */,
 				9C8A95E81EB8283800E2927B /* ResourcePath.hpp */,
 				9C8A95E61EB8281800E2927B /* ResourcePath.mm */,
-				9C8A95C81EB8106400E2927B /* SoundBufferManager.cpp */,
-				9C8A95C91EB8106400E2927B /* SoundBufferManager.hpp */,
+				9C29F9D41F181F6E007236EA /* ServiceLocator.cpp */,
+				9C29F9D51F181F6E007236EA /* ServiceLocator.hpp */,
 				9C8A95CA1EB8106400E2927B /* TextureManager.cpp */,
 				9C8A95CB1EB8106400E2927B /* TextureManager.hpp */,
 				9C8A95CC1EB8106400E2927B /* Torch.cpp */,
@@ -189,6 +199,19 @@
 				9C06DF761EB7F680004A7F3D /* my-rogue-Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9C29F9CD1F160FD8007236EA /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				9C29F9D11F176AF9007236EA /* Audio.cpp */,
+				9C29F9D21F176AF9007236EA /* Audio.hpp */,
+				9C29F9DA1F1821F9007236EA /* SoundList.cpp */,
+				9C29F9DB1F1821F9007236EA /* SoundList.hpp */,
+				9C8A95C81EB8106400E2927B /* SoundBufferManager.cpp */,
+				9C8A95C91EB8106400E2927B /* SoundBufferManager.hpp */,
+			);
+			name = Audio;
 			sourceTree = "<group>";
 		};
 		9C4084651EF1F07400F00326 /* Items */ = {
@@ -365,8 +388,11 @@
 				9C17913D1EEFCF2C004D086C /* SpriteComponent.cpp in Sources */,
 				9C8A95E01EB8106400E2927B /* Slime.cpp in Sources */,
 				9CE6500E1EF1E84600B5652C /* TextComponent.cpp in Sources */,
+				9C29F9D31F176AF9007236EA /* Audio.cpp in Sources */,
 				9C5876901F0A24E000F67575 /* LevelConfig.cpp in Sources */,
+				9C29F9D61F181F6E007236EA /* ServiceLocator.cpp in Sources */,
 				9C58768D1F05AD4700F67575 /* LevelGrid.cpp in Sources */,
+				9C29F9DC1F1821FA007236EA /* SoundList.cpp in Sources */,
 				9C8A95E71EB8281800E2927B /* ResourcePath.mm in Sources */,
 				9C8A95D21EB8106400E2927B /* Gem.cpp in Sources */,
 				9C8A95D01EB8106400E2927B /* Entity.cpp in Sources */,
