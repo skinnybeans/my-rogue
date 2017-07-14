@@ -39,7 +39,6 @@
 		9C8A95DE1EB8106400E2927B /* Potion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C8A95C21EB8106400E2927B /* Potion.cpp */; };
 		9C8A95DF1EB8106400E2927B /* Projectile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C8A95C41EB8106400E2927B /* Projectile.cpp */; };
 		9C8A95E01EB8106400E2927B /* Slime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C8A95C61EB8106400E2927B /* Slime.cpp */; };
-		9C8A95E11EB8106400E2927B /* SoundBufferManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C8A95C81EB8106400E2927B /* SoundBufferManager.cpp */; };
 		9C8A95E21EB8106400E2927B /* TextureManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C8A95CA1EB8106400E2927B /* TextureManager.cpp */; };
 		9C8A95E31EB8106400E2927B /* Torch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C8A95CC1EB8106400E2927B /* Torch.cpp */; };
 		9C8A95E51EB8164C00E2927B /* resources in Resources */ = {isa = PBXBuildFile; fileRef = 9C8A95E41EB8164C00E2927B /* resources */; };
@@ -113,8 +112,6 @@
 		9C8A95C51EB8106400E2927B /* Projectile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Projectile.hpp; sourceTree = "<group>"; };
 		9C8A95C61EB8106400E2927B /* Slime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Slime.cpp; sourceTree = "<group>"; };
 		9C8A95C71EB8106400E2927B /* Slime.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Slime.hpp; sourceTree = "<group>"; };
-		9C8A95C81EB8106400E2927B /* SoundBufferManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundBufferManager.cpp; sourceTree = "<group>"; };
-		9C8A95C91EB8106400E2927B /* SoundBufferManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SoundBufferManager.hpp; sourceTree = "<group>"; };
 		9C8A95CA1EB8106400E2927B /* TextureManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureManager.cpp; sourceTree = "<group>"; };
 		9C8A95CB1EB8106400E2927B /* TextureManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextureManager.hpp; sourceTree = "<group>"; };
 		9C8A95CC1EB8106400E2927B /* Torch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Torch.cpp; sourceTree = "<group>"; };
@@ -208,8 +205,6 @@
 				9C29F9D21F176AF9007236EA /* Audio.hpp */,
 				9C29F9DA1F1821F9007236EA /* SoundList.cpp */,
 				9C29F9DB1F1821F9007236EA /* SoundList.hpp */,
-				9C8A95C81EB8106400E2927B /* SoundBufferManager.cpp */,
-				9C8A95C91EB8106400E2927B /* SoundBufferManager.hpp */,
 			);
 			name = Audio;
 			sourceTree = "<group>";
@@ -384,7 +379,6 @@
 				9C8A95D11EB8106400E2927B /* Game.cpp in Sources */,
 				9C8A95DB1EB8106400E2927B /* Object.cpp in Sources */,
 				9C8A95D61EB8106400E2927B /* Input.cpp in Sources */,
-				9C8A95E11EB8106400E2927B /* SoundBufferManager.cpp in Sources */,
 				9C17913D1EEFCF2C004D086C /* SpriteComponent.cpp in Sources */,
 				9C8A95E01EB8106400E2927B /* Slime.cpp in Sources */,
 				9CE6500E1EF1E84600B5652C /* TextComponent.cpp in Sources */,

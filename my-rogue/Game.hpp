@@ -24,7 +24,6 @@
 #include "Humanoid.hpp"
 #include "Util.hpp"
 
-#include "SoundBufferManager.hpp"
 #include "Audio.hpp"
 
 static float const FPS = 60.0;						// Constant for fixed time - step loop. We'll lock it at 60fps.
@@ -169,10 +168,8 @@ private:
 private:
     
     /**
-     * Contains all the sound buffers
+     * Controls audio
      */
-    std::shared_ptr<SoundBufferManager> m_soundBufferManager;
-    
     Audio m_audio;
     
 	/**
@@ -416,18 +413,8 @@ private:
     bool m_hasActiveGoal;
     
     /**
-     * Sound buffer for music
+     * Fire sound channel
      */
-    sf::Music m_music;
-    
-    /**
-     * Fire sound
-     */
-    sf::Sound m_fireSound;
-    
-    /**
-     * Enemy die sound.
-     */
-    sf::Sound m_enemyDieSound;
+    int m_fireChannelId;
 };
 #endif

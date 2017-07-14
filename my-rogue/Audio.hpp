@@ -23,6 +23,18 @@ public:
     // Play a sound at the specified position
     int PlaySound(SOUND_ID sound, sf::Vector2f position);
     
+    // Stop a sound that is playing
+    void StopSound(int channelId);
+    
+    // Set the sound on a channel to loop
+    void SetLooping(int channelId, bool looping);
+    
+    // Set the location of a sound that is already playing
+    void SetPosition(int channelId, sf::Vector2f position);
+    
+    // Play a music track
+    void PlayMusic();
+    
     
 private:
     int GetFreeChannel();
@@ -34,6 +46,8 @@ private:
     
     // keeps all the sound buffers in memory ready to play
     sf::SoundBuffer m_buffers [static_cast<int>(SOUND_ID::COUNT)];
+    
+    sf::Music m_music;
 };
 
 #endif /* Audio_hpp */

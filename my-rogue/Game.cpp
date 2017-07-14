@@ -37,18 +37,13 @@ m_hasActiveGoal(false)
 	m_screenCenter = { m_window.getSize().x / 2.f, m_window.getSize().y / 2.f };
 
 	// Create the level object.
-	m_level = Level();
+	// m_level = Level();
 
 	// Create the game font.
 	m_font.loadFromFile(resourcePath() + "/resources/fonts/ADDSBP__.TTF");
     
-    // Load music
-    int trackIndex = std::rand() % static_cast<int>(MUSIC_TRACK::COUNT) + 1;
-    m_music.openFromFile(resourcePath() + "/resources/music/msc_main_track_" + std::to_string(trackIndex) + ".wav");
-    m_music.setVolume(100.f);
-    m_music.setRelativeToListener(true);
-    m_music.setLoop(true);
-    m_music.play();
+    // Start music playing
+    m_audio.PlayMusic();
 }
 
 // Initializes the game.
@@ -79,27 +74,6 @@ void Game::Initialize()
 	
     m_projectileTextureID = TextureManager::AddTexture(resourcePath() + "/resources/projectiles/spr_" + spriteName + ".png");
     
-    // Create the sound buffer manager
-    m_soundBufferManager = std::make_shared<SoundBufferManager>();
-    
-    // Load all game sounds.
-    int soundBufferId;
-    
-    // Load torch sound.
-    soundBufferId = m_soundBufferManager->AddSoundBuffer(resourcePath() + "/resources/sounds/snd_fire.wav");
-    m_fireSound.setBuffer(m_soundBufferManager->GetSoundBuffer(soundBufferId));
-    m_fireSound.setLoop(true);
-    m_fireSound.setMinDistance(80.f);
-    m_fireSound.setAttenuation(5.f);
-    m_fireSound.play();
-    
-    
-    // Load enemy die sound.
-    soundBufferId = m_soundBufferManager->AddSoundBuffer(resourcePath() + "/resources/sounds/snd_enemy_dead.wav");
-    m_enemyDieSound.setBuffer(m_soundBufferManager->GetSoundBuffer(soundBufferId));
-    m_enemyDieSound.setMinDistance(80.f);
-    m_enemyDieSound.setAttenuation(5.f);
-
 	// Initialize the UI.
 	LoadUI();
 
@@ -110,6 +84,10 @@ void Game::Initialize()
 	m_views[static_cast<int>(VIEW::UI)] = m_window.getDefaultView();
     
     GenerateLevel();
+    
+    // Play the fire sound and loop it
+    m_fireChannelId = m_audio.PlaySound(SOUND_ID::FIRE, sf::Vector2f(0,0));
+    m_audio.SetLooping(m_fireChannelId, true);
 }
 
 // Constructs the grid of sprites that are used to draw the game light system.
@@ -690,6 +668,10 @@ void Game::Update(float timeDelta)
             // clear enemies
             m_enemies.clear();
             
+            // Stop the torch sound until a new level has been generated
+            m_audio.StopSound(m_fireChannelId);
+            m_fireChannelId = -1;
+            
             // create new level
             GenerateLevel();
             
@@ -768,7 +750,7 @@ void Game::Update(float timeDelta)
                 }
                 
                 // move the fire sound to the closest torch
-                m_fireSound.setPosition(closestTorch.x, closestTorch.y, 0);
+                m_audio.SetPosition(m_fireChannelId, closestTorch);
             }
             
             // Update the listener position
@@ -1078,7 +1060,7 @@ void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
 					}
                     
                     // Play enemy killed sound
-                    PlaySound(m_enemyDieSound, position);
+                    m_audio.PlaySound(SOUND_ID::ENEMY_DEAD, position);
 
 					// Delete enemy.
 					enemyIterator = m_enemies.erase(enemyIterator);

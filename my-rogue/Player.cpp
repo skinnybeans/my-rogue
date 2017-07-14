@@ -283,7 +283,7 @@ void Player::Damage(int damage)
 bool Player::CausesCollision(sf::Vector2f movement, Level& level)
 {
 	// Get the tiles that the four corners other player are overlapping with.
-	Tile* overlappingTiles[4];
+    Tile* overlappingTiles[4] = {nullptr,nullptr,nullptr,nullptr};
 	sf::Vector2f newPosition = GetComponent<TransformComponent>()->GetPosition() + movement;
 
 	// Top left.
@@ -301,7 +301,7 @@ bool Player::CausesCollision(sf::Vector2f movement, Level& level)
 	// If any of the overlapping tiles are solid there was a collision.
 	for (int i = 0; i < 4; i++)
 	{
-		if (level.IsSolid(overlappingTiles[i]->columnIndex, overlappingTiles[i]->rowIndex))
+		if (overlappingTiles[i] != nullptr && level.IsSolid(overlappingTiles[i]->columnIndex, overlappingTiles[i]->rowIndex))
 			return true;
 	}
 
