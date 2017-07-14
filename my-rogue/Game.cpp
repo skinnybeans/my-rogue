@@ -99,26 +99,6 @@ void Game::Initialize()
     m_enemyDieSound.setBuffer(m_soundBufferManager->GetSoundBuffer(soundBufferId));
     m_enemyDieSound.setMinDistance(80.f);
     m_enemyDieSound.setAttenuation(5.f);
-    
-    // Load gem pickup sound.
-    soundBufferId = m_soundBufferManager->AddSoundBuffer(resourcePath() + "/resources/sounds/snd_gem_pickup.wav");
-    m_gemPickupSound.setBuffer(m_soundBufferManager->GetSoundBuffer(soundBufferId));
-    m_gemPickupSound.setRelativeToListener(true);
-    
-    // Load coin pickup sound.
-    soundBufferId = m_soundBufferManager->AddSoundBuffer(resourcePath() + "/resources/sounds/snd_coin_pickup.wav");
-    m_coinPickupSound.setBuffer(m_soundBufferManager->GetSoundBuffer(soundBufferId));
-    m_coinPickupSound.setRelativeToListener(true);
-    
-    // Load key pickup sound.
-    soundBufferId = m_soundBufferManager->AddSoundBuffer(resourcePath() + "/resources/sounds/snd_key_pickup.wav");
-    m_keyPickupSound.setBuffer(m_soundBufferManager->GetSoundBuffer(soundBufferId));
-    m_keyPickupSound.setRelativeToListener(true);
-    
-    // Load player hit sound.
-    soundBufferId = m_soundBufferManager->AddSoundBuffer(resourcePath() + "/resources/sounds/snd_player_hit.wav");
-    m_playerHitSound.setBuffer(m_soundBufferManager->GetSoundBuffer(soundBufferId));
-    m_playerHitSound.setRelativeToListener(true);
 
 	// Initialize the UI.
 	LoadUI();
@@ -128,8 +108,6 @@ void Game::Initialize()
 	//m_views[static_cast<int>(VIEW::MAIN)].zoom(0.75f);
     m_views[static_cast<int>(VIEW::MAIN)].zoom(1.0f);
 	m_views[static_cast<int>(VIEW::UI)] = m_window.getDefaultView();
-
-    //LoadLevel();
     
     GenerateLevel();
 }
@@ -726,8 +704,6 @@ void Game::Update(float timeDelta)
             // Check if player has moved tiles
             if(playerCurrentTile != m_playerPreviousTile)
             {
-                
-                m_audio.PlaySound(SOUND_ID::GEM_PICKUP);
                 // Store new location
                 m_playerPreviousTile = playerCurrentTile;
                 
@@ -922,7 +898,7 @@ void Game::UpdateItems(sf::Vector2f playerPosition)
                     }
                     
                     // Play coin pickup sound
-                    PlaySound(m_coinPickupSound);
+                    m_audio.PlaySound(SOUND_ID::COIN_PICKUP);
                 }
                 break;
 
@@ -941,7 +917,7 @@ void Game::UpdateItems(sf::Vector2f playerPosition)
                     }
                     
                     // Play gem pickup sound.
-                    PlaySound(m_gemPickupSound);
+                    m_audio.PlaySound(SOUND_ID::GEM_PICKUP);
                 }
                 break;
 
@@ -952,7 +928,8 @@ void Game::UpdateItems(sf::Vector2f playerPosition)
 
                     // Set the key as collected.
                     m_keyUiSprite->setColor(sf::Color::White);
-                    PlaySound(m_keyPickupSound);
+
+                    m_audio.PlaySound(SOUND_ID::KEY_PICKUP);
                 }
                 break;
 
@@ -1138,7 +1115,8 @@ void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
 			{
                 int damage = 5 + enemy.GetAttack() + enemy.GetStrength() - m_player.GetDefense();
                 m_player.Damage(std::max(damage, 2));
-                PlaySound(m_playerHitSound);
+                
+                m_audio.PlaySound(SOUND_ID::PLAYER_HIT);
 			}
 		}
 	}

@@ -426,28 +426,8 @@ private:
     sf::Sound m_fireSound;
     
     /**
-     * Gem pickup sound.
-     */
-    sf::Sound m_gemPickupSound;
-    
-    /**
-     * Coin pickup sound.
-     */
-    sf::Sound m_coinPickupSound;
-    
-    /**
-     * Key collect sound.
-     */
-    sf::Sound m_keyPickupSound;
-    
-    /**
      * Enemy die sound.
      */
     sf::Sound m_enemyDieSound;
-    
-    /**
-     * Player hit sound.
-     */
-    sf::Sound m_playerHitSound;
 };
 #endif
