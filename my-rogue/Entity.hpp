@@ -21,6 +21,11 @@ public:
 	 * Default constructor.
 	 */
 	Entity();
+    
+    /**
+     * Virtual destructor to ensure correct deletion through base class pointers
+     */
+    virtual ~Entity(){};
 
 	/**
 	 * Override the default Object::Update function.

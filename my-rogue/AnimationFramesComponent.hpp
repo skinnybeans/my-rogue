@@ -21,6 +21,11 @@ public:
     AnimationFramesComponent();
     
     /**
+     * Virtual destructor to ensure correct deletion through base class pointers
+     */
+    virtual ~AnimationFramesComponent(){};
+    
+    /**
      * Sets the number and size of frames
      * @param textureSize total size of the texture
      * @param how many frames in the texture

@@ -9,12 +9,18 @@
 #ifndef ServiceLocator_hpp
 #define ServiceLocator_hpp
 
-class ServiceLocatior
+#include "Audio.hpp"
+
+class ServiceLocator
 {
 public:
+    static void ProvideAudio(std::shared_ptr<Audio> audio);
+    static std::shared_ptr<Audio> GetAudio();
 
 private:
-    ServiceLocatior();
+    ServiceLocator();
+    
+    static std::shared_ptr<Audio> m_audio;
 };
 
 #endif /* ServiceLocator_hpp */

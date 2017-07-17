@@ -15,7 +15,16 @@
 class AnimationStateComponent : public Component
 {
 public:
+    
+    /**
+     * Default constructor
+     */
     AnimationStateComponent();
+    
+    /**
+     * Virtual destructor to ensure correct deletion through base class pointers
+     */
+    virtual ~AnimationStateComponent(){};
     
     /**
      * Update the state of the animation

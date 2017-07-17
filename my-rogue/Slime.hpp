@@ -21,5 +21,10 @@ public:
 	 * Default constructor.
 	 */
 	Slime();
+    
+    /**
+     * Virtual destructor to ensure correct deletion through base class pointers
+     */
+    virtual ~Slime(){};
 };
 #endif

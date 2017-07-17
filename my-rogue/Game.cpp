@@ -10,6 +10,8 @@
 #include "BacktrackerLevelGenerator.hpp"
 #include "OpenRoomLevelGenerator.hpp"
 
+#include "ServiceLocator.hpp"
+
 #include <cmath>
 #include <iostream>
 
@@ -42,8 +44,11 @@ m_hasActiveGoal(false)
 	// Create the game font.
 	m_font.loadFromFile(resourcePath() + "/resources/fonts/ADDSBP__.TTF");
     
+    
+    m_audio = ServiceLocator::GetAudio();
+    
     // Start music playing
-    m_audio.PlayMusic();
+    m_audio->PlayMusic();
 }
 
 // Initializes the game.
@@ -84,10 +89,13 @@ void Game::Initialize()
 	m_views[static_cast<int>(VIEW::UI)] = m_window.getDefaultView();
     
     GenerateLevel();
+}
+
+// Clean up resources created by initialise..
+// don't know why the constructor does some work an the initialise function other work...
+void Game::CleanUp()
+{
     
-    // Play the fire sound and loop it
-    m_fireChannelId = m_audio.PlaySound(SOUND_ID::FIRE, sf::Vector2f(0,0));
-    m_audio.SetLooping(m_fireChannelId, true);
 }
 
 // Constructs the grid of sprites that are used to draw the game light system.
@@ -399,6 +407,10 @@ void Game::GenerateLevel()
     }
     
     m_player.GetComponent<TransformComponent>()->SetPosition(m_level.GetSpawnLocation());
+    
+    // Play the fire sound and loop it
+    m_fireChannelId = m_audio->PlaySound(SOUND_ID::FIRE, sf::Vector2f(0,0));
+    m_audio->SetLooping(m_fireChannelId, true);
 }
 
 // Populate the level with items.
@@ -616,7 +628,7 @@ void Game::Run()
 		{
 			if ((event.type == sf::Event::Closed) || (Input::IsKeyPressed(Input::KEY::KEY_ESC)))
 			{
-				m_window.close();
+                // exit the game loop
 				return;
 			}
 		}
@@ -638,9 +650,6 @@ void Game::Run()
 			m_levelWasGenerated = false;
 		}
 	}
-
-	// Shut the game down.
-	m_window.close();
 }
 
 // Updates the game.
@@ -669,7 +678,9 @@ void Game::Update(float timeDelta)
             m_enemies.clear();
             
             // Stop the torch sound until a new level has been generated
-            m_audio.StopSound(m_fireChannelId);
+            m_audio->StopSound(m_fireChannelId);
+            
+            // reset the channel Id so we don't accidently mess with other sounds
             m_fireChannelId = -1;
             
             // create new level
@@ -750,7 +761,7 @@ void Game::Update(float timeDelta)
                 }
                 
                 // move the fire sound to the closest torch
-                m_audio.SetPosition(m_fireChannelId, closestTorch);
+                m_audio->SetPosition(m_fireChannelId, closestTorch);
             }
             
             // Update the listener position
@@ -880,7 +891,7 @@ void Game::UpdateItems(sf::Vector2f playerPosition)
                     }
                     
                     // Play coin pickup sound
-                    m_audio.PlaySound(SOUND_ID::COIN_PICKUP);
+                    m_audio->PlaySound(SOUND_ID::COIN_PICKUP);
                 }
                 break;
 
@@ -899,7 +910,7 @@ void Game::UpdateItems(sf::Vector2f playerPosition)
                     }
                     
                     // Play gem pickup sound.
-                    m_audio.PlaySound(SOUND_ID::GEM_PICKUP);
+                    m_audio->PlaySound(SOUND_ID::GEM_PICKUP);
                 }
                 break;
 
@@ -911,7 +922,7 @@ void Game::UpdateItems(sf::Vector2f playerPosition)
                     // Set the key as collected.
                     m_keyUiSprite->setColor(sf::Color::White);
 
-                    m_audio.PlaySound(SOUND_ID::KEY_PICKUP);
+                    m_audio->PlaySound(SOUND_ID::KEY_PICKUP);
                 }
                 break;
 
@@ -1060,7 +1071,7 @@ void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
 					}
                     
                     // Play enemy killed sound
-                    m_audio.PlaySound(SOUND_ID::ENEMY_DEAD, position);
+                    m_audio->PlaySound(SOUND_ID::ENEMY_DEAD, position);
 
 					// Delete enemy.
 					enemyIterator = m_enemies.erase(enemyIterator);
@@ -1098,7 +1109,7 @@ void Game::UpdateEnemies(sf::Vector2f playerPosition, float timeDelta)
                 int damage = 5 + enemy.GetAttack() + enemy.GetStrength() - m_player.GetDefense();
                 m_player.Damage(std::max(damage, 2));
                 
-                m_audio.PlaySound(SOUND_ID::PLAYER_HIT);
+                m_audio->PlaySound(SOUND_ID::PLAYER_HIT);
 			}
 		}
 	}

@@ -47,4 +47,24 @@ const std::string SoundStrings [] = {
     "/resources/sounds/snd_player_hit.wav",
 };
 
+enum class MUSIC_ID
+{
+    // General music
+    GENERAL_1,
+    GENERAL_2,
+    GENERAL_3,
+    GENERAL_4,
+    
+    // Done
+    COUNT
+};
+
+const std::string MusicStrings [] = {
+  // General music
+    "/resources/music/msc_main_track_1.wav",
+    "/resources/music/msc_main_track_2.wav",
+    "/resources/music/msc_main_track_3.wav",
+    "/resources/music/msc_main_track_4.wav"
+};
+
 #endif /* SoundList_hpp */

@@ -22,6 +22,11 @@ public:
     SpriteComponent();
     
     /**
+     * Virtual destructor to ensure correct deletion through base class pointers
+     */
+    virtual ~SpriteComponent(){};
+    
+    /**
      * Sets the transform component to use for positioning
      * @param component the transform component
      */

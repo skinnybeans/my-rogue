@@ -25,6 +25,11 @@ public:
 	 */
 	Projectile(sf::Texture& texture, sf::Vector2f origin, sf::Vector2f screenCenter, sf::Vector2f target);
 
+    /**
+     * Virtual destructor to ensure correct deletion through base class pointers
+     */
+    virtual ~Projectile(){};
+    
 	/**
 	 * Override of the update function.
 	 * @param timeDelta The time in seconds since the last update.

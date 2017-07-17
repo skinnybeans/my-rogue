@@ -17,6 +17,7 @@ class LevelGenerator
 {
 public:
     virtual void GenerateLevel(LevelGrid& grid, LevelConfig& config) = 0;
+    virtual ~LevelGenerator(){};
     
 protected:
     void SmoothWalls(LevelGrid& grid);

@@ -18,6 +18,11 @@ public:
     Component();
     
     /**
+     * Virtual destructor to ensure correct deletion through base class pointers
+     */
+    virtual ~Component(){};
+    
+    /**
      * Update the component based on how much time has elapsed
      * @param timeDelta time step in seconds
      */

@@ -46,6 +46,11 @@ public:
 	 */
 	void Initialize();
 
+    /**
+     * Call after the game has finished executing
+     */
+    void CleanUp();
+
 	/**
 	 * The main game loop. This loop in turn updates the game, and draws all objects to screen.
 	 * It's also responsible for the game logic timing.
@@ -170,7 +175,7 @@ private:
     /**
      * Controls audio
      */
-    Audio m_audio;
+    std::shared_ptr<Audio> m_audio;
     
 	/**
 	 * The main application window.

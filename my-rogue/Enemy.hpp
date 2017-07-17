@@ -21,6 +21,11 @@ public:
 	 * Default constructor.
 	 */
 	Enemy();
+    
+    /**
+     * Virtual destructor to ensure correct deletion through base class pointers
+     */
+    virtual ~Enemy(){};
 
 	/**
 	 * Applies the given amount of damage to the enemy.

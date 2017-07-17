@@ -20,6 +20,11 @@ public:
     TransformComponent();
     
     /**
+     * Virtual destructor to ensure correct deletion through base class pointers
+     */
+    virtual ~TransformComponent(){};
+    
+    /**
      * Set the position of the component
      * @param vector specifiying position
      */

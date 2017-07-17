@@ -20,6 +20,11 @@ public:
 	 * Default constructor.
 	 */
 	Object();
+    
+    /**
+     * Virtual destructor to ensure correct deletion through base class pointers
+     */
+    virtual ~Object(){};
 
 	/**
 	 * Updates the game object. Called once per tick.

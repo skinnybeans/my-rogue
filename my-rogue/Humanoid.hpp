@@ -23,6 +23,11 @@ public:
 	Humanoid();
     
     /**
+     * Virtual destructor to ensure correct deletion through base class pointers
+     */
+    virtual ~Humanoid(){};
+    
+    /**
      * Override the default enemy update
      * @param timeDelta time since last update
      */

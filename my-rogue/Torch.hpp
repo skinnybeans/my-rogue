@@ -29,6 +29,11 @@ public:
 	 * Default Constructor.
 	 */
 	Torch();
+    
+    /**
+     * Virtual destructor to ensure correct deletion through base class pointers
+     */
+    virtual ~Torch(){};
 
 	/**
 	 * Updates the brightness of the torch.

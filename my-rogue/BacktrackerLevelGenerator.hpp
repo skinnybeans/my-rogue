@@ -18,6 +18,7 @@ class BacktrackerLevelGenerator : public LevelGenerator
 {
 public:
     BacktrackerLevelGenerator();
+    virtual ~BacktrackerLevelGenerator(){};
     void GenerateLevel(LevelGrid& grid, LevelConfig& config) override;
 private:
     void CreatePath(LevelGrid& grid, LevelConfig& config, sf::Vector2u start);

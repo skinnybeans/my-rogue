@@ -18,6 +18,7 @@ public:
      * Default constructor
      */
     OpenRoomLevelGenerator();
+    virtual ~OpenRoomLevelGenerator(){};
     
     /**
      * Generate the level grid

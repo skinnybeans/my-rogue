@@ -8,10 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		9C17913D1EEFCF2C004D086C /* SpriteComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C17913B1EEFCF2C004D086C /* SpriteComponent.cpp */; };
-		9C29F9D31F176AF9007236EA /* Audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C29F9D11F176AF9007236EA /* Audio.cpp */; };
+		9C29F9D31F176AF9007236EA /* SFMLAudio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C29F9D11F176AF9007236EA /* SFMLAudio.cpp */; };
 		9C29F9D61F181F6E007236EA /* ServiceLocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C29F9D41F181F6E007236EA /* ServiceLocator.cpp */; };
 		9C29F9DC1F1821FA007236EA /* SoundList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C29F9DA1F1821F9007236EA /* SoundList.cpp */; };
 		9C3293FB1EFBB3C600FFAB57 /* AnimationStateComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C3293F91EFBB3C600FFAB57 /* AnimationStateComponent.cpp */; };
+		9C32C52B1F1C16AE00AA79BC /* Audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C32C5291F1C16AE00AA79BC /* Audio.cpp */; };
 		9C4EB59C1F0E273900E4E783 /* OpenRoomLevelGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C4EB59A1F0E273900E4E783 /* OpenRoomLevelGenerator.cpp */; };
 		9C555B451EC0442300399F54 /* PoisonHeart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C555B421EBFDE4D00399F54 /* PoisonHeart.cpp */; };
 		9C555B471EC2EB7000399F54 /* include in Resources */ = {isa = PBXBuildFile; fileRef = 9C555B461EC2EB7000399F54 /* include */; };
@@ -52,14 +53,16 @@
 		9C06DF761EB7F680004A7F3D /* my-rogue-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "my-rogue-Info.plist"; sourceTree = "<group>"; };
 		9C17913B1EEFCF2C004D086C /* SpriteComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteComponent.cpp; sourceTree = "<group>"; };
 		9C17913C1EEFCF2C004D086C /* SpriteComponent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SpriteComponent.hpp; sourceTree = "<group>"; };
-		9C29F9D11F176AF9007236EA /* Audio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Audio.cpp; sourceTree = "<group>"; };
-		9C29F9D21F176AF9007236EA /* Audio.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Audio.hpp; sourceTree = "<group>"; };
+		9C29F9D11F176AF9007236EA /* SFMLAudio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SFMLAudio.cpp; sourceTree = "<group>"; };
+		9C29F9D21F176AF9007236EA /* SFMLAudio.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SFMLAudio.hpp; sourceTree = "<group>"; };
 		9C29F9D41F181F6E007236EA /* ServiceLocator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ServiceLocator.cpp; sourceTree = "<group>"; };
 		9C29F9D51F181F6E007236EA /* ServiceLocator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ServiceLocator.hpp; sourceTree = "<group>"; };
 		9C29F9DA1F1821F9007236EA /* SoundList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundList.cpp; sourceTree = "<group>"; };
 		9C29F9DB1F1821F9007236EA /* SoundList.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SoundList.hpp; sourceTree = "<group>"; };
 		9C3293F91EFBB3C600FFAB57 /* AnimationStateComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationStateComponent.cpp; sourceTree = "<group>"; };
 		9C3293FA1EFBB3C600FFAB57 /* AnimationStateComponent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationStateComponent.hpp; sourceTree = "<group>"; };
+		9C32C5291F1C16AE00AA79BC /* Audio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Audio.cpp; sourceTree = "<group>"; };
+		9C32C52A1F1C16AE00AA79BC /* Audio.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Audio.hpp; sourceTree = "<group>"; };
 		9C4EB59A1F0E273900E4E783 /* OpenRoomLevelGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenRoomLevelGenerator.cpp; sourceTree = "<group>"; };
 		9C4EB59B1F0E273900E4E783 /* OpenRoomLevelGenerator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OpenRoomLevelGenerator.hpp; sourceTree = "<group>"; };
 		9C555B421EBFDE4D00399F54 /* PoisonHeart.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PoisonHeart.cpp; sourceTree = "<group>"; };
@@ -158,6 +161,7 @@
 		9C06DF741EB7F680004A7F3D /* my-rogue */ = {
 			isa = PBXGroup;
 			children = (
+				9C32C5281F1C163500AA79BC /* Services */,
 				9C29F9CD1F160FD8007236EA /* Audio */,
 				9C5876871F04E8DF00F67575 /* level-components */,
 				9C7F641F1EE93A1000E360EA /* object-components */,
@@ -178,8 +182,6 @@
 				9C8A95C51EB8106400E2927B /* Projectile.hpp */,
 				9C8A95E81EB8283800E2927B /* ResourcePath.hpp */,
 				9C8A95E61EB8281800E2927B /* ResourcePath.mm */,
-				9C29F9D41F181F6E007236EA /* ServiceLocator.cpp */,
-				9C29F9D51F181F6E007236EA /* ServiceLocator.hpp */,
 				9C8A95CA1EB8106400E2927B /* TextureManager.cpp */,
 				9C8A95CB1EB8106400E2927B /* TextureManager.hpp */,
 				9C8A95CC1EB8106400E2927B /* Torch.cpp */,
@@ -201,12 +203,23 @@
 		9C29F9CD1F160FD8007236EA /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				9C29F9D11F176AF9007236EA /* Audio.cpp */,
-				9C29F9D21F176AF9007236EA /* Audio.hpp */,
+				9C29F9D11F176AF9007236EA /* SFMLAudio.cpp */,
+				9C29F9D21F176AF9007236EA /* SFMLAudio.hpp */,
 				9C29F9DA1F1821F9007236EA /* SoundList.cpp */,
 				9C29F9DB1F1821F9007236EA /* SoundList.hpp */,
 			);
 			name = Audio;
+			sourceTree = "<group>";
+		};
+		9C32C5281F1C163500AA79BC /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				9C29F9D41F181F6E007236EA /* ServiceLocator.cpp */,
+				9C29F9D51F181F6E007236EA /* ServiceLocator.hpp */,
+				9C32C5291F1C16AE00AA79BC /* Audio.cpp */,
+				9C32C52A1F1C16AE00AA79BC /* Audio.hpp */,
+			);
+			name = Services;
 			sourceTree = "<group>";
 		};
 		9C4084651EF1F07400F00326 /* Items */ = {
@@ -377,12 +390,13 @@
 				9C8A95DE1EB8106400E2927B /* Potion.cpp in Sources */,
 				9C3293FB1EFBB3C600FFAB57 /* AnimationStateComponent.cpp in Sources */,
 				9C8A95D11EB8106400E2927B /* Game.cpp in Sources */,
+				9C32C52B1F1C16AE00AA79BC /* Audio.cpp in Sources */,
 				9C8A95DB1EB8106400E2927B /* Object.cpp in Sources */,
 				9C8A95D61EB8106400E2927B /* Input.cpp in Sources */,
 				9C17913D1EEFCF2C004D086C /* SpriteComponent.cpp in Sources */,
 				9C8A95E01EB8106400E2927B /* Slime.cpp in Sources */,
 				9CE6500E1EF1E84600B5652C /* TextComponent.cpp in Sources */,
-				9C29F9D31F176AF9007236EA /* Audio.cpp in Sources */,
+				9C29F9D31F176AF9007236EA /* SFMLAudio.cpp in Sources */,
 				9C5876901F0A24E000F67575 /* LevelConfig.cpp in Sources */,
 				9C29F9D61F181F6E007236EA /* ServiceLocator.cpp in Sources */,
 				9C58768D1F05AD4700F67575 /* LevelGrid.cpp in Sources */,
