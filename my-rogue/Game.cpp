@@ -28,32 +28,29 @@ m_goldTotal(0),
 m_projectileTextureID(0),
 m_levelWasGenerated(false),
 m_hasActiveGoal(false)
-{
-	// Enable VSync.
-	m_window.setVerticalSyncEnabled(true);
-
-	// Hide the mouse cursor.
-	m_window.setMouseCursorVisible(false);
-
-	// Calculate and store the center of the screen.
-	m_screenCenter = { m_window.getSize().x / 2.f, m_window.getSize().y / 2.f };
-
-	// Create the level object.
-	// m_level = Level();
-
-	// Create the game font.
-	m_font.loadFromFile(resourcePath() + "/resources/fonts/ADDSBP__.TTF");
-    
-    
-    m_audio = ServiceLocator::GetAudio();
-    
-    // Start music playing
-    m_audio->PlayMusic();
-}
+{}
 
 // Initializes the game.
 void Game::Initialize()
 {
+    // Enable VSync.
+    m_window.setVerticalSyncEnabled(true);
+    
+    // Hide the mouse cursor.
+    m_window.setMouseCursorVisible(false);
+    
+    // Calculate and store the center of the screen.
+    m_screenCenter = { m_window.getSize().x / 2.f, m_window.getSize().y / 2.f };
+    
+    // Create the game font.
+    m_font.loadFromFile(resourcePath() + "/resources/fonts/ADDSBP__.TTF");
+    
+    // Get the audio service
+    m_audio = ServiceLocator::GetAudio();
+    
+    // Start music playing
+    m_audio->PlayMusic();
+    
 	// Get the screen size.
 	m_screenSize = m_window.getSize();
 

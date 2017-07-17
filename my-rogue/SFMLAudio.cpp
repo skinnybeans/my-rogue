@@ -29,7 +29,7 @@ void SFMLAudio::Initialise()
     
     for(int i=0; i<MAX_CHANNELS; i++)
     {
-        m_channels[i] = new sf::Sound();
+        m_channels[i] = nullptr;
     }
     
     m_music = new sf::Music();
@@ -39,8 +39,11 @@ void SFMLAudio::CleanUp()
 {
     for(int i=0; i<MAX_CHANNELS; i++)
     {
-        m_channels[i]->stop();
-        delete m_channels[i];
+        if(m_channels[i] != nullptr)
+        {
+            m_channels[i]->stop();
+            delete m_channels[i];
+        }
     }
     
     m_music->stop();
@@ -145,7 +148,7 @@ int SFMLAudio::GetFreeChannel()
 {
     for(int i=0; i<MAX_CHANNELS; i++)
     {
-        if(m_channels[i]->getStatus() == sf::SoundSource::Status::Stopped)
+        if(m_channels[i] == nullptr || m_channels[i]->getStatus() == sf::SoundSource::Status::Stopped)
         {
             return i;
         }

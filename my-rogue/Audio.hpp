@@ -35,7 +35,6 @@ public:
      */
     virtual int PlaySound(SOUND_ID sound, sf::Vector2f position) = 0;
     
-    
     /**
      * Stop a sound that is playing
      * @param channelId the channel id to stop
