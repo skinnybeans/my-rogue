@@ -25,19 +25,27 @@ m_canTakeDamage(true)
     // Choose a random class
     m_class = static_cast<PLAYER_CLASS>(rand() % static_cast<int>(PLAYER_CLASS::COUNT));
     // Get class name to assist with loadingvplayer textures
+    
+    int textureOffset = 0;
+    
     std::string m_className;
+    
     switch(m_class)
     {
         case PLAYER_CLASS::WARRIOR:
+            textureOffset = 0;
             m_className = "warrior";
             break;
         case PLAYER_CLASS::THIEF:
+            textureOffset = 8;
             m_className = "thief";
             break;
         case PLAYER_CLASS::MAGE:
+            textureOffset = 16;
             m_className = "mage";
             break;
         case PLAYER_CLASS::ARCHER:
+            textureOffset = 24;
             m_className = "archer";
             break;
         case PLAYER_CLASS::COUNT:
@@ -45,7 +53,7 @@ m_canTakeDamage(true)
             break;
     }
     
-	// Load textures.
+	// Load textures
     m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/players/" + m_className + "/spr_" + m_className + "_walk_up.png", 8);
     m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/players/" + m_className + "/spr_" + m_className + "_walk_down.png", 8);
     m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_RIGHT)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/players/" + m_className + "/spr_" + m_className + "_walk_right.png", 8);
@@ -55,29 +63,28 @@ m_canTakeDamage(true)
     m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_RIGHT)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/players/" + m_className + "/spr_" + m_className + "_idle_right.png", 1);
     m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_LEFT)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/players/" + m_className + "/spr_" + m_className + "_idle_left.png", 1);
     
-    // std::shared_ptr<SFMLTexture> textureService = ServiceLocator::GetTexture();
+    std::shared_ptr<SFMLTexture> textureService = ServiceLocator::GetTexture();
     
     // map animation states to textures.
     // TODO: use offsets to load the different classes
-    /*
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)] = static_cast<int>(TEXTURE_ID::PLAYER_ARCHER_WALK_UP);
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)] = static_cast<int>(TEXTURE_ID::PLAYER_ARCHER_WALK_DOWN);
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_RIGHT)] = static_cast<int>(TEXTURE_ID::PLAYER_ARCHER_WALK_RIGHT);
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_LEFT)] = static_cast<int>(TEXTURE_ID::PLAYER_ARCHER_WALK_LEFT);
     
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)] = static_cast<int>(TEXTURE_ID::PLAYER_ARCHER_IDLE_UP);
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_DOWN)] = static_cast<int>(TEXTURE_ID::PLAYER_ARCHER_IDLE_DOWN);
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_RIGHT)] = static_cast<int>(TEXTURE_ID::PLAYER_ARCHER_IDLE_RIGHT);
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_LEFT)] = static_cast<int>(TEXTURE_ID::PLAYER_ARCHER_IDLE_LEFT);
-    */
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)] = static_cast<int>(TEXTURE_ID::PLAYER_WARRIOR_WALK_UP) + textureOffset;
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)] = static_cast<int>(TEXTURE_ID::PLAYER_WARRIOR_WALK_DOWN) + textureOffset;
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_RIGHT)] = static_cast<int>(TEXTURE_ID::PLAYER_WARRIOR_WALK_RIGHT) + textureOffset;
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_LEFT)] = static_cast<int>(TEXTURE_ID::PLAYER_WARRIOR_WALK_LEFT) + textureOffset;
+    
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)] = static_cast<int>(TEXTURE_ID::PLAYER_WARRIOR_IDLE_UP) + textureOffset;
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_DOWN)] = static_cast<int>(TEXTURE_ID::PLAYER_WARRIOR_IDLE_DOWN) + textureOffset;
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_RIGHT)] = static_cast<int>(TEXTURE_ID::PLAYER_WARRIOR_IDLE_RIGHT) + textureOffset;
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_LEFT)] = static_cast<int>(TEXTURE_ID::PLAYER_WARRIOR_IDLE_LEFT) + textureOffset;
      
 	// Get initial texture
-    AnimatedTexture& spriteTexture = TextureManager::GetAnimatedTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)]);
+    //AnimatedTexture& spriteTexture = TextureManager::GetAnimatedTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)]);
     
-    // AnimatedTexture* spriteTexture = textureService->GetAnimatedTexture(static_cast<TEXTURE_ID>(m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)]));
+    AnimatedTexture* spriteTexture = textureService->GetAnimatedTexture(static_cast<TEXTURE_ID>(m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)]));
 
     // Set the texture on the sprite
-    GetComponent<SpriteComponent>()->SetAnimatedTexture(spriteTexture);
+    GetComponent<SpriteComponent>()->SetAnimatedTexture(*spriteTexture);
     
     // Set the animcation speed
     GetComponent<AnimationFramesComponent>()->SetFrameSpeed(12);
@@ -206,10 +213,11 @@ void Player::Update(float timeDelta, Level& level)
     {
         // AnimationState knows which texture should be used given the current entity movement
         int textureIndex = static_cast<int>(animationStateComponent->GetState());
-        AnimatedTexture& spriteTexture = TextureManager::GetAnimatedTexture(m_textureIDs[textureIndex]);
+        //AnimatedTexture& spriteTexture = TextureManager::GetAnimatedTexture(m_textureIDs[textureIndex]);
+        AnimatedTexture* spriteTexture = ServiceLocator::GetTexture()->GetAnimatedTexture(static_cast<TEXTURE_ID>(m_textureIDs[textureIndex]));
         
         // Update the sprite with the new texture
-        GetComponent<SpriteComponent>()->SetAnimatedTexture(spriteTexture);
+        GetComponent<SpriteComponent>()->SetAnimatedTexture(*spriteTexture);
     }
 
 	// Check if shooting.

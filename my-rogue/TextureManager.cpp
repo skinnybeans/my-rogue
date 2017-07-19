@@ -48,8 +48,6 @@ int TextureManager::AddAnimatedTexture(std::string filePath, int frameCount)
     if(it == m_animatedTextures.end())
     {
         std::unique_ptr<AnimatedTexture> animatedTexture = std::make_unique<AnimatedTexture>(TextureManager::GetTexture(textureID), frameCount);
-        animatedTexture->m_frameSize = animatedTexture->m_texture.getSize();
-        animatedTexture->m_frameSize.x /= frameCount;
         
         m_animatedTextures.insert(std::make_pair(textureID, std::move(animatedTexture)));
     }

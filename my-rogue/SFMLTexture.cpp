@@ -7,6 +7,7 @@
 //
 
 #include "SFMLTexture.hpp"
+#include "ResourcePath.hpp"
 
 SFMLTexture::SFMLTexture()
 {}
@@ -15,7 +16,7 @@ void SFMLTexture::Initialise()
 {
     for(int i=0; i< static_cast<int>(TEXTURE_ID::COUNT); i++)
     {
-        m_textures[i] = new SFMLAnimatedTexture(TextureStrings[i].texturePath, TextureStrings[i].animationFrames);
+        m_textures[i] = new AnimatedTexture(resourcePath() + TextureStrings[i].texturePath, TextureStrings[i].animationFrames);
     }
 }
 
@@ -27,12 +28,12 @@ void SFMLTexture::CleanUp()
     }
 }
 
-sf::Texture SFMLTexture::GetTexture(TEXTURE_ID textureId)
+sf::Texture* SFMLTexture::GetTexture(TEXTURE_ID textureId)
 {
-    return m_textures[static_cast<int>(textureId)]->m_texture;
+    return &m_textures[static_cast<int>(textureId)]->GetTexture();
 }
 
-SFMLAnimatedTexture* SFMLTexture::GetAnimatedTexture(TEXTURE_ID textureId)
+AnimatedTexture* SFMLTexture::GetAnimatedTexture(TEXTURE_ID textureId)
 {
     return m_textures[static_cast<int>(textureId)];
 }

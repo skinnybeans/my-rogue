@@ -19,10 +19,10 @@ public:
     void Initialise();
     void CleanUp();
     
-    sf::Texture GetTexture(TEXTURE_ID textureId);
-    SFMLAnimatedTexture* GetAnimatedTexture(TEXTURE_ID textureId);
+    sf::Texture* GetTexture(TEXTURE_ID textureId);
+    AnimatedTexture* GetAnimatedTexture(TEXTURE_ID textureId);
 private:
-    SFMLAnimatedTexture* m_textures[static_cast<int>(TEXTURE_ID::COUNT)];
+    AnimatedTexture* m_textures[static_cast<int>(TEXTURE_ID::COUNT)];
 };
 
 #endif /* SFMLTexture_hpp */
