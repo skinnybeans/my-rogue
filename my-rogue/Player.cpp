@@ -24,30 +24,35 @@ m_canTakeDamage(true)
 {
     // Choose a random class
     m_class = static_cast<PLAYER_CLASS>(rand() % static_cast<int>(PLAYER_CLASS::COUNT));
-    // Get class name to assist with loadingvplayer textures
+
     
-    int textureOffset = 0;
+    // Used for getting the correct texture set
+    int classOffset = 0;
     
     std::string m_className;
     
     switch(m_class)
     {
         case PLAYER_CLASS::WARRIOR:
-            textureOffset = 0;
+            classOffset = 0;
             m_className = "warrior";
             break;
+        
         case PLAYER_CLASS::THIEF:
-            textureOffset = 8;
+            classOffset = 8;
             m_className = "thief";
             break;
+        
         case PLAYER_CLASS::MAGE:
-            textureOffset = 16;
+            classOffset = 16;
             m_className = "mage";
             break;
+        
         case PLAYER_CLASS::ARCHER:
-            textureOffset = 24;
+            classOffset = 24;
             m_className = "archer";
             break;
+        
         case PLAYER_CLASS::COUNT:
             // errors...
             break;
@@ -65,22 +70,14 @@ m_canTakeDamage(true)
     
     std::shared_ptr<SFMLTexture> textureService = ServiceLocator::GetTexture();
     
-    // map animation states to textures.
-    // TODO: use offsets to load the different classes
+    // Map animation states to textures.
+    // Store the texture against the matching animation state
+    for (int i = 0; i < static_cast<int>(ANIMATION_STATE::COUNT); i++)
+    {
+        m_textureIDs[i] = i + classOffset;
+    }
     
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)] = static_cast<int>(TEXTURE_ID::PLAYER_WARRIOR_WALK_UP) + textureOffset;
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)] = static_cast<int>(TEXTURE_ID::PLAYER_WARRIOR_WALK_DOWN) + textureOffset;
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_RIGHT)] = static_cast<int>(TEXTURE_ID::PLAYER_WARRIOR_WALK_RIGHT) + textureOffset;
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_LEFT)] = static_cast<int>(TEXTURE_ID::PLAYER_WARRIOR_WALK_LEFT) + textureOffset;
-    
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)] = static_cast<int>(TEXTURE_ID::PLAYER_WARRIOR_IDLE_UP) + textureOffset;
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_DOWN)] = static_cast<int>(TEXTURE_ID::PLAYER_WARRIOR_IDLE_DOWN) + textureOffset;
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_RIGHT)] = static_cast<int>(TEXTURE_ID::PLAYER_WARRIOR_IDLE_RIGHT) + textureOffset;
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_LEFT)] = static_cast<int>(TEXTURE_ID::PLAYER_WARRIOR_IDLE_LEFT) + textureOffset;
-     
 	// Get initial texture
-    //AnimatedTexture& spriteTexture = TextureManager::GetAnimatedTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)]);
-    
     AnimatedTexture* spriteTexture = textureService->GetAnimatedTexture(static_cast<TEXTURE_ID>(m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)]));
 
     // Set the texture on the sprite
