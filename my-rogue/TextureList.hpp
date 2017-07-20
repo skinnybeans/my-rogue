@@ -56,10 +56,7 @@ enum class TEXTURE_ID {
     PLAYER_ARCHER_IDLE_DOWN,
     PLAYER_ARCHER_IDLE_RIGHT,
     PLAYER_ARCHER_IDLE_LEFT,
-    
-    COUNT
-};
-/*
+
     // ---------------
     // ENEMY TEXTURES
     // ---------------
@@ -112,7 +109,6 @@ enum class TEXTURE_ID {
     
     COUNT
 };
-*/
 
 struct TextureInfo {
     TextureInfo() {};
@@ -171,53 +167,55 @@ const TextureInfo TextureStrings [] = {
     TextureInfo("/resources/players/archer/spr_archer_idle_down.png", 1),
     TextureInfo("/resources/players/archer/spr_archer_idle_right.png", 1),
     TextureInfo("/resources/players/archer/spr_archer_idle_left.png", 1),
-};
-
-/*
-const std::string TextureStrings [] = {
+    
     // ---------------
-    // PLAYER TEXTURES
+    // ENEMY TEXTURES
     // ---------------
     
-    // Player warrior textures
-    "/resources/players/warrior/spr_warrior_walk_up.png",
-    "/resources/players/warrior/spr_warrior_walk_down.png",
-    "/resources/players/warrior/spr_warrior_walk_right.png",
-    "/resources/players/warrior/spr_warrior_walk_left.png",
-    "/resources/players/warrior/spr_warrior_idle_up.png",
-    "/resources/players/warrior/spr_warrior_idle_down.png",
-    "/resources/players/warrior/spr_warrior_idle_right.png",
-    "/resources/players/warrior/spr_warrior_idle_left.png",
+    // Slime
+    TextureInfo("/resources/enemies/slime/spr_slime_walk_up.png", 8),
+    TextureInfo("/resources/enemies/slime/spr_slime_walk_down.png", 8),
+    TextureInfo("/resources/enemies/slime/spr_slime_walk_right.png", 8),
+    TextureInfo("/resources/enemies/slime/spr_slime_walk_left.png", 8),
+    TextureInfo("/resources/enemies/slime/spr_slime_idle_up.png", 1),
+    TextureInfo("/resources/enemies/slime/spr_slime_idle_down.png", 1),
+    TextureInfo("/resources/enemies/slime/spr_slime_idle_right.png", 1),
+    TextureInfo("/resources/enemies/slime/spr_slime_idle_left.png", 1),
     
-    // Player thief textures
-    "/resources/players/thief/spr_thief_walk_up.png",
-    "/resources/players/thief/spr_thief_walk_down.png",
-    "/resources/players/thief/spr_thief_walk_right.png",
-    "/resources/players/thief/spr_thief_walk_left.png",
-    "/resources/players/thief/spr_thief_idle_up.png",
-    "/resources/players/thief/spr_thief_idle_down.png",
-    "/resources/players/thief/spr_thief_idle_right.png",
-    "/resources/players/thief/spr_thief_idle_left.png",
+    // Skeleton
+    TextureInfo("/resources/enemies/skeleton/spr_skeleton_walk_up.png", 8),
+    TextureInfo("/resources/enemies/skeleton/spr_skeleton_walk_down.png", 8),
+    TextureInfo("/resources/enemies/skeleton/spr_skeleton_walk_right.png", 8),
+    TextureInfo("/resources/enemies/skeleton/spr_skeleton_walk_left.png", 8),
+    TextureInfo("/resources/enemies/skeleton/spr_skeleton_idle_up.png", 1),
+    TextureInfo("/resources/enemies/skeleton/spr_skeleton_idle_down.png", 1),
+    TextureInfo("/resources/enemies/skeleton/spr_skeleton_idle_right.png", 1),
+    TextureInfo("/resources/enemies/skeleton/spr_skeleton_idle_left.png", 1),
     
-    // Player mage textures
-    "/resources/players/mage/spr_mage_walk_up.png",
-    "/resources/players/mage/spr_mage_walk_down.png",
-    "/resources/players/mage/spr_mage_walk_right.png",
-    "/resources/players/mage/spr_mage_walk_left.png",
-    "/resources/players/mage/spr_mage_idle_up.png",
-    "/resources/players/mage/spr_mage_idle_down.png",
-    "/resources/players/mage/spr_mage_idle_right.png",
-    "/resources/players/mage/spr_mage_idle_left.png",
+    // Goblin
+    TextureInfo("/resources/enemies/goblin/spr_goblin_walk_up.png", 8),
+    TextureInfo("/resources/enemies/goblin/spr_goblin_walk_down.png", 8),
+    TextureInfo("/resources/enemies/goblin/spr_goblin_walk_right.png", 8),
+    TextureInfo("/resources/enemies/goblin/spr_goblin_walk_left.png", 8),
+    TextureInfo("/resources/enemies/goblin/spr_goblin_idle_up.png", 1),
+    TextureInfo("/resources/enemies/goblin/spr_goblin_idle_down.png", 1),
+    TextureInfo("/resources/enemies/goblin/spr_goblin_idle_right.png", 1),
+    TextureInfo("/resources/enemies/goblin/spr_goblin_idle_left.png", 1),
     
-    // Player archer textures
-    "/resources/players/archer/spr_archer_walk_up.png",
-    "/resources/players/archer/spr_archer_walk_down.png",
-    "/resources/players/archer/spr_archer_walk_right.png",
-    "/resources/players/archer/spr_archer_walk_left.png",
-    "/resources/players/archer/spr_archer_idle_up.png",
-    "/resources/players/archer/spr_archer_idle_down.png",
-    "/resources/players/archer/spr_archer_idle_right.png",
-    "/resources/players/archer/spr_archer_idle_left.png",
+    // Armor
+    TextureInfo("/resources/armor/helmet/spr_helmet_walk_front.png", 8),
+    TextureInfo("/resources/armor/helmet/spr_helmet_walk_side.png", 8),
+    TextureInfo("/resources/armor/helmet/spr_helmet_idle_front.png", 8),
+    TextureInfo("/resources/armor/helmet/spr_helmet_idle_side.png", 8),
+    
+    TextureInfo("/resources/armor/torso/spr_torso_walk_front.png", 8),
+    TextureInfo("/resources/armor/torso/spr_torso_walk_side.png", 8),
+    TextureInfo("/resources/armor/torso/spr_torso_idle_front.png", 8),
+    TextureInfo("/resources/armor/torso/spr_torso_idle_side.png", 8),
+    
+    TextureInfo("/resources/armor/legs/spr_legs_walk_front.png", 8),
+    TextureInfo("/resources/armor/legs/spr_legs_walk_side.png", 8),
+    TextureInfo("/resources/armor/legs/spr_legs_idle_front.png", 8),
+    TextureInfo("/resources/armor/legs/spr_legs_idle_side.png", 8),
 };
-*/
 #endif /* TextureList_hpp */

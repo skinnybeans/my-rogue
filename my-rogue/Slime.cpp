@@ -3,9 +3,12 @@
 #include "ResourcePath.hpp"
 #include "SpriteComponent.hpp"
 
+#include "ServiceLocator.hpp"
+
 // Default constructor.
 Slime::Slime()
 {
+<<<<<<< HEAD
 	// Load textures.
     m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/enemies/slime/spr_slime_walk_up.png", 8);
     m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/enemies/slime/spr_slime_walk_down.png", 8);
@@ -16,8 +19,16 @@ Slime::Slime()
     m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_RIGHT)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/enemies/slime/spr_slime_idle_right.png", 1);
     m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_LEFT)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/enemies/slime/spr_slime_idle_left.png", 1);
     
+=======
+	// Map textures to animation states
+    for(int i=0; i<8; i++)
+    {
+        m_textureIDs[i] = i + static_cast<int>(TEXTURE_ID::ENEMY_SLIME_WALK_UP);
+    }
+     
+>>>>>>> 8c83620 (- Moved enemies over to using texture service)
 	// Set initial sprite.
-    GetComponent<SpriteComponent>()->SetAnimatedTexture(TextureManager::GetAnimatedTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_DOWN)]));
+    GetComponent<SpriteComponent>()->SetAnimatedTexture(*ServiceLocator::GetTexture()->GetAnimatedTexture(static_cast<TEXTURE_ID>(m_textureIDs[4])));
     
     GetComponent<AnimationFramesComponent>()->SetFrameSpeed(12);
     

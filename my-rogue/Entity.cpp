@@ -4,6 +4,8 @@
 #include "AnimationStateComponent.hpp"
 #include "AnimationFramesComponent.hpp"
 
+#include "ServiceLocator.hpp"
+
 #include <cmath>
 
 // Default constructor.
@@ -38,8 +40,8 @@ void Entity::Update(float timeDelta)
     if (animationState->HasStateChanged())
     {
         int stateID = static_cast<int>(animationState->GetState());
-
-        spriteComponent->SetAnimatedTexture(TextureManager::GetAnimatedTexture(m_textureIDs[stateID]));
+        
+        spriteComponent->SetAnimatedTexture(*ServiceLocator::GetTexture()->GetAnimatedTexture(static_cast<TEXTURE_ID>(m_textureIDs[stateID])));
     }
 }
 
