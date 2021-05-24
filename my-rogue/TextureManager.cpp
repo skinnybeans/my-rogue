@@ -52,6 +52,7 @@ int TextureManager::AddAnimatedTexture(std::string filePath, int frameCount)
         animatedTexture->m_frameSize.x /= frameCount;
         
         m_animatedTextures.insert(std::make_pair(textureID, std::move(animatedTexture)));
+        return textureID;
     }
 }
 
