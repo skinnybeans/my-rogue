@@ -19,15 +19,15 @@ Gold::Gold()
     
     if(this->m_goldValue <= GOLD_SMALL)
     {
-        textureID = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/loot/gold/spr_pickup_gold_small.png", 8);
+        textureID = TextureManager::AddAnimatedTexture(resourcePath() + "resources/loot/gold/spr_pickup_gold_small.png", 8);
     }
     else if(this->m_goldValue < GOLD_LARGE)
     {
-        textureID = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/loot/gold/spr_pickup_gold_medium.png", 8);
+        textureID = TextureManager::AddAnimatedTexture(resourcePath() + "resources/loot/gold/spr_pickup_gold_medium.png", 8);
     }
     else
     {
-        textureID = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/loot/gold/spr_pickup_gold_large.png", 8);
+        textureID = TextureManager::AddAnimatedTexture(resourcePath() + "resources/loot/gold/spr_pickup_gold_large.png", 8);
     }
 
 	GetComponent<SpriteComponent>()->SetAnimatedTexture(TextureManager::GetAnimatedTexture(textureID));

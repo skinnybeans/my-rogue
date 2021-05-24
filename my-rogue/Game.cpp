@@ -43,7 +43,7 @@ void Game::Initialize()
     m_screenCenter = { m_window.getSize().x / 2.f, m_window.getSize().y / 2.f };
     
     // Create the game font.
-    m_font.loadFromFile(resourcePath() + "/resources/fonts/ADDSBP__.TTF");
+    m_font.loadFromFile(resourcePath() + "resources/fonts/ADDSBP__.TTF");
     
     // Get the audio service
     m_audio = ServiceLocator::GetAudio();
@@ -74,15 +74,15 @@ void Game::Initialize()
             break;
     }
 	
-    m_projectileTextureID = TextureManager::AddTexture(resourcePath() + "/resources/projectiles/spr_" + spriteName + ".png");
+    m_projectileTextureID = TextureManager::AddTexture(resourcePath() + "resources/projectiles/spr_" + spriteName + ".png");
     
 	// Initialize the UI.
 	LoadUI();
 
 	// Define the game views.
 	m_views[static_cast<int>(VIEW::MAIN)] = m_window.getDefaultView();
-	//m_views[static_cast<int>(VIEW::MAIN)].zoom(0.75f);
-    m_views[static_cast<int>(VIEW::MAIN)].zoom(1.0f);
+	m_views[static_cast<int>(VIEW::MAIN)].zoom(0.65f);
+    //m_views[static_cast<int>(VIEW::MAIN)].zoom(1.0f);
 	m_views[static_cast<int>(VIEW::UI)] = m_window.getDefaultView();
     
     GenerateLevel();
@@ -102,7 +102,7 @@ void Game::ConstructLightGrid()
     m_lightGrid.clear();
     
 	// Load the light tile texture and store a reference.
-	int textureID = TextureManager::AddTexture(resourcePath() + "/resources/spr_light_grid.png");
+	int textureID = TextureManager::AddTexture(resourcePath() + "resources/spr_light_grid.png");
 	sf::Texture& lightTexture = TextureManager::GetTexture(textureID);
 
 	// Calculate the number of tiles in the grid. Each light tile is 25px square.
@@ -166,13 +166,13 @@ void Game::LoadUI()
     }
     
 	m_playerUiSprite = std::make_shared<sf::Sprite>();
-	m_playerUiSprite->setTexture(TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_" + className + "_ui.png")));
+	m_playerUiSprite->setTexture(TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "resources/ui/spr_" + className + "_ui.png")));
 	m_playerUiSprite->setPosition(sf::Vector2f(45.f, 45.f));
 	m_playerUiSprite->setOrigin(sf::Vector2f(30.f, 30.f));
 	m_uiSprites.push_back(m_playerUiSprite);
 
 	// Bar outlines.
-	sf::Texture& barOutlineTexture = TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_bar_outline.png"));
+	sf::Texture& barOutlineTexture = TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "resources/ui/spr_bar_outline.png"));
 	sf::Vector2f barOutlineTextureOrigin = { barOutlineTexture.getSize().x / 2.f, barOutlineTexture.getSize().y / 2.f };
 
 	m_healthBarOutlineSprite = std::make_shared<sf::Sprite>();
@@ -188,7 +188,7 @@ void Game::LoadUI()
 	m_uiSprites.push_back(m_manaBarOutlineSprite);
 
 	//Bars.
-	sf::Texture& healthBarTexture = TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_health_bar.png"));
+	sf::Texture& healthBarTexture = TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "resources/ui/spr_health_bar.png"));
 	sf::Vector2f barTextureOrigin = { healthBarTexture.getSize().x / 2.f, healthBarTexture.getSize().y / 2.f };
 
     // When scaling the UI, need to move the health bar texture position to the right location
@@ -200,34 +200,34 @@ void Game::LoadUI()
 	m_healthBarSprite->setOrigin(sf::Vector2f(barTextureOrigin.x, barTextureOrigin.y));
 
 	m_manaBarSprite = std::make_shared<sf::Sprite>();
-	m_manaBarSprite->setTexture(TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_mana_bar.png")));
+	m_manaBarSprite->setTexture(TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "resources/ui/spr_mana_bar.png")));
 	m_manaBarSprite->setPosition(sf::Vector2f(205.f + barOffset, 55.f));
 	m_manaBarSprite->setOrigin(sf::Vector2f(barTextureOrigin.x, barTextureOrigin.y));
 
 	// Initialize the coin and gem ui sprites.
 	m_gemUiSprite = std::make_shared<sf::Sprite>();
-	m_gemUiSprite->setTexture(TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_gem_ui.png")));
+	m_gemUiSprite->setTexture(TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "resources/ui/spr_gem_ui.png")));
 	m_gemUiSprite->setPosition(sf::Vector2f(m_screenCenter.x - 260.f, 50.f));
 	m_gemUiSprite->setOrigin(sf::Vector2f(42.f, 36.f));
 	m_uiSprites.push_back(m_gemUiSprite);
 
 	m_coinUiSprite = std::make_shared<sf::Sprite>();
-	m_coinUiSprite->setTexture(TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_coin_ui.png")));
+	m_coinUiSprite->setTexture(TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "resources/ui/spr_coin_ui.png")));
 	m_coinUiSprite->setPosition(sf::Vector2f(m_screenCenter.x + 60.f, 50.f));
 	m_coinUiSprite->setOrigin(sf::Vector2f(48.f, 24.f));
 	m_uiSprites.push_back(m_coinUiSprite);
 
 	// Key pickup sprite.
 	m_keyUiSprite = std::make_shared<sf::Sprite>();
-	m_keyUiSprite->setTexture(TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_key_ui.png")));
+	m_keyUiSprite->setTexture(TextureManager::GetTexture(TextureManager::AddTexture(resourcePath() + "resources/ui/spr_key_ui.png")));
 	m_keyUiSprite->setPosition(sf::Vector2f(m_screenSize.x - 120.f, m_screenSize.y - 70.f));
 	m_keyUiSprite->setOrigin(sf::Vector2f(90.f, 45.f));
 	m_keyUiSprite->setColor(sf::Color(255, 255, 255, 60));
 	m_uiSprites.push_back(m_keyUiSprite);
 
 	// Load stats.
-    m_accuracyStatTextureIDs[0] = TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_accuracy_ui.png");
-    m_accuracyStatTextureIDs[1] = TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_accuracy_ui_alt.png");
+    m_accuracyStatTextureIDs[0] = TextureManager::AddTexture(resourcePath() + "resources/ui/spr_accuracy_ui.png");
+    m_accuracyStatTextureIDs[1] = TextureManager::AddTexture(resourcePath() + "resources/ui/spr_accuracy_ui_alt.png");
     
     m_accuracyStatSprite = std::make_shared<sf::Sprite>();
     m_accuracyStatSprite->setTexture(TextureManager::GetTexture(m_accuracyStatTextureIDs[0]));
@@ -235,8 +235,8 @@ void Game::LoadUI()
     m_accuracyStatSprite->setPosition(sf::Vector2f(m_screenCenter.x - 390.f, m_screenSize.y - 30.f));
     m_uiSprites.push_back(m_accuracyStatSprite);
     
-	m_attackStatTextureIDs[0] = TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_attack_ui.png");
-	m_attackStatTextureIDs[1] = TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_attack_ui_alt.png");
+	m_attackStatTextureIDs[0] = TextureManager::AddTexture(resourcePath() + "resources/ui/spr_attack_ui.png");
+	m_attackStatTextureIDs[1] = TextureManager::AddTexture(resourcePath() + "resources/ui/spr_attack_ui_alt.png");
 
 	m_attackStatSprite = std::make_shared<sf::Sprite>();
 	m_attackStatSprite->setTexture(TextureManager::GetTexture(m_attackStatTextureIDs[0]));
@@ -244,8 +244,8 @@ void Game::LoadUI()
 	m_attackStatSprite->setPosition(sf::Vector2f(m_screenCenter.x - 270.f, m_screenSize.y - 30.f));
 	m_uiSprites.push_back(m_attackStatSprite);
 
-	m_defenseStatTextureIDs[0] = TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_defense_ui.png");
-	m_defenseStatTextureIDs[1] = TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_defense_ui_alt.png");
+	m_defenseStatTextureIDs[0] = TextureManager::AddTexture(resourcePath() + "resources/ui/spr_defense_ui.png");
+	m_defenseStatTextureIDs[1] = TextureManager::AddTexture(resourcePath() + "resources/ui/spr_defense_ui_alt.png");
 
 	m_defenseStatSprite = std::make_shared<sf::Sprite>();
 	m_defenseStatSprite->setTexture(TextureManager::GetTexture(m_defenseStatTextureIDs[0]));
@@ -253,8 +253,8 @@ void Game::LoadUI()
 	m_defenseStatSprite->setPosition(sf::Vector2f(m_screenCenter.x - 150.f, m_screenSize.y - 30.f));
 	m_uiSprites.push_back(m_defenseStatSprite);
 
-	m_strengthStatTextureIDs[0] = TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_strength_ui.png");
-	m_strengthStatTextureIDs[1] = TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_strength_ui_alt.png");
+	m_strengthStatTextureIDs[0] = TextureManager::AddTexture(resourcePath() + "resources/ui/spr_strength_ui.png");
+	m_strengthStatTextureIDs[1] = TextureManager::AddTexture(resourcePath() + "resources/ui/spr_strength_ui_alt.png");
 
 	m_strengthStatSprite = std::make_shared<sf::Sprite>();
 	m_strengthStatSprite->setTexture(TextureManager::GetTexture(m_strengthStatTextureIDs[0]));
@@ -262,8 +262,8 @@ void Game::LoadUI()
 	m_strengthStatSprite->setPosition(sf::Vector2f(m_screenCenter.x - 30.f, m_screenSize.y - 30.f));
 	m_uiSprites.push_back(m_strengthStatSprite);
 
-	m_dexterityStatTextureIDs[0] = TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_dexterity_ui.png");
-	m_dexterityStatTextureIDs[1] = TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_dexterity_ui_alt.png");
+	m_dexterityStatTextureIDs[0] = TextureManager::AddTexture(resourcePath() + "resources/ui/spr_dexterity_ui.png");
+	m_dexterityStatTextureIDs[1] = TextureManager::AddTexture(resourcePath() + "resources/ui/spr_dexterity_ui_alt.png");
 
 	m_dexterityStatSprite = std::make_shared<sf::Sprite>();
 	m_dexterityStatSprite->setTexture(TextureManager::GetTexture(m_dexterityStatTextureIDs[0]));
@@ -271,8 +271,8 @@ void Game::LoadUI()
 	m_dexterityStatSprite->setPosition(sf::Vector2f(m_screenCenter.x + 90.f, m_screenSize.y - 30.f));
 	m_uiSprites.push_back(m_dexterityStatSprite);
 
-	m_staminaStatTextureIDs[0] = TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_stamina_ui.png");
-	m_staminaStatTextureIDs[1] = TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_stamina_ui_alt.png");
+	m_staminaStatTextureIDs[0] = TextureManager::AddTexture(resourcePath() + "resources/ui/spr_stamina_ui.png");
+	m_staminaStatTextureIDs[1] = TextureManager::AddTexture(resourcePath() + "resources/ui/spr_stamina_ui_alt.png");
 
 	m_staminaStatSprite = std::make_shared<sf::Sprite>();
 	m_staminaStatSprite->setTexture(TextureManager::GetTexture(m_staminaStatTextureIDs[0]));
@@ -326,7 +326,7 @@ void Game::LoadUI()
 void Game::LoadLevel()
 {
     // Load the level.
-    m_level.LoadLevelFromFile(resourcePath() + "/resources/data/level_data.txt");
+    m_level.LoadLevelFromFile(resourcePath() + "resources/data/level_data.txt");
     
     // Set the level color
     m_level.SetColor(sf::Color::Green);
@@ -715,7 +715,7 @@ void Game::Update(float timeDelta)
 			{
 				if (m_player.GetMana() >= 2)
 				{
-					sf::Vector2f target(static_cast<float>(sf::Mouse::getPosition().x), static_cast<float>(sf::Mouse::getPosition().y));
+					sf::Vector2f target(static_cast<float>(sf::Mouse::getPosition(m_window).x), static_cast<float>(sf::Mouse::getPosition(m_window).y));
 					
                     std::unique_ptr<Projectile> proj = std::make_unique<Projectile>(TextureManager::GetTexture(m_projectileTextureID), playerPosition, m_screenCenter, target);
 					m_playerProjectiles.push_back(std::move(proj));
@@ -1218,12 +1218,14 @@ void Game::Draw(float timeDelta)
 		{
 			m_window.draw(sprite);
 		}
-
-		// Switch to UI view.
+        
+        // Switch to UI view.
 		m_window.setView(m_views[static_cast<int>(VIEW::UI)]);
-
-		// Draw player aim.
-		m_window.draw(m_player.GetAimSprite());
+        
+        // Draw player aim.
+        auto aimSprite = m_player.GetAimSprite();
+        aimSprite.setPosition(sf::Vector2f(sf::Mouse::getPosition(m_window)));
+        m_window.draw(aimSprite);
 
 		// Draw player stats.
 		DrawString(std::to_string(m_player.GetAccuracy()), sf::Vector2f(m_screenCenter.x - 330.f, m_screenSize.y - 30.f), 25);

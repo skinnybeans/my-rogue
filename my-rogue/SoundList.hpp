@@ -33,18 +33,18 @@ enum class SOUND_ID
 
 const std::string SoundStrings [] = {
     // Enemy
-    "/resources/sounds/snd_enemy_dead.wav",
+    "resources/sounds/snd_enemy_dead.wav",
     
     // Environmental
-    "/resources/sounds/snd_fire.wav",
+    "resources/sounds/snd_fire.wav",
     
     // Item
-    "/resources/sounds/snd_gem_pickup.wav",
-    "/resources/sounds/snd_key_pickup.wav",
-    "/resources/sounds/snd_coin_pickup.wav",
+    "resources/sounds/snd_gem_pickup.wav",
+    "resources/sounds/snd_key_pickup.wav",
+    "resources/sounds/snd_coin_pickup.wav",
     
     // Player
-    "/resources/sounds/snd_player_hit.wav",
+    "resources/sounds/snd_player_hit.wav",
 };
 
 enum class MUSIC_ID
@@ -61,10 +61,10 @@ enum class MUSIC_ID
 
 const std::string MusicStrings [] = {
   // General music
-    "/resources/music/msc_main_track_1.wav",
-    "/resources/music/msc_main_track_2.wav",
-    "/resources/music/msc_main_track_3.wav",
-    "/resources/music/msc_main_track_4.wav"
+    "resources/music/msc_main_track_1.wav",
+    "resources/music/msc_main_track_2.wav",
+    "resources/music/msc_main_track_3.wav",
+    "resources/music/msc_main_track_4.wav"
 };
 
 #endif /* SoundList_hpp */

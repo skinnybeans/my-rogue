@@ -53,7 +53,7 @@ m_accuracy(0)
     
     
 	// Load and set sprite.
-	GetComponent<SpriteComponent>()->SetAnimatedTexture(TextureManager::GetAnimatedTexture(TextureManager::AddAnimatedTexture(resourcePath() + "/resources/loot/potions/" + textureName, 8)));
+	GetComponent<SpriteComponent>()->SetAnimatedTexture(TextureManager::GetAnimatedTexture(TextureManager::AddAnimatedTexture(resourcePath() + "resources/loot/potions/" + textureName, 8)));
     
     GetComponent<AnimationFramesComponent>()->SetFrameSpeed(12);
 
