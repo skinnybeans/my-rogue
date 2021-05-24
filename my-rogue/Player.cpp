@@ -7,6 +7,9 @@
 #include "AnimationStateComponent.hpp"
 #include "AnimationFramesComponent.hpp"
 
+#include "SFMLTexture.hpp"
+#include "ServiceLocator.hpp"
+
 #include <algorithm>
 #include <random>
 #include <iostream>
@@ -52,8 +55,26 @@ m_canTakeDamage(true)
     m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_RIGHT)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/players/" + m_className + "/spr_" + m_className + "_idle_right.png", 1);
     m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_LEFT)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/players/" + m_className + "/spr_" + m_className + "_idle_left.png", 1);
     
+    // std::shared_ptr<SFMLTexture> textureService = ServiceLocator::GetTexture();
+    
+    // map animation states to textures.
+    // TODO: use offsets to load the different classes
+    /*
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)] = static_cast<int>(TEXTURE_ID::PLAYER_ARCHER_WALK_UP);
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)] = static_cast<int>(TEXTURE_ID::PLAYER_ARCHER_WALK_DOWN);
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_RIGHT)] = static_cast<int>(TEXTURE_ID::PLAYER_ARCHER_WALK_RIGHT);
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_LEFT)] = static_cast<int>(TEXTURE_ID::PLAYER_ARCHER_WALK_LEFT);
+    
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)] = static_cast<int>(TEXTURE_ID::PLAYER_ARCHER_IDLE_UP);
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_DOWN)] = static_cast<int>(TEXTURE_ID::PLAYER_ARCHER_IDLE_DOWN);
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_RIGHT)] = static_cast<int>(TEXTURE_ID::PLAYER_ARCHER_IDLE_RIGHT);
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_LEFT)] = static_cast<int>(TEXTURE_ID::PLAYER_ARCHER_IDLE_LEFT);
+    */
+     
 	// Get initial texture
     AnimatedTexture& spriteTexture = TextureManager::GetAnimatedTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)]);
+    
+    // AnimatedTexture* spriteTexture = textureService->GetAnimatedTexture(static_cast<TEXTURE_ID>(m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)]));
 
     // Set the texture on the sprite
     GetComponent<SpriteComponent>()->SetAnimatedTexture(spriteTexture);

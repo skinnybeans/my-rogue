@@ -44,6 +44,9 @@
 		9C8A95E31EB8106400E2927B /* Torch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C8A95CC1EB8106400E2927B /* Torch.cpp */; };
 		9C8A95E51EB8164C00E2927B /* resources in Resources */ = {isa = PBXBuildFile; fileRef = 9C8A95E41EB8164C00E2927B /* resources */; };
 		9C8A95E71EB8281800E2927B /* ResourcePath.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9C8A95E61EB8281800E2927B /* ResourcePath.mm */; };
+		9CAB803E1F1E22E400C67CE6 /* AnimatedTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9CAB803C1F1E22E400C67CE6 /* AnimatedTexture.cpp */; };
+		9CAB80411F1E23A400C67CE6 /* SFMLTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9CAB803F1F1E23A400C67CE6 /* SFMLTexture.cpp */; };
+		9CAB80441F1E23CB00C67CE6 /* TextureList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9CAB80421F1E23CB00C67CE6 /* TextureList.cpp */; };
 		9CCDD1D01F0065E600F76F12 /* AnimationFramesComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9CCDD1CE1F0065E600F76F12 /* AnimationFramesComponent.cpp */; };
 		9CE6500E1EF1E84600B5652C /* TextComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9CE6500C1EF1E84600B5652C /* TextComponent.cpp */; };
 /* End PBXBuildFile section */
@@ -123,6 +126,12 @@
 		9C8A95E41EB8164C00E2927B /* resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = resources; sourceTree = "<group>"; };
 		9C8A95E61EB8281800E2927B /* ResourcePath.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ResourcePath.mm; sourceTree = "<group>"; };
 		9C8A95E81EB8283800E2927B /* ResourcePath.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ResourcePath.hpp; sourceTree = "<group>"; };
+		9CAB803C1F1E22E400C67CE6 /* AnimatedTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimatedTexture.cpp; sourceTree = "<group>"; };
+		9CAB803D1F1E22E400C67CE6 /* AnimatedTexture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimatedTexture.hpp; sourceTree = "<group>"; };
+		9CAB803F1F1E23A400C67CE6 /* SFMLTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SFMLTexture.cpp; sourceTree = "<group>"; };
+		9CAB80401F1E23A400C67CE6 /* SFMLTexture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SFMLTexture.hpp; sourceTree = "<group>"; };
+		9CAB80421F1E23CB00C67CE6 /* TextureList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureList.cpp; sourceTree = "<group>"; };
+		9CAB80431F1E23CB00C67CE6 /* TextureList.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextureList.hpp; sourceTree = "<group>"; };
 		9CCDD1CE1F0065E600F76F12 /* AnimationFramesComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationFramesComponent.cpp; sourceTree = "<group>"; };
 		9CCDD1CF1F0065E600F76F12 /* AnimationFramesComponent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationFramesComponent.hpp; sourceTree = "<group>"; };
 		9CE6500C1EF1E84600B5652C /* TextComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextComponent.cpp; sourceTree = "<group>"; };
@@ -146,6 +155,7 @@
 				9C555B461EC2EB7000399F54 /* include */,
 				9C8A95E41EB8164C00E2927B /* resources */,
 				9C06DF741EB7F680004A7F3D /* my-rogue */,
+				9C06DF751EB7F680004A7F3D /* Supporting Files */,
 				9C06DF731EB7F680004A7F3D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -161,12 +171,13 @@
 		9C06DF741EB7F680004A7F3D /* my-rogue */ = {
 			isa = PBXGroup;
 			children = (
-				9C32C5281F1C163500AA79BC /* Services */,
-				9C29F9CD1F160FD8007236EA /* Audio */,
+				9C29F9CD1F160FD8007236EA /* audio */,
+				9C4084661EF1F10500F00326 /* entities */,
+				9CAB803B1F1E223700C67CE6 /* graphics */,
+				9C4084651EF1F07400F00326 /* items */,
 				9C5876871F04E8DF00F67575 /* level-components */,
 				9C7F641F1EE93A1000E360EA /* object-components */,
-				9C4084661EF1F10500F00326 /* entities */,
-				9C4084651EF1F07400F00326 /* Items */,
+				9C32C5281F1C163500AA79BC /* services */,
 				9C8A95A91EB8106400E2927B /* Game.cpp */,
 				9C8A95AA1EB8106400E2927B /* Game.hpp */,
 				9C8A95B31EB8106400E2927B /* Input.cpp */,
@@ -187,7 +198,6 @@
 				9C8A95CC1EB8106400E2927B /* Torch.cpp */,
 				9C8A95CD1EB8106400E2927B /* Torch.hpp */,
 				9C8A95CE1EB8106400E2927B /* Util.hpp */,
-				9C06DF751EB7F680004A7F3D /* Supporting Files */,
 			);
 			path = "my-rogue";
 			sourceTree = "<group>";
@@ -198,9 +208,10 @@
 				9C06DF761EB7F680004A7F3D /* my-rogue-Info.plist */,
 			);
 			name = "Supporting Files";
+			path = "my-rogue";
 			sourceTree = "<group>";
 		};
-		9C29F9CD1F160FD8007236EA /* Audio */ = {
+		9C29F9CD1F160FD8007236EA /* audio */ = {
 			isa = PBXGroup;
 			children = (
 				9C29F9D11F176AF9007236EA /* SFMLAudio.cpp */,
@@ -208,10 +219,10 @@
 				9C29F9DA1F1821F9007236EA /* SoundList.cpp */,
 				9C29F9DB1F1821F9007236EA /* SoundList.hpp */,
 			);
-			name = Audio;
+			name = audio;
 			sourceTree = "<group>";
 		};
-		9C32C5281F1C163500AA79BC /* Services */ = {
+		9C32C5281F1C163500AA79BC /* services */ = {
 			isa = PBXGroup;
 			children = (
 				9C29F9D41F181F6E007236EA /* ServiceLocator.cpp */,
@@ -219,10 +230,10 @@
 				9C32C5291F1C16AE00AA79BC /* Audio.cpp */,
 				9C32C52A1F1C16AE00AA79BC /* Audio.hpp */,
 			);
-			name = Services;
+			name = services;
 			sourceTree = "<group>";
 		};
-		9C4084651EF1F07400F00326 /* Items */ = {
+		9C4084651EF1F07400F00326 /* items */ = {
 			isa = PBXGroup;
 			children = (
 				9C8A95AB1EB8106400E2927B /* Gem.cpp */,
@@ -240,7 +251,7 @@
 				9C8A95C21EB8106400E2927B /* Potion.cpp */,
 				9C8A95C31EB8106400E2927B /* Potion.hpp */,
 			);
-			name = Items;
+			name = items;
 			sourceTree = "<group>";
 		};
 		9C4084661EF1F10500F00326 /* entities */ = {
@@ -294,6 +305,19 @@
 				9C7F64241EE9403400E360EA /* TransformComponent.hpp */,
 			);
 			name = "object-components";
+			sourceTree = "<group>";
+		};
+		9CAB803B1F1E223700C67CE6 /* graphics */ = {
+			isa = PBXGroup;
+			children = (
+				9CAB803C1F1E22E400C67CE6 /* AnimatedTexture.cpp */,
+				9CAB803D1F1E22E400C67CE6 /* AnimatedTexture.hpp */,
+				9CAB803F1F1E23A400C67CE6 /* SFMLTexture.cpp */,
+				9CAB80401F1E23A400C67CE6 /* SFMLTexture.hpp */,
+				9CAB80421F1E23CB00C67CE6 /* TextureList.cpp */,
+				9CAB80431F1E23CB00C67CE6 /* TextureList.hpp */,
+			);
+			name = graphics;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -403,7 +427,9 @@
 				9C29F9D61F181F6E007236EA /* ServiceLocator.cpp in Sources */,
 				9C58768D1F05AD4700F67575 /* LevelGrid.cpp in Sources */,
 				9C29F9DC1F1821FA007236EA /* SoundList.cpp in Sources */,
+				9CAB80411F1E23A400C67CE6 /* SFMLTexture.cpp in Sources */,
 				9C8A95E71EB8281800E2927B /* ResourcePath.mm in Sources */,
+				9CAB80441F1E23CB00C67CE6 /* TextureList.cpp in Sources */,
 				9C8A95D21EB8106400E2927B /* Gem.cpp in Sources */,
 				9C8A95D01EB8106400E2927B /* Entity.cpp in Sources */,
 				9C8A95E31EB8106400E2927B /* Torch.cpp in Sources */,
@@ -416,6 +442,7 @@
 				9C8A95D81EB8106400E2927B /* Key.cpp in Sources */,
 				9C8A95CF1EB8106400E2927B /* Enemy.cpp in Sources */,
 				9C8A95D31EB8106400E2927B /* Gold.cpp in Sources */,
+				9CAB803E1F1E22E400C67CE6 /* AnimatedTexture.cpp in Sources */,
 				9C4EB59C1F0E273900E4E783 /* OpenRoomLevelGenerator.cpp in Sources */,
 				9CCDD1D01F0065E600F76F12 /* AnimationFramesComponent.cpp in Sources */,
 				9C555B451EC0442300399F54 /* PoisonHeart.cpp in Sources */,

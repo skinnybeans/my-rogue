@@ -7,17 +7,6 @@
 Slime::Slime()
 {
 	// Load textures.
-    /*
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)] = TextureManager::AddTexture(resourcePath() + "/resources/enemies/slime/spr_slime_walk_up.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)] = TextureManager::AddTexture(resourcePath() + "/resources/enemies/slime/spr_slime_walk_down.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_RIGHT)] = TextureManager::AddTexture(resourcePath() + "/resources/enemies/slime/spr_slime_walk_right.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_LEFT)] = TextureManager::AddTexture(resourcePath() + "/resources/enemies/slime/spr_slime_walk_left.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)] = TextureManager::AddTexture(resourcePath() + "/resources/enemies/slime/spr_slime_idle_up.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_DOWN)] = TextureManager::AddTexture(resourcePath() + "/resources/enemies/slime/spr_slime_idle_down.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_RIGHT)] = TextureManager::AddTexture(resourcePath() + "/resources/enemies/slime/spr_slime_idle_right.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_LEFT)] = TextureManager::AddTexture(resourcePath() + "/resources/enemies/slime/spr_slime_idle_left.png");
-    */
-    
     m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/enemies/slime/spr_slime_walk_up.png", 8);
     m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/enemies/slime/spr_slime_walk_down.png", 8);
     m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_RIGHT)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/enemies/slime/spr_slime_walk_right.png", 8);
@@ -26,10 +15,8 @@ Slime::Slime()
     m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_DOWN)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/enemies/slime/spr_slime_idle_down.png", 1);
     m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_RIGHT)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/enemies/slime/spr_slime_idle_right.png", 1);
     m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_LEFT)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/enemies/slime/spr_slime_idle_left.png", 1);
-     
+    
 	// Set initial sprite.
-	//GetComponent<SpriteComponent>()->SetSprite(TextureManager::GetTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)]), false, 8, 12);
-    //GetComponent<SpriteComponent>()->SetAnimated(false);
     GetComponent<SpriteComponent>()->SetAnimatedTexture(TextureManager::GetAnimatedTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_DOWN)]));
     
     GetComponent<AnimationFramesComponent>()->SetFrameSpeed(12);
@@ -66,7 +53,7 @@ Slime::Slime()
             // random color!
             spriteColor = sf::Color(std::rand()%256,std::rand()%256,std::rand()%256,std::rand()%156+100);
         case COLOR::COUNT:
-            // TODO error...
+            // TODO: error...
             break;
     }
     

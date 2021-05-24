@@ -658,6 +658,12 @@ void Game::Update(float timeDelta)
 	case GAME_STATE::MAIN_MENU:
 		// Main menu code ...
 		break;
+            
+    case GAME_STATE::LOADING_LEVEL:
+        // finished generating the level
+        // use this to reset the time step and stop the player teleporting
+        m_gameState = GAME_STATE::PLAYING;
+        break;
 
 	case GAME_STATE::PLAYING:
 	{
@@ -668,6 +674,7 @@ void Game::Update(float timeDelta)
 		if (playerCurrentTile->type == TILE::WALL_DOOR_UNLOCKED ||
             playerCurrentTile->type == TILE::WALL_DOOR_UNLOCKED_RIGHT)
 		{
+            m_gameState = GAME_STATE::LOADING_LEVEL;
 			// clear current items
             m_items.clear();
             
@@ -1177,6 +1184,9 @@ void Game::Draw(float timeDelta)
 	case GAME_STATE::MAIN_MENU:
 		// Draw main menu ...
 		break;
+    case GAME_STATE::LOADING_LEVEL:
+        // do nothing for now
+        break;
 
 	case GAME_STATE::PLAYING:
 	{
