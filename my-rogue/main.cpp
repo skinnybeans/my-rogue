@@ -3,7 +3,6 @@
 
 #include "ServiceLocator.hpp"
 #include "SFMLAudio.hpp"
-#include "SFMLTexture.hpp"
 
 #include <iostream>
 // Entry point of the application.
@@ -15,14 +14,11 @@ int main()
     // Initialise services
     std::shared_ptr<Audio> audio = std::make_shared<SFMLAudio>();
     audio->Initialise();
+    
     ServiceLocator::ProvideAudio(audio);
     
-    std::shared_ptr<SFMLTexture> texture = std::make_shared<SFMLTexture>();
-    texture->Initialise();
-    ServiceLocator::ProvideTexture(texture);
-    
 	// Create the main game object.
-	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Slaughter o Smogs", sf::Style::Default);
+	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Slaughter o Smogs", sf::Style::Fullscreen);
     Game game(&window);
     
     // Initialize and run the game object
@@ -30,7 +26,6 @@ int main()
 	game.Run();
     game.CleanUp();
     
-    texture->CleanUp();
     audio->CleanUp();
     
     // close window after game execution has finished

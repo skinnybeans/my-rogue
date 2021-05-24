@@ -66,10 +66,10 @@ void SpriteComponent::SetTexture(sf::Texture& texture)
 void SpriteComponent::SetAnimatedTexture(AnimatedTexture& animatedTexture)
 {
     // Update the sprite texture
-    m_sprite.setTexture(animatedTexture.GetTexture());
+    m_sprite.setTexture(animatedTexture.m_texture);
     
     // Update the animation frames based on the info with the texture
-    m_animationFramesComponent->SetFrames(animatedTexture.GetTexture().getSize(), animatedTexture.GetFrameCount());
+    m_animationFramesComponent->SetFrames(animatedTexture.m_texture.getSize(), animatedTexture.m_frameCount);
     
     // Reset the currently displayed frame
     sf::IntRect frameRect = m_animationFramesComponent->GetFrameRect();

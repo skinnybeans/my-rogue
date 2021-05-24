@@ -7,9 +7,6 @@
 #include "AnimationStateComponent.hpp"
 #include "AnimationFramesComponent.hpp"
 
-#include "SFMLTexture.hpp"
-#include "ServiceLocator.hpp"
-
 #include <algorithm>
 #include <random>
 #include <iostream>
@@ -24,70 +21,48 @@ m_canTakeDamage(true)
 {
     // Choose a random class
     m_class = static_cast<PLAYER_CLASS>(rand() % static_cast<int>(PLAYER_CLASS::COUNT));
-
-    
-    // Used for getting the correct texture set
-    int classOffset = 0;
-    
+    // Get class name to assist with loadingvplayer textures
     std::string m_className;
-    
     switch(m_class)
     {
         case PLAYER_CLASS::WARRIOR:
-            classOffset = 0;
             m_className = "warrior";
             break;
-        
         case PLAYER_CLASS::THIEF:
-            classOffset = 8;
             m_className = "thief";
             break;
-        
         case PLAYER_CLASS::MAGE:
-            classOffset = 16;
             m_className = "mage";
             break;
-        
         case PLAYER_CLASS::ARCHER:
-            classOffset = 24;
             m_className = "archer";
             break;
-        
         case PLAYER_CLASS::COUNT:
             // errors...
             break;
     }
     
-	// Load textures
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/players/" + m_className + "/spr_" + m_className + "_walk_up.png", 8);
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/players/" + m_className + "/spr_" + m_className + "_walk_down.png", 8);
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_RIGHT)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/players/" + m_className + "/spr_" + m_className + "_walk_right.png", 8);
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_LEFT)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/players/" + m_className + "/spr_" + m_className + "_walk_left.png", 8);
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/players/" + m_className + "/spr_" + m_className + "_idle_up.png", 1);
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_DOWN)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/players/" + m_className + "/spr_" + m_className + "_idle_down.png", 1);
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_RIGHT)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/players/" + m_className + "/spr_" + m_className + "_idle_right.png", 1);
-    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_LEFT)] = TextureManager::AddAnimatedTexture(resourcePath() + "resources/players/" + m_className + "/spr_" + m_className + "_idle_left.png", 1);
-    
-    std::shared_ptr<SFMLTexture> textureService = ServiceLocator::GetTexture();
-    
-    // Map animation states to textures.
-    // Store the texture against the matching animation state
-    for (int i = 0; i < static_cast<int>(ANIMATION_STATE::COUNT); i++)
-    {
-        m_textureIDs[i] = i + classOffset;
-    }
+	// Load textures.
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)] = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_walk_up.png", 8);
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)] = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_walk_down.png", 8);
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_RIGHT)] = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_walk_right.png", 8);
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_LEFT)] = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_walk_left.png", 8);
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)] = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_idle_up.png", 1);
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_DOWN)] = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_idle_down.png", 1);
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_RIGHT)] = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_idle_right.png", 1);
+    m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_LEFT)] = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/players/" + m_className + "/spr_" + m_className + "_idle_left.png", 1);
     
 	// Get initial texture
-    AnimatedTexture* spriteTexture = textureService->GetAnimatedTexture(static_cast<TEXTURE_ID>(m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)]));
+    AnimatedTexture& spriteTexture = TextureManager::GetAnimatedTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)]);
 
     // Set the texture on the sprite
-    GetComponent<SpriteComponent>()->SetAnimatedTexture(*spriteTexture);
+    GetComponent<SpriteComponent>()->SetAnimatedTexture(spriteTexture);
     
     // Set the animcation speed
     GetComponent<AnimationFramesComponent>()->SetFrameSpeed(12);
 
 	// Create the player's aim sprite.
-	int textureID = TextureManager::AddTexture(resourcePath() + "resources/ui/spr_aim.png");
+	int textureID = TextureManager::AddTexture(resourcePath() + "/resources/ui/spr_aim.png");
 	m_aimSprite.setTexture(TextureManager::GetTexture(textureID));
 	m_aimSprite.setOrigin(sf::Vector2f(16.5f, 16.5f));
 	m_aimSprite.setScale(2.f, 2.f);
@@ -210,12 +185,15 @@ void Player::Update(float timeDelta, Level& level)
     {
         // AnimationState knows which texture should be used given the current entity movement
         int textureIndex = static_cast<int>(animationStateComponent->GetState());
-        //AnimatedTexture& spriteTexture = TextureManager::GetAnimatedTexture(m_textureIDs[textureIndex]);
-        AnimatedTexture* spriteTexture = ServiceLocator::GetTexture()->GetAnimatedTexture(static_cast<TEXTURE_ID>(m_textureIDs[textureIndex]));
+        AnimatedTexture& spriteTexture = TextureManager::GetAnimatedTexture(m_textureIDs[textureIndex]);
         
         // Update the sprite with the new texture
-        GetComponent<SpriteComponent>()->SetAnimatedTexture(*spriteTexture);
+        GetComponent<SpriteComponent>()->SetAnimatedTexture(spriteTexture);
     }
+
+	// Calculate aim based on mouse.
+	sf::Vector2i mousePos = sf::Mouse::getPosition();
+	m_aimSprite.setPosition((float)mousePos.x, (float)mousePos.y);
 
 	// Check if shooting.
 	if ((m_attackDelta += timeDelta) > 0.25f)

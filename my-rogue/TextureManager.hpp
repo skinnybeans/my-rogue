@@ -11,7 +11,17 @@
 #ifndef TEXTUREMANAGER_H
 #define TEXTUREMANAGER_H
 
-#include "AnimatedTexture.hpp"
+class AnimatedTexture {
+public:
+    AnimatedTexture(sf::Texture& texture, int frameCount):
+    m_texture(texture),
+    m_frameCount(frameCount)
+    {};
+    sf::Texture& m_texture;
+    int m_frameCount;
+    sf::Vector2u m_frameSize;
+};
+
 class TextureManager
 {
 public:

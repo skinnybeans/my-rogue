@@ -44,9 +44,6 @@
 		9C8A95E31EB8106400E2927B /* Torch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C8A95CC1EB8106400E2927B /* Torch.cpp */; };
 		9C8A95E51EB8164C00E2927B /* resources in Resources */ = {isa = PBXBuildFile; fileRef = 9C8A95E41EB8164C00E2927B /* resources */; };
 		9C8A95E71EB8281800E2927B /* ResourcePath.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9C8A95E61EB8281800E2927B /* ResourcePath.mm */; };
-		9CAB803E1F1E22E400C67CE6 /* AnimatedTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9CAB803C1F1E22E400C67CE6 /* AnimatedTexture.cpp */; };
-		9CAB80411F1E23A400C67CE6 /* SFMLTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9CAB803F1F1E23A400C67CE6 /* SFMLTexture.cpp */; };
-		9CAB80441F1E23CB00C67CE6 /* TextureList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9CAB80421F1E23CB00C67CE6 /* TextureList.cpp */; };
 		9CCDD1D01F0065E600F76F12 /* AnimationFramesComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9CCDD1CE1F0065E600F76F12 /* AnimationFramesComponent.cpp */; };
 		9CE6500E1EF1E84600B5652C /* TextComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9CE6500C1EF1E84600B5652C /* TextComponent.cpp */; };
 /* End PBXBuildFile section */
@@ -126,12 +123,6 @@
 		9C8A95E41EB8164C00E2927B /* resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = resources; sourceTree = "<group>"; };
 		9C8A95E61EB8281800E2927B /* ResourcePath.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ResourcePath.mm; sourceTree = "<group>"; };
 		9C8A95E81EB8283800E2927B /* ResourcePath.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ResourcePath.hpp; sourceTree = "<group>"; };
-		9CAB803C1F1E22E400C67CE6 /* AnimatedTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimatedTexture.cpp; sourceTree = "<group>"; };
-		9CAB803D1F1E22E400C67CE6 /* AnimatedTexture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimatedTexture.hpp; sourceTree = "<group>"; };
-		9CAB803F1F1E23A400C67CE6 /* SFMLTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SFMLTexture.cpp; sourceTree = "<group>"; };
-		9CAB80401F1E23A400C67CE6 /* SFMLTexture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SFMLTexture.hpp; sourceTree = "<group>"; };
-		9CAB80421F1E23CB00C67CE6 /* TextureList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureList.cpp; sourceTree = "<group>"; };
-		9CAB80431F1E23CB00C67CE6 /* TextureList.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextureList.hpp; sourceTree = "<group>"; };
 		9CCDD1CE1F0065E600F76F12 /* AnimationFramesComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationFramesComponent.cpp; sourceTree = "<group>"; };
 		9CCDD1CF1F0065E600F76F12 /* AnimationFramesComponent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimationFramesComponent.hpp; sourceTree = "<group>"; };
 		9CE6500C1EF1E84600B5652C /* TextComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextComponent.cpp; sourceTree = "<group>"; };
@@ -155,7 +146,6 @@
 				9C555B461EC2EB7000399F54 /* include */,
 				9C8A95E41EB8164C00E2927B /* resources */,
 				9C06DF741EB7F680004A7F3D /* my-rogue */,
-				9C06DF751EB7F680004A7F3D /* Supporting Files */,
 				9C06DF731EB7F680004A7F3D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -171,13 +161,12 @@
 		9C06DF741EB7F680004A7F3D /* my-rogue */ = {
 			isa = PBXGroup;
 			children = (
-				9C29F9CD1F160FD8007236EA /* audio */,
-				9C4084661EF1F10500F00326 /* entities */,
-				9CAB803B1F1E223700C67CE6 /* graphics */,
-				9C4084651EF1F07400F00326 /* items */,
+				9C32C5281F1C163500AA79BC /* Services */,
+				9C29F9CD1F160FD8007236EA /* Audio */,
 				9C5876871F04E8DF00F67575 /* level-components */,
 				9C7F641F1EE93A1000E360EA /* object-components */,
-				9C32C5281F1C163500AA79BC /* services */,
+				9C4084661EF1F10500F00326 /* entities */,
+				9C4084651EF1F07400F00326 /* Items */,
 				9C8A95A91EB8106400E2927B /* Game.cpp */,
 				9C8A95AA1EB8106400E2927B /* Game.hpp */,
 				9C8A95B31EB8106400E2927B /* Input.cpp */,
@@ -198,6 +187,7 @@
 				9C8A95CC1EB8106400E2927B /* Torch.cpp */,
 				9C8A95CD1EB8106400E2927B /* Torch.hpp */,
 				9C8A95CE1EB8106400E2927B /* Util.hpp */,
+				9C06DF751EB7F680004A7F3D /* Supporting Files */,
 			);
 			path = "my-rogue";
 			sourceTree = "<group>";
@@ -208,10 +198,9 @@
 				9C06DF761EB7F680004A7F3D /* my-rogue-Info.plist */,
 			);
 			name = "Supporting Files";
-			path = "my-rogue";
 			sourceTree = "<group>";
 		};
-		9C29F9CD1F160FD8007236EA /* audio */ = {
+		9C29F9CD1F160FD8007236EA /* Audio */ = {
 			isa = PBXGroup;
 			children = (
 				9C29F9D11F176AF9007236EA /* SFMLAudio.cpp */,
@@ -219,10 +208,10 @@
 				9C29F9DA1F1821F9007236EA /* SoundList.cpp */,
 				9C29F9DB1F1821F9007236EA /* SoundList.hpp */,
 			);
-			name = audio;
+			name = Audio;
 			sourceTree = "<group>";
 		};
-		9C32C5281F1C163500AA79BC /* services */ = {
+		9C32C5281F1C163500AA79BC /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				9C29F9D41F181F6E007236EA /* ServiceLocator.cpp */,
@@ -230,10 +219,10 @@
 				9C32C5291F1C16AE00AA79BC /* Audio.cpp */,
 				9C32C52A1F1C16AE00AA79BC /* Audio.hpp */,
 			);
-			name = services;
+			name = Services;
 			sourceTree = "<group>";
 		};
-		9C4084651EF1F07400F00326 /* items */ = {
+		9C4084651EF1F07400F00326 /* Items */ = {
 			isa = PBXGroup;
 			children = (
 				9C8A95AB1EB8106400E2927B /* Gem.cpp */,
@@ -251,7 +240,7 @@
 				9C8A95C21EB8106400E2927B /* Potion.cpp */,
 				9C8A95C31EB8106400E2927B /* Potion.hpp */,
 			);
-			name = items;
+			name = Items;
 			sourceTree = "<group>";
 		};
 		9C4084661EF1F10500F00326 /* entities */ = {
@@ -307,19 +296,6 @@
 			name = "object-components";
 			sourceTree = "<group>";
 		};
-		9CAB803B1F1E223700C67CE6 /* graphics */ = {
-			isa = PBXGroup;
-			children = (
-				9CAB803C1F1E22E400C67CE6 /* AnimatedTexture.cpp */,
-				9CAB803D1F1E22E400C67CE6 /* AnimatedTexture.hpp */,
-				9CAB803F1F1E23A400C67CE6 /* SFMLTexture.cpp */,
-				9CAB80401F1E23A400C67CE6 /* SFMLTexture.hpp */,
-				9CAB80421F1E23CB00C67CE6 /* TextureList.cpp */,
-				9CAB80431F1E23CB00C67CE6 /* TextureList.hpp */,
-			);
-			name = graphics;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -347,23 +323,21 @@
 		9C06DF691EB7F680004A7F3D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Henrik Axelsson";
 				TargetAttributes = {
 					9C06DF711EB7F680004A7F3D = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = 59GARH4F2J;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
 			buildConfigurationList = 9C06DF6C1EB7F680004A7F3D /* Build configuration list for PBXProject "my-rogue" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = en;
+			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				Base,
 			);
 			mainGroup = 9C06DF681EB7F680004A7F3D;
 			productRefGroup = 9C06DF731EB7F680004A7F3D /* Products */;
@@ -427,9 +401,7 @@
 				9C29F9D61F181F6E007236EA /* ServiceLocator.cpp in Sources */,
 				9C58768D1F05AD4700F67575 /* LevelGrid.cpp in Sources */,
 				9C29F9DC1F1821FA007236EA /* SoundList.cpp in Sources */,
-				9CAB80411F1E23A400C67CE6 /* SFMLTexture.cpp in Sources */,
 				9C8A95E71EB8281800E2927B /* ResourcePath.mm in Sources */,
-				9CAB80441F1E23CB00C67CE6 /* TextureList.cpp in Sources */,
 				9C8A95D21EB8106400E2927B /* Gem.cpp in Sources */,
 				9C8A95D01EB8106400E2927B /* Entity.cpp in Sources */,
 				9C8A95E31EB8106400E2927B /* Torch.cpp in Sources */,
@@ -442,7 +414,6 @@
 				9C8A95D81EB8106400E2927B /* Key.cpp in Sources */,
 				9C8A95CF1EB8106400E2927B /* Enemy.cpp in Sources */,
 				9C8A95D31EB8106400E2927B /* Gold.cpp in Sources */,
-				9CAB803E1F1E22E400C67CE6 /* AnimatedTexture.cpp in Sources */,
 				9C4EB59C1F0E273900E4E783 /* OpenRoomLevelGenerator.cpp in Sources */,
 				9CCDD1D01F0065E600F76F12 /* AnimationFramesComponent.cpp in Sources */,
 				9C555B451EC0442300399F54 /* PoisonHeart.cpp in Sources */,
@@ -457,41 +428,14 @@
 		9C06DF851EB7F680004A7F3D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					/Library/Frameworks/,
 					"$(inherited)",
 				);
-				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include/,
 					"$(inherited)",
@@ -500,8 +444,7 @@
 					/usr/local/lib/,
 					"$(inherited)",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.3;
-				ONLY_ACTIVE_ARCH = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"$(SFML_SYSTEM)",
@@ -529,40 +472,14 @@
 		9C06DF861EB7F680004A7F3D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					/Library/Frameworks/,
 					"$(inherited)",
 				);
-				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include/,
 					"$(inherited)",
@@ -571,7 +488,7 @@
 					/usr/local/lib/,
 					"$(inherited)",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"$(SFML_SYSTEM)",
@@ -600,10 +517,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 59GARH4F2J;
 				GCC_OPTIMIZATION_LEVEL = 1;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include/,
@@ -611,8 +524,6 @@
 				);
 				INFOPLIST_FILE = "my-rogue/my-rogue-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 11.3;
-				OTHER_CODE_SIGN_FLAGS = "--deep";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"$(SFML_SYSTEM)",
@@ -621,9 +532,7 @@
 					"$(SFML_AUDIO)",
 					"$(SFML_NETWORK)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.smogs.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 			};
 			name = Debug;
@@ -632,10 +541,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 59GARH4F2J;
 				GCC_OPTIMIZATION_LEVEL = 1;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include/,
@@ -644,11 +549,7 @@
 				);
 				INFOPLIST_FILE = "my-rogue/my-rogue-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 11.3;
-				OTHER_CODE_SIGN_FLAGS = "--deep";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.smogs.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 			};
 			name = Release;

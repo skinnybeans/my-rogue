@@ -25,7 +25,6 @@ int TextureManager::AddTexture(std::string filePath)
 	m_currentId++;
 
 	std::unique_ptr<sf::Texture> texture = std::make_unique<sf::Texture>();
-    
 	if (!texture->loadFromFile(filePath))
 	{
 		return -1;
@@ -41,17 +40,19 @@ int TextureManager::AddAnimatedTexture(std::string filePath, int frameCount)
 {
     int textureID = TextureManager::AddTexture(filePath);
     
-    // See if the animated texture already exists
     auto it = m_animatedTextures.find(textureID);
-    
-    // If not create it with the matching texture ID from the raw texture storage
-    if(it == m_animatedTextures.end())
+    if(it != m_animatedTextures.end())
+    {
+        return textureID;
+    }
+    else
     {
         std::unique_ptr<AnimatedTexture> animatedTexture = std::make_unique<AnimatedTexture>(TextureManager::GetTexture(textureID), frameCount);
+        animatedTexture->m_frameSize = animatedTexture->m_texture.getSize();
+        animatedTexture->m_frameSize.x /= frameCount;
         
         m_animatedTextures.insert(std::make_pair(textureID, std::move(animatedTexture)));
     }
-    return textureID;
 }
 
 AnimatedTexture& TextureManager::GetAnimatedTexture(int textureID)

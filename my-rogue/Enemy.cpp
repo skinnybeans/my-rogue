@@ -27,7 +27,7 @@ Enemy::Enemy()
     m_path.clear();
     
     // Set the sprite
-    int textureID = TextureManager::AddTexture(resourcePath() + "resources/spr_path.png");
+    int textureID = TextureManager::AddTexture(resourcePath() + "/resources/spr_path.png");
     m_pathSprite.setTexture(TextureManager::GetTexture(textureID));
     
     // Set the sprite origin
@@ -35,7 +35,7 @@ Enemy::Enemy()
     m_pathSprite.setOrigin(sf::Vector2f(static_cast<float>(spriteSize.x / 2), static_cast<float>(spriteSize.y / 2)));
     
     // Set the font.
-    m_pathFont.loadFromFile(resourcePath() + "resources/fonts/04B_03__.TTF");
+    m_pathFont.loadFromFile(resourcePath() + "/resources/fonts/04B_03__.TTF");
     
     // Set the text.
     m_pathText.setFont(m_pathFont);

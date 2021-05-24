@@ -15,7 +15,6 @@
 enum class GAME_STATE {
 	MAIN_MENU,
 	PLAYING,
-    LOADING_LEVEL,
 	GAME_OVER
 };
 

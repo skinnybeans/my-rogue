@@ -11,7 +11,6 @@
 #include <iostream>
 
 std::shared_ptr<Audio> ServiceLocator::m_audio = nullptr;
-std::shared_ptr<SFMLTexture> ServiceLocator::m_texture = nullptr;
 
 void ServiceLocator::ProvideAudio(std::shared_ptr<Audio> audio)
 {
@@ -21,14 +20,4 @@ void ServiceLocator::ProvideAudio(std::shared_ptr<Audio> audio)
 std::shared_ptr<Audio> ServiceLocator::GetAudio()
 {
     return m_audio;
-}
-
-void ServiceLocator::ProvideTexture(std::shared_ptr<SFMLTexture> texture)
-{
-    m_texture = texture;
-}
-
-std::shared_ptr<SFMLTexture> ServiceLocator::GetTexture()
-{
-    return m_texture;
 }
