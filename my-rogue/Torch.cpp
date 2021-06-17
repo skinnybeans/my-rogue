@@ -9,7 +9,7 @@
 Torch::Torch()
 {
 	// Set sprite.
-	int textureID = TextureManager::AddAnimatedTexture(resourcePath() + "resources/spr_torch.png", 5);
+	int textureID = TextureManager::AddAnimatedTexture(resourcePath() + "/resources/spr_torch.png", 5);
     
 	GetComponent<SpriteComponent>()->SetAnimatedTexture(TextureManager::GetAnimatedTexture(textureID));
     GetComponent<AnimationFramesComponent>()->SetFrameSpeed(12);

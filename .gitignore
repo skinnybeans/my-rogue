@@ -1,5 +1,3 @@
 # ignore the user data folder
 my-rogue.xcodeproj/project.xcworkspace/xcuserdata/
-my-rogue.xcodeproj/project.xcworkspace/xcshareddata/
 my-rogue.xcodeproj/xcuserdata/
-.DS_Store

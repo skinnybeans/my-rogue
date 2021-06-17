@@ -7,7 +7,7 @@
 Heart::Heart()
 {
 	// Set item sprite.
-	GetComponent<SpriteComponent>()->SetAnimatedTexture(TextureManager::GetAnimatedTexture(TextureManager::AddAnimatedTexture(resourcePath() + "resources/loot/heart/spr_pickup_heart.png", 8)));
+	GetComponent<SpriteComponent>()->SetAnimatedTexture(TextureManager::GetAnimatedTexture(TextureManager::AddAnimatedTexture(resourcePath() + "/resources/loot/heart/spr_pickup_heart.png", 8)));
     
     GetComponent<AnimationFramesComponent>()->SetFrameSpeed(12);
 

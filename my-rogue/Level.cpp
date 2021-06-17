@@ -16,37 +16,37 @@ m_floorNumber(1),
 m_levelNumber(0)
 {
 	// Load all tiles.
-	AddTile(resourcePath() + "resources/tiles/spr_tile_floor.png", TILE::FLOOR);
-    AddTile(resourcePath() + "resources/tiles/spr_tile_floor_alt.png", TILE::FLOOR_ALT);
-    AddTile(resourcePath() + "resources/tiles/spr_tile_floor_spikes.png", TILE::FLOOR_SPIKES);
+	AddTile(resourcePath() + "/resources/tiles/spr_tile_floor.png", TILE::FLOOR);
+    AddTile(resourcePath() + "/resources/tiles/spr_tile_floor_alt.png", TILE::FLOOR_ALT);
+    AddTile(resourcePath() + "/resources/tiles/spr_tile_floor_spikes.png", TILE::FLOOR_SPIKES);
 
-	AddTile(resourcePath() + "resources/tiles/spr_tile_wall_top.png", TILE::WALL_TOP);
-	AddTile(resourcePath() + "resources/tiles/spr_tile_wall_top_left.png", TILE::WALL_TOP_LEFT);
-	AddTile(resourcePath() + "resources/tiles/spr_tile_wall_top_right.png", TILE::WALL_TOP_RIGHT);
-	AddTile(resourcePath() + "resources/tiles/spr_tile_wall_top_t.png", TILE::WALL_TOP_T);
-	AddTile(resourcePath() + "resources/tiles/spr_tile_wall_top_end.png", TILE::WALL_TOP_END);
+	AddTile(resourcePath() + "/resources/tiles/spr_tile_wall_top.png", TILE::WALL_TOP);
+	AddTile(resourcePath() + "/resources/tiles/spr_tile_wall_top_left.png", TILE::WALL_TOP_LEFT);
+	AddTile(resourcePath() + "/resources/tiles/spr_tile_wall_top_right.png", TILE::WALL_TOP_RIGHT);
+	AddTile(resourcePath() + "/resources/tiles/spr_tile_wall_top_t.png", TILE::WALL_TOP_T);
+	AddTile(resourcePath() + "/resources/tiles/spr_tile_wall_top_end.png", TILE::WALL_TOP_END);
 
-	AddTile(resourcePath() + "resources/tiles/spr_tile_wall_bottom_left.png", TILE::WALL_BOTTOM_LEFT);
-	AddTile(resourcePath() + "resources/tiles/spr_tile_wall_bottom_right.png", TILE::WALL_BOTTOM_RIGHT);
-	AddTile(resourcePath() + "resources/tiles/spr_tile_wall_bottom_t.png", TILE::WALL_BOTTOM_T);
-	AddTile(resourcePath() + "resources/tiles/spr_tile_wall_bottom_end.png", TILE::WALL_BOTTOM_END);
+	AddTile(resourcePath() + "/resources/tiles/spr_tile_wall_bottom_left.png", TILE::WALL_BOTTOM_LEFT);
+	AddTile(resourcePath() + "/resources/tiles/spr_tile_wall_bottom_right.png", TILE::WALL_BOTTOM_RIGHT);
+	AddTile(resourcePath() + "/resources/tiles/spr_tile_wall_bottom_t.png", TILE::WALL_BOTTOM_T);
+	AddTile(resourcePath() + "/resources/tiles/spr_tile_wall_bottom_end.png", TILE::WALL_BOTTOM_END);
 
-	AddTile(resourcePath() + "resources/tiles/spr_tile_wall_side.png", TILE::WALL_SIDE);
-	AddTile(resourcePath() + "resources/tiles/spr_tile_wall_side_left_t.png", TILE::WALL_SIDE_LEFT_T);
-	AddTile(resourcePath() + "resources/tiles/spr_tile_wall_side_left_end.png", TILE::WALL_SIDE_LEFT_END);
-	AddTile(resourcePath() + "resources/tiles/spr_tile_wall_side_right_t.png", TILE::WALL_SIDE_RIGHT_T);
-	AddTile(resourcePath() + "resources/tiles/spr_tile_wall_side_right_end.png", TILE::WALL_SIDE_RIGHT_END);
+	AddTile(resourcePath() + "/resources/tiles/spr_tile_wall_side.png", TILE::WALL_SIDE);
+	AddTile(resourcePath() + "/resources/tiles/spr_tile_wall_side_left_t.png", TILE::WALL_SIDE_LEFT_T);
+	AddTile(resourcePath() + "/resources/tiles/spr_tile_wall_side_left_end.png", TILE::WALL_SIDE_LEFT_END);
+	AddTile(resourcePath() + "/resources/tiles/spr_tile_wall_side_right_t.png", TILE::WALL_SIDE_RIGHT_T);
+	AddTile(resourcePath() + "/resources/tiles/spr_tile_wall_side_right_end.png", TILE::WALL_SIDE_RIGHT_END);
 
-	AddTile(resourcePath() + "resources/tiles/spr_tile_wall_intersection.png", TILE::WALL_INTERSECTION);
-	AddTile(resourcePath() + "resources/tiles/spr_tile_wall_single.png", TILE::WALL_SINGLE);
+	AddTile(resourcePath() + "/resources/tiles/spr_tile_wall_intersection.png", TILE::WALL_INTERSECTION);
+	AddTile(resourcePath() + "/resources/tiles/spr_tile_wall_single.png", TILE::WALL_SINGLE);
 
-	AddTile(resourcePath() + "resources/tiles/spr_tile_wall_entrance.png", TILE::WALL_ENTRANCE);
-	AddTile(resourcePath() + "resources/tiles/spr_tile_door_locked.png", TILE::WALL_DOOR_LOCKED);
-	AddTile(resourcePath() + "resources/tiles/spr_tile_door_unlocked.png", TILE::WALL_DOOR_UNLOCKED);
+	AddTile(resourcePath() + "/resources/tiles/spr_tile_wall_entrance.png", TILE::WALL_ENTRANCE);
+	AddTile(resourcePath() + "/resources/tiles/spr_tile_door_locked.png", TILE::WALL_DOOR_LOCKED);
+	AddTile(resourcePath() + "/resources/tiles/spr_tile_door_unlocked.png", TILE::WALL_DOOR_UNLOCKED);
     
-    AddTile(resourcePath() + "resources/tiles/spr_tile_wall_entrance_left.png", TILE::WALL_ENTRANCE_LEFT);
-    AddTile(resourcePath() + "resources/tiles/spr_tile_door_locked_right.png", TILE::WALL_DOOR_LOCKED_RIGHT);
-    AddTile(resourcePath() + "resources/tiles/spr_tile_door_unlocked_right.png", TILE::WALL_DOOR_UNLOCKED_RIGHT);
+    AddTile(resourcePath() + "/resources/tiles/spr_tile_wall_entrance_left.png", TILE::WALL_ENTRANCE_LEFT);
+    AddTile(resourcePath() + "/resources/tiles/spr_tile_door_locked_right.png", TILE::WALL_DOOR_LOCKED_RIGHT);
+    AddTile(resourcePath() + "/resources/tiles/spr_tile_door_unlocked_right.png", TILE::WALL_DOOR_UNLOCKED_RIGHT);
 }
 
 // Sets overlay color of level tiles

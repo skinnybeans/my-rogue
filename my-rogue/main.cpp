@@ -18,7 +18,7 @@ int main()
     ServiceLocator::ProvideAudio(audio);
     
 	// Create the main game object.
-	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Slaughter o Smogs", sf::Style::Default);
+	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Slaughter o Smogs", sf::Style::Fullscreen);
     Game game(&window);
     
     // Initialize and run the game object
